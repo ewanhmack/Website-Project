@@ -2,7 +2,7 @@
   "name": "website-project",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://github.com/ewanhmack/Website-Project#readme",
+  "homepage": "https://ewanhmack.github.io/Website-Project",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
