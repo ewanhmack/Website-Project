@@ -1,75 +1,52 @@
 /* Navbar styles */
 .navbar {
   width: 100%;
-  background: #222;
-  padding: 15px 0;
+  background: #111; /* Darker tone to match page container */
+  padding: 16px 0;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #222;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 .navbar-links {
-  text-align: center;
+  display: flex;
+  gap: 32px;
+  align-items: center;
 }
 
 .navbar-link {
-  color: #fff;
-  margin: 0 20px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #eaeaea;
   text-decoration: none;
-  font-weight: bold;
+  position: relative;
+  padding-bottom: 4px;
   transition: color 0.2s;
+}
+
+
+.navbar-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0%;
+  background-color: #4fc3f7;
+  transition: width 0.25s ease-in-out;
 }
 
 .navbar-link:hover {
   color: #4fc3f7;
 }
 
-/* Project list grid */
-.project-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 24px;
-  margin-top: 32px;
-}
-
-/* Individual project card */
-.project-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  width: 300px;
-  padding: 16px;
-  background: #fafafa;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-  color: #333;
-  transition: transform 0.15s;
-}
-
-.project-card:hover {
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-}
-
-/* Project image */
-.project-card img {
+.navbar-link:hover::after {
   width: 100%;
-  border-radius: 6px;
-  margin-bottom: 12px;
-  object-fit: cover;
-  max-height: 180px;
-}
-
-/* Project title */
-.project-card h3 {
-  margin: 12px 0 8px 0;
-  font-size: 1.2rem;
-  color: #1a2330;
-}
-
-/* Project description */
-.project-card p {
-  font-size: 1rem;
-  color: #444;
 }

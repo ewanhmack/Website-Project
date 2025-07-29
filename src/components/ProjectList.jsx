@@ -5,7 +5,7 @@ function ProjectList() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    fetch("/data/projects.json")
+    fetch("data/projects.json")
       .then((res) => res.json())
       .then((data) => setProjects(data));
   }, []);
@@ -16,7 +16,7 @@ function ProjectList() {
         <div key={idx} className="project-card">
           {project.image && (
             <img
-              src={`/images/${project.image}`}
+              src={`images/${project.image}`}
               alt={project.header}
             />
           )}

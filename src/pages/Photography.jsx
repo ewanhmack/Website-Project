@@ -5,7 +5,7 @@ function Photography() {
   return (
     <div className="page-container">
       <h2>Photography</h2>
-      <p>Showcase your photography here!</p>
+      <p>Coming soon!</p>
     </div>
   );
 }

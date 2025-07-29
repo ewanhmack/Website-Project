@@ -13,9 +13,10 @@ function Home() {
       style={{
         fontFamily: "sans-serif",
         textAlign: "center",
+        padding: "20px",
       }}
     >
-      {/* <header>
+      <header>
         <h1>Ewan MacKerracher</h1>
         <p>This is my portfolio of projects</p>
       </header>
@@ -28,8 +29,8 @@ function Home() {
           within Cirdan working as a Software Developer working with React and
           Javascript
         </p>
-      </section> */}
-      <h1>Work In Progress</h1>
+      </section>
+
     </div>
   );
 }
