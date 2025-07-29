@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
+// AFTER
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <BrowserRouter basename="/Website-Project">
-    <App />
-  </BrowserRouter>
+  <App />
 );
