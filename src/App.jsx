@@ -35,7 +35,7 @@ function Home() {
 
 function App() {
   return (
-    <Router>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -43,7 +43,7 @@ function App() {
         <Route path="/photography" element={<Photography />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
-    </Router>
+    </>
   );
 }
 
