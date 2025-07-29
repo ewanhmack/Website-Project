@@ -2,7 +2,7 @@
   "name": "website-project",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://ewanhmack.github.io/Website-Project/",
+  "homepage": "https://github.com/ewanhmack/Website-Project#readme",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
@@ -40,6 +40,5 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ewanhmack/Website-Project/issues"
-  },
-  "homepage": "https://github.com/ewanhmack/Website-Project#readme"
+  }
 }
