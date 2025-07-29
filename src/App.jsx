@@ -1,6 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";import Navbar from "./components/Navbar";
 import Programming from "./pages/Programming";
 import Photography from "./pages/Photography";
 import Contact from "./pages/Contact";
@@ -37,7 +36,7 @@ function Home() {
 
 function App() {
   return (
-    <>
+    <Router>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -45,8 +44,9 @@ function App() {
         <Route path="/photography" element={<Photography />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
-    </>
+    </Router>
   );
 }
+
 
 export default App;
