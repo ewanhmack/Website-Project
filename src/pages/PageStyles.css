@@ -1,0 +1,112 @@
+/* General page container */
+.page-container {
+  text-align: center;
+  margin: 100px auto 40px auto;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #fff;
+  background: #181a20;           /* Softer dark background */
+  border-radius: 24px;           /* Rounded corners */
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  max-width: 900px;
+  padding: 48px 32px 40px 32px;
+  min-height: unset;             /* Remove stretching to bottom */
+}
+
+/* Section headings */
+.page-container h2 {
+  font-size: 2rem;
+  margin-bottom: 24px;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+/* Project list - vertical layout */
+.project-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+/* Individual project card */
+.project-card {
+  border: 2px solid #fff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  padding: 24px 24px 16px 24px;
+  background: #111;
+  box-shadow: 0 2px 16px rgba(255,255,255,0.04);
+  color: #fff;
+  transition: transform 0.18s, box-shadow 0.18s;
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.project-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 32px rgba(255,255,255,0.10);
+  border-color: #4fc3f7;
+}
+
+/* Project image */
+.project-card img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  object-fit: cover;
+  max-height: 260px;
+  background: #222;
+}
+
+/* Project title */
+.project-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.4rem;
+  color: #fff;
+  border-bottom: 1px solid #333;
+  padding-bottom: 6px;
+}
+
+/* Project description */
+.project-card p {
+  font-size: 1.08rem;
+  color: #eaeaea;
+  margin: 0;
+}
+
+/* Contact links */
+.page-container a {
+  color: #4fc3f7;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.page-container a:hover {
+  color: #fff;
+}
+
+/* Photography grid */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin: 40px 0;
+  padding: 0 5vw;
+}
+
+.photo-grid img {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #222;
+  border: 2px solid #fff;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.photo-grid img:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 32px rgba(255,255,255,0.10);
+  border-color: #4fc3f7;
+}
