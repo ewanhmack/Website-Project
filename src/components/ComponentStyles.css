@@ -1,4 +1,29 @@
 /* Navbar styles */
+/* Add this to your navbar CSS */
+
+@keyframes slideDownFromTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.navbar {
+  animation: slideDownFromTop 0.6s ease forwards;
+}
+
+.navbar a {
+  position: relative;
+  color: #fff;
+  text-decoration: none;
+  padding: 4px 0;
+  overflow: hidden;
+}
+
 .navbar {
   width: 100%;
   background: #111; /* Darker tone to match page container */
@@ -21,32 +46,46 @@
 }
 
 .navbar-link {
+  position: relative;
+  color: #eaeaea;
   font-family: 'Segoe UI', Arial, sans-serif;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #eaeaea;
   text-decoration: none;
-  position: relative;
   padding-bottom: 4px;
   transition: color 0.2s;
+  overflow: hidden;
 }
-
 
 .navbar-link::after {
   content: '';
   position: absolute;
-  left: 0;
   bottom: 0;
+  left: 0;
+  right: 0;
   height: 2px;
-  width: 0%;
   background-color: #4fc3f7;
-  transition: width 0.25s ease-in-out;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
 }
 
-.navbar-link:hover {
+.navbar-link:hover::after,
+.navbar-link.active::after {
+  transform: scaleX(1);
+}
+
+.navbar-link:hover,
+.navbar-link.active {
   color: #4fc3f7;
 }
 
-.navbar-link:hover::after {
-  width: 100%;
+
+html {
+  overflow-y: scroll; /* keep scrolling enabled */
+  scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
 }
