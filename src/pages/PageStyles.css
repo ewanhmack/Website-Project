@@ -203,3 +203,12 @@
   width: 500px;
   height: 500px;
 }
+
+html {
+  scrollbar-width: none; /* hides scrollbar but keeps scroll */
+}
+
+/* For WebKit browsers (Chrome, Safari, Edge) */
+html::-webkit-scrollbar {
+  display: none;
+}
