@@ -1,5 +1,6 @@
 import React from "react";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";import Navbar from "./components/Navbar";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import Programming from "./pages/Programming";
 import Photography from "./pages/Photography";
 import Contact from "./pages/Contact";
@@ -26,10 +27,9 @@ function Home() {
           Games Development at LJMU. Some of my personal interests include:
           Photography, Programming, and traveling. I currently have a placement
           within Cirdan working as a Software Developer working with React and
-          Javascript
+          JavaScript.
         </p>
       </section>
-
     </div>
   );
 }
@@ -38,15 +38,16 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/programming" element={<Programming />} />
-        <Route path="/photography" element={<Photography />} />
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
+      <div style={{ padding: "20px" }}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/programming" element={<Programming />} />
+          <Route path="/photography" element={<Photography />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
-
 
 export default App;

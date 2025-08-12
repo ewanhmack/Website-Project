@@ -16,7 +16,7 @@ function ProjectList() {
         <div key={idx} className="project-card">
           {project.image && (
             <img
-              src={`images/${project.image}`}
+              src={`images/projects/${project.image}`}
               alt={project.header}
             />
           )}
