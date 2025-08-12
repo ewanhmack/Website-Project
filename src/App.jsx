@@ -29,6 +29,10 @@ function Home() {
           within Cirdan working as a Software Developer working with React and
           JavaScript.
         </p>
+        <p>
+          This website is a showcase of my work, including programming projects, and
+          acts as a portfolio for my photography.
+        </p>
       </section>
     </div>
   );

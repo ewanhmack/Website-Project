@@ -17,7 +17,7 @@ function Carousel({ title, items, className }) {
     <div className={`carousel ${className || ""}`}>
       <h2>{title}</h2>
       <div className="carousel-content">
-        <button onClick={prev} className="carousel-btn">‹</button>
+        <button onClick={prev} className="carousel-left-btn">‹</button>
 
         <div className="carousel-card">
           <img
@@ -27,7 +27,7 @@ function Carousel({ title, items, className }) {
           <h3>{items[current].header}</h3>
         </div>
 
-        <button onClick={next} className="carousel-btn">›</button>
+        <button onClick={next} className="carousel-right-btn">›</button>
       </div>
     </div>
   );
