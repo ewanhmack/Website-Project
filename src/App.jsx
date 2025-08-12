@@ -1,5 +1,6 @@
 import React from "react";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";import Navbar from "./components/Navbar";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import Programming from "./pages/Programming";
 import Photography from "./pages/Photography";
 import Contact from "./pages/Contact";
@@ -32,23 +33,6 @@ function Home() {
     </div>
   );
 }
-
-const router = createBrowserRouter([
-  {
-    index: true
-    element: <HomePage />
-    children: [
-      {
-        path: 'programming',
-        element: <Programming />,
-      },
-      {
-        path: 'photography',
-        element: <Photography />,
-      },
-    ]
-  }
-]);
 
 function App() {
   return (

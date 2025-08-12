@@ -33,6 +33,15 @@ function Carousel({ title, items, className }) {
   );
 }
 
+function shuffleArray(array) {
+  // Fisher-Yates shuffle
+  const arr = array.slice(); // copy so original not mutated
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
 function Photography() {
   const [data, setData] = useState(null);
@@ -40,7 +49,15 @@ function Photography() {
   useEffect(() => {
     fetch("data/photography.json")
       .then(res => res.json())
-      .then(setData)
+      .then(originalData => {
+        // Shuffle each category
+        const shuffledData = {
+          Portraits: shuffleArray(originalData.Portraits),
+          Landscapes: shuffleArray(originalData.Landscapes),
+          // Animals: shuffleArray(originalData.Animals), // if you enable this later
+        };
+        setData(shuffledData);
+      })
       .catch(err => console.error("Failed to load photography data:", err));
   }, []);
 
@@ -49,13 +66,12 @@ function Photography() {
   }
 
   return (
-  <div className="photography-page">
-    <Carousel title="Portraits" items={data.Portraits} className="portrait-carousel" />
-    <Carousel title="Landscapes" items={data.Landscapes} className="landscape-carousel" />
-    {/* <Carousel title="Animals" items={data.Animals} className="square-carousel" /> */}
-  </div>
-);
-
+    <div className="photography-page">
+      <Carousel title="Portraits" items={data.Portraits} className="portrait-carousel" />
+      <Carousel title="Landscapes" items={data.Landscapes} className="landscape-carousel" />
+      {/* <Carousel title="Animals" items={data.Animals} className="square-carousel" /> */}
+    </div>
+  );
 }
 
 export default Photography;
