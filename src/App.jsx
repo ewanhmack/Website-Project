@@ -1,6 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";import Navbar from "./components/Navbar";
 import Programming from "./pages/Programming";
 import Photography from "./pages/Photography";
 import Contact from "./pages/Contact";
@@ -34,18 +33,33 @@ function Home() {
   );
 }
 
+const router = createBrowserRouter([
+  {
+    index: true
+    element: <HomePage />
+    children: [
+      {
+        path: 'programming',
+        element: <Programming />,
+      },
+      {
+        path: 'photography',
+        element: <Photography />,
+      },
+    ]
+  }
+]);
+
 function App() {
   return (
     <Router>
       <Navbar />
-      <div style={{ padding: "20px" }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/programming" element={<Programming />} />
-          <Route path="/photography" element={<Photography />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/programming" element={<Programming />} />
+        <Route path="/photography" element={<Photography />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
     </Router>
   );
 }
