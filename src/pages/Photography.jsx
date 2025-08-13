@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./photography.css";
 import "./PageStyles.css";
 
-const IMG_BASE = "images/photos/"; // change if needed
+const IMG_BASE = "images/photos/";
 
 // Fisher–Yates shuffle
 function shuffle(a) {
@@ -14,7 +14,7 @@ function shuffle(a) {
   return arr;
 }
 
-// Preload a list of URLs; resolve when all attempt to load
+// Preload a list of URLs
 function preload(urls) {
   return Promise.all(
     urls.map(
@@ -97,16 +97,8 @@ export default function Photography() {
 
       {loaded && !error && view === "carousel" && (
         <div className="stack">
-          <Carousel
-            title="Portraits"
-            items={data.Portraits || []}
-            perView={3}
-          />
-          <Carousel
-            title="Landscapes"
-            items={data.Landscapes || []}
-            perView={1}
-          />
+          <Carousel title="Portraits" items={data.Portraits || []} perView={3} />
+          <Carousel title="Landscapes" items={data.Landscapes || []} perView={1} />
         </div>
       )}
 
@@ -117,7 +109,12 @@ export default function Photography() {
             <section className="album-grid stylised" aria-label="Album (all photos)">
               {flat.map((p, i) => (
                 <figure className="album-item" key={`${p.image}-${i}`}>
-                  <img src={`${IMG_BASE}${p.image}`} alt={p.header || "Photo"} />
+                  <img
+                    src={`${IMG_BASE}${p.image}`}
+                    alt={p.header || "Photo"}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </figure>
               ))}
             </section>
@@ -129,11 +126,9 @@ export default function Photography() {
 }
 
 /* =============== PURE FLEX-TRACK CAROUSEL =============== */
-function Carousel({ title, items, perView, tileHeight }) {
-  // NEW: shuffle items once per items-change
+function Carousel({ title, items, perView }) {
   const shuffled = useMemo(() => shuffle(items || []), [items]);
 
-  // chunk shuffled items into equally sized slides
   const slides = useMemo(() => {
     const out = [];
     for (let i = 0; i < shuffled.length; i += perView) {
@@ -155,19 +150,24 @@ function Carousel({ title, items, perView, tileHeight }) {
         <button className="arrow left" aria-label={`Previous ${title}`} onClick={prev}>‹</button>
 
         <div className="viewport">
-          <div
-            className="track"
-            style={{ transform: `translateX(-${index * 100}%)` }}
-          >
+          <div className="track" style={{ transform: `translateX(-${index * 100}%)` }}>
             {slides.map((slide, s) => (
               <div className="slide" key={s}>
                 <div className={`tiles tiles-${perView}`}>
-                  {slide.map((it, i) => (
-                    <figure className="tile" key={`${it.image}-${i}`} style={{ height: tileHeight }}>
-                      <img src={`${IMG_BASE}${it.image}`} alt={it.header || "Photo"} />
-                      {it.header && <figcaption className="tile-cap">{it.header}</figcaption>}
-                    </figure>
-                  ))}
+                  {slide.map((it, i) => {
+                    const isFirst = index === 0 && s === 0 && i === 0;
+                    return (
+                      <figure className="tile" key={`${it.image}-${i}`}>
+                        <img
+                          src={`${IMG_BASE}${it.image}`}
+                          alt={it.header || "Photo"}
+                          loading={isFirst ? "eager" : "lazy"}
+                          fetchpriority={isFirst ? "high" : "low"}
+                          decoding="async"
+                        />
+                      </figure>
+                    );
+                  })}
                 </div>
               </div>
             ))}
