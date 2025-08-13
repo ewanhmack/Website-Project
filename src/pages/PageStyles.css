@@ -12,3 +12,76 @@
   text-align: left;
 }
 .page-container .muted { color: var(--secondary-text); }
+
+/* --- Contact page --- */
+.contact-hero { margin-bottom: 16px; }
+.contact-hero h2 { margin: 0 0 6px; font-size: clamp(1.6rem, 3vw, 2rem); }
+.contact-hero p { margin: 0; }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(12px, 2vw, 16px);
+  margin: 16px 0 24px;
+}
+
+@media (min-width: 760px) {
+  .contact-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.contact-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--radius-lg);
+  background: var(--panel-soft);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: transform .08s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+}
+.contact-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: color-mix(in srgb, var(--brand) 25%, var(--border));
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+}
+
+.contact-icon {
+  width: 42px; height: 42px;
+  display: grid; place-items: center;
+  border-radius: 12px;
+  background: #0d1528;
+  color: var(--brand);
+  border: 1px solid var(--border);
+}
+.contact-body h3 { margin: 0 0 2px; font-size: 1.05rem; }
+.contact-body p { margin: 0; }
+.contact-arrow { opacity: .7; }
+
+.contact-form.panel { margin-top: 8px; }
+.contact-form-grid {
+  display: grid; gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.field { display: grid; gap: 6px; }
+.field span { font-size: .95rem; color: var(--muted); }
+.field input, .field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0d1528;
+  color: var(--text);
+}
+.field-full { grid-column: 1 / -1; }
+
+.actions { display: flex; gap: 10px; }
+
+.cv-panel {
+  margin-top: 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.cv-copy { display: grid; gap: 4px; }
