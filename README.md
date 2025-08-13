@@ -1,12 +1,19 @@
-# React + Vite
+# Ewan MacKerracher — Portfolio (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Live site: https://ewanhmack.github.io/Website-Project/
 
-Currently, two official plugins are available:
+## Overview
+Portfolio for game dev & graphics projects (UE5, SFML/SEG). Focus on accessibility in games and engine tinkering.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+- Project cards with tags (UE5 / Graphics / Engines)
+- Case-study pages with gifs/video
+- Responsive + accessible (skip link, semantic HTML)
 
-## Expanding the ESLint configuration
+## Tech stack
+React, Vite, CSS, ESLint.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Local dev
+```bash
+npm i
+npm run dev
