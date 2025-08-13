@@ -94,10 +94,10 @@ function Home() {
 
             <div className="card">
               <div className="thumb" />
-              <h3 className="card-title">Accessibility Prototypes</h3>
-              <p className="muted">Sensory-friendly interaction patterns and UI.</p>
+              <h3 className="card-title">Vitual Assistant</h3>
+              <p className="muted">A voice-activated virtual assistant running on a Raspberry Pi, designed for accessibility and everyday tasks.</p>
               <div className="chips">
-                <span className="chip">Research</span><span className="chip">Accessibility</span><span className="chip">UX</span>
+                <span className="chip">Python</span><span className="chip">Accessibility</span><span className="chip">UX</span>
               </div>
             </div>
           </div>
