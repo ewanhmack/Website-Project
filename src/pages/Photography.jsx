@@ -28,12 +28,14 @@ function preload(urls) {
   );
 }
 
+
+
 export default function Photography() {
   const [data, setData] = useState({ Portraits: [], Landscapes: [] });
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
   const [view, setView] = useState("carousel"); // "carousel" | "grid"
-  const [gridReady, setGridReady] = useState(false);
+  const [loadedMap, setLoadedMap] = useState({});
 
   useEffect(() => {
     fetch("data/photography.json")
@@ -46,6 +48,10 @@ export default function Photography() {
       .finally(() => setLoaded(true));
   }, []);
 
+  // helper to mark an image as loaded
+const markLoaded = (id) =>
+  setLoadedMap((m) => (m[id] ? m : { ...m, [id]: true }));
+
   // Flat, shuffled list for album grid
   const flat = useMemo(() => {
     const out = [];
@@ -54,12 +60,6 @@ export default function Photography() {
     );
     return shuffle(out);
   }, [data]);
-
-  // Preload all album images so the grid appears at once
-  useEffect(() => {
-    if (!loaded || error) return;
-    preload(flat.map((p) => `${IMG_BASE}${p.image}`)).then(() => setGridReady(true));
-  }, [loaded, error, flat]);
 
   return (
     <div className="page-container">
@@ -103,23 +103,23 @@ export default function Photography() {
       )}
 
       {loaded && !error && view === "grid" && (
-        <>
-          {!gridReady && <div className="muted" style={{ marginTop: 24 }}>Preloading album…</div>}
-          {gridReady && (
-            <section className="album-grid stylised" aria-label="Album (all photos)">
-              {flat.map((p, i) => (
-                <figure className="album-item" key={`${p.image}-${i}`}>
-                  <img
-                    src={`${IMG_BASE}${p.image}`}
-                    alt={p.header || "Photo"}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </figure>
-              ))}
-            </section>
-          )}
-        </>
+        <section className="album-grid stylised" aria-label="Album (all photos)">
+          {flat.map((p, i) => {
+            const id = `${p.image}-${i}`;
+            const isLoaded = !!loadedMap[id];
+            return (
+              <figure className={`album-item ${isLoaded ? "is-loaded" : ""}`} key={id}>
+                <img
+                  src={`${IMG_BASE}${p.image}`}
+                  alt={p.header || "Photo"}
+                  loading="lazy"
+                  decoding="async"
+                  onLoad={() => markLoaded(id)}
+                />
+              </figure>
+            );
+          })}
+        </section>
       )}
     </div>
   );
@@ -162,7 +162,7 @@ function Carousel({ title, items, perView }) {
                           src={`${IMG_BASE}${it.image}`}
                           alt={it.header || "Photo"}
                           loading={isFirst ? "eager" : "lazy"}
-                          fetchpriority={isFirst ? "high" : "low"}
+                          fetchPriority={isFirst ? "high" : "low"}
                           decoding="async"
                         />
                       </figure>

@@ -53,7 +53,6 @@ function Home() {
               <li>UE5 (Blueprints & C++)</li>
               <li>Graphics & engine tinkering (SFML / SEG)</li>
               <li>Gameplay prototyping</li>
-              <li>Accessibility (a11y) patterns</li>
             </ul>
           </div>
           <div className="panel">

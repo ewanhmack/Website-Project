@@ -43,7 +43,7 @@ export default function Contact() {
           </div>
           <div className="contact-body">
             <h3>LinkedIn</h3>
-            <p className="muted">/in/ewan-mack-h355</p>
+            <p className="muted">Ewan MacKerracher</p>
           </div>
           <span className="contact-arrow" aria-hidden="true">→</span>
         </a>
