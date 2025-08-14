@@ -1,27 +1,55 @@
 [
-  {
-    "header": "3D Unreal Game",
-    "description": "A 3D Unreal Engine 5 game made in a group of 4 for my first-year Introduction to Computer Games Development module.",
-    "image": "3d-Game.png"
+{
+  "header": "3D Group Puzzle Game",
+  "description": "UE5 puzzle/platformer made by a team of four with two main levels: a platformer-style puzzle course and a haunted mansion puzzle level.",
+  "longDescription": "This was a 3D Unreal Engine 5 game I built with three teammates. It features two main levels. Level 1 plays like a platformer with three rooms, each built around a unique mechanic—pressure plates that require moving boxes to open doors, a checkered-floor trap that resets you if you step on the wrong tiles, and key progression between rooms. Level 2 shifts into a horror vibe with a global fog layer. You spawn outside the house, explore the surrounding forest to find the front-door key, solve indoor puzzles, and use a basement parkour section to reach the first floor.",
+  "media": [
+    { "src": "unreal/level-blockout-1.png",        "caption": "Level 1 – Layout Blockout",       "blurb": "Overall blockout showing how the three puzzle rooms connect." },
+    { "src": "unreal/interior-bright-glow.png",    "caption": "Level 1 – Puzzle Room",           "blurb": "Room setup for the pressure-plate puzzle where boxes unlock the door." },
+    { "src": "unreal/interior-ceiling-light.png",  "caption": "Level 1 – Checkered Trap",        "blurb": "Lighting pass over the room with the checkered floor that resets mistakes." },
+    { "src": "unreal/platforming-silhouettes.png", "caption": "Level 1 – Platforming Readability","blurb": "Clear silhouettes and spacing tuned for jump timing between platforms." },
+    { "src": "unreal/parkour-room.png",            "caption": "Level 1 – Parkour Section",       "blurb": "Parkour section used to gain a key." },
+    { "src": "unreal/forest-overview.png",         "caption": "Level 2 – Forest Key Hunt",       "blurb": "Explore the forest around the house to find the key for the front door." },
+    { "src": "unreal/fog-plane-setup.png",         "caption": "Level 2 – Fog Layer",             "blurb": "Exponential height fog + atmosphere for the horror tone." },
+    { "src": "unreal/porch-approach.png",          "caption": "Level 2 – House Exterior",        "blurb": "Approach to the porch before entering the mansion." },
+    { "src": "unreal/doorway-silhouette.png",      "caption": "Level 2 – Entryway",              "blurb": "Strong rim light guiding you toward the objective inside." },
+    { "src": "unreal/hub-room.png",                "caption": "Shared – Hub/Connector Space",    "blurb": "Connector area linking sections and gating progress with keys." }
+  ],
+  "tech": ["Unreal Engine 5", "Blueprints", "Level Design", "Lighting"],
+  "links": [
+    { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/4225Comp" }
+    ]
   },
+
   {
     "header": "Music Website",
-    "description": "A music website that I made for first year Web Development module.",
-    "image": "Music-Site.png"
+    "description": "A PHP, JavaScript, and MySQL website for browsing, rating, and reviewing albums.",
+    "longDescription": "This website allows users to register, log in, and explore a collection of music albums. Each album page shows detailed track listings, release info, and lets users leave ratings and reviews. A rankings page sorts albums by their average rating, while user profiles store favourite albums and personal details. The project was built with HTML, CSS, JavaScript, PHP, and MySQL, with a dark UI theme for a modern look.",    "media": [
+    { "src": "music/Website Home.jpg", "caption": "Home", "blurb": "The homepage featuring highlighted albums with quick access to their details." },
+    { "src": "music/Website-Login.jpg", "caption": "Register / Login", "blurb": "Secure registration and login system for users with form validation." },
+    { "src": "music/Website-Albums.jpg", "caption": "Album Details", "blurb": "Album information, track listing, and user review submission form." },
+    { "src": "music/Website-Ranking.jpg", "caption": "Rankings", "blurb": "Albums ranked by average score with detailed track listings visible." },
+    { "src": "music/Website-Profile.jpg", "caption": "Profile Page", "blurb": "User account details, favourite album selection, and profile management." }
+  ],
+  "tech": ["PHP", "JavaScript", "MySQL", "HTML", "CSS"],
+  "links": [
+    { "label": "Source Code", "href": "https://github.com/your-repo" }
+  ]
   },
   {
-    "header": "3D Photography Game",
-    "description": "A 3D photography game that I made in my own personal time.",
-    "image": "Photography-Game.jpg"
-  },
-  {
-    "header": "Virtual Assistant",
-    "description": "A functional virtual assistant that I made running off a raspberry pi",
-    "image": "Virtual-Assistant.png"
-  },
-  {
-    "header": "Portfolio Website",
-    "description": "This portfolio website that I made to showcase my work.",
-    "image": ""
-  }
+  "header": "3D Photography Game",
+  "description": "UE5 blueprint project where you explore biomes and take in-game photos.",
+  "longDescription": "This is a 3D photography game I’m building in my free time with Unreal Engine 5 blueprints. I generated an island with multiple biomes (desert, mountains, forest/grassland) and the current goal is simply to explore and capture shots of the world. Controls: WASD to move, right mouse button toggles a camera viewfinder, and the mouse wheel adjusts zoom. Photos are saved to the Unreal project directory; a future feature will add an in-game portfolio to review your shots. The current zoom logic moves the camera ~50 units forward along the facing direction when the viewfinder is toggled; I plan to replace this with a spring-arm approach.",
+  "media": [
+    { "src": "photography/HighresScreenshot00007.png", "caption": "Desert Biome at Dusk", "blurb": "Golden-hour dunes—wide dynamic range with soft cloud cover." },
+    { "src": "photography/HighresScreenshot00015.png", "caption": "Mountain Peaks", "blurb": "Snow-capped ridges and hard rock detail under clear skies." },
+    { "src": "photography/HighresScreenshot00005.png", "caption": "Grassland Vista", "blurb": "Rolling greenery in the foreground framing distant mountains." },
+    { "src": "photography/Unreal.jpg", "caption": "Island Editor View", "blurb": "Procedurally composed island with distinct biomes laid out in UE5." },
+    { "src": "photography/blueprints.jpg", "caption": "Viewfinder Blueprint", "blurb": "Zoom toggle logic—RMB enters the viewfinder until toggled again." }
+  ],
+  "tech": ["Unreal Engine 5", "Blueprints", "Procedural Generation", "Landscape"],
+  "links": [
+    { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/photo-game" }
+  ]
+}
 ]
