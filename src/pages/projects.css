@@ -295,10 +295,18 @@
 .link-list {
   margin: 0;
   padding-left: 18px;
+  list-style: none;
 }
 
 /* Modal reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .modal-overlay { backdrop-filter: none; }
   .modal-arrow { transition: none; }
+}
+
+
+/* ===== Projects grid tiny-device tweaks (added by patch) ===== */
+@media (max-width: 480px) {
+  .project-body { padding: 12px; }
+  .project-title { font-size: 1rem; }
 }

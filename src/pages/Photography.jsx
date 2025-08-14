@@ -1,4 +1,11 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+  useRef,
+  useLayoutEffect,
+  useCallback,
+} from "react";
 import "./photography.css";
 import "./PageStyles.css";
 
@@ -14,43 +21,26 @@ function shuffle(a) {
   return arr;
 }
 
-// Preload a list of URLs
-function preload(urls) {
-  return Promise.all(
-    urls.map(
-      (u) =>
-        new Promise((res) => {
-          const img = new Image();
-          img.onload = img.onerror = () => res(true);
-          img.src = u;
-        })
-    )
-  );
-}
-
-
-
+/* ================== MAIN ================== */
 export default function Photography() {
   const [data, setData] = useState({ Portraits: [], Landscapes: [] });
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
   const [view, setView] = useState("carousel"); // "carousel" | "grid"
-  const [loadedMap, setLoadedMap] = useState({});
 
+  // fetch data
   useEffect(() => {
+    let alive = true;
     fetch("data/photography.json")
       .then((r) => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return r.json();
       })
-      .then((j) => setData(j || { Portraits: [], Landscapes: [] }))
-      .catch((e) => setError(e.message || "Failed to load"))
-      .finally(() => setLoaded(true));
+      .then((j) => alive && setData(j || { Portraits: [], Landscapes: [] }))
+      .catch((e) => alive && setError(e.message || "Failed to load"))
+      .finally(() => alive && setLoaded(true));
+    return () => (alive = false);
   }, []);
-
-  // helper to mark an image as loaded
-const markLoaded = (id) =>
-  setLoadedMap((m) => (m[id] ? m : { ...m, [id]: true }));
 
   // Flat, shuffled list for album grid
   const flat = useMemo(() => {
@@ -61,65 +51,138 @@ const markLoaded = (id) =>
     return shuffle(out);
   }, [data]);
 
+  /* ========= Transition stage sizing (so page doesn't jump) ========= */
+  const stageRef = useRef(null);
+  const carouselRef = useRef(null);
+  const gridRef = useRef(null);
+  const [stageH, setStageH] = useState("auto");
+
+  const measureActive = useCallback(() => {
+    const el = view === "carousel" ? carouselRef.current : gridRef.current;
+    if (el) setStageH(el.offsetHeight + "px");
+  }, [view]);
+
+  useLayoutEffect(() => {
+    if (loaded && !error) {
+      // measure on initial paint & when view changes
+      requestAnimationFrame(measureActive);
+    }
+  }, [view, loaded, error, measureActive]);
+
+  useEffect(() => {
+    const onR = () => requestAnimationFrame(measureActive);
+    window.addEventListener("resize", onR);
+    return () => window.removeEventListener("resize", onR);
+  }, [measureActive]);
+
+  // Progressive grid: fade tiles in as they load
+  const [loadedMap, setLoadedMap] = useState({});
+  const markLoaded = useCallback((id) => {
+    setLoadedMap((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
+    // re-measure after images load to animate container height
+    requestAnimationFrame(measureActive);
+  }, [measureActive]);
+
   return (
     <div className="page-container">
+      {/* Header */}
       <header className="photos-header">
         <div className="photos-header-row">
           <div>
             <h2>Photography</h2>
-            <p className="muted">Browse by carousel or view the complete album grid.</p>
+            <p className="muted">
+              Browse by carousel or view the complete album grid.
+            </p>
           </div>
+
           <div className="view-toggle" role="group" aria-label="Toggle view">
+            {/* View toggle switch (Carousel ⇄ Grid) */}
             <button
               type="button"
-              className={`toggle-btn ${view === "carousel" ? "is-active" : ""}`}
-              onClick={() => setView("carousel")}
+              className={`view-switch ${view === "grid" ? "is-on" : ""}`}
+              role="switch"
+              aria-checked={view === "grid"}
+              aria-label={view === "grid" ? "Album grid view on" : "Carousel view on"}
+              onClick={() => setView((v) => (v === "grid" ? "carousel" : "grid"))}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setView((v) => (v === "grid" ? "carousel" : "grid"));
+                }
+              }}
             >
-              Carousels
+              <span className="track">
+                <span className="thumb" />
+                <span className="label off">Carousels</span>
+                <span className="label on">Album Grid</span>
+              </span>
             </button>
-            <button
-              type="button"
-              className={`toggle-btn ${view === "grid" ? "is-active" : ""}`}
-              onClick={() => setView("grid")}
-            >
-              Album Grid
-            </button>
+
           </div>
         </div>
       </header>
 
-      {!loaded && <div className="muted" style={{ marginTop: 24 }}>Loading photos…</div>}
+      {/* Status */}
+      {!loaded && (
+        <div className="muted" style={{ marginTop: 24 }} aria-live="polite">
+          Loading photos…
+        </div>
+      )}
       {loaded && error && (
         <div className="error-banner" role="alert">
-          Couldn’t load photos ({error}). Check <code>public/data/photography.json</code>.
+          Couldn’t load photos ({error}). Check{" "}
+          <code>public/data/photography.json</code>.
         </div>
       )}
 
-      {loaded && !error && view === "carousel" && (
-        <div className="stack">
-          <Carousel title="Portraits" items={data.Portraits || []} perView={3} />
-          <Carousel title="Landscapes" items={data.Landscapes || []} perView={1} />
-        </div>
-      )}
+      {/* Views with animated transition */}
+      {loaded && !error && (
+        <div className="view-stage" ref={stageRef} style={{ height: stageH }}>
+          {/* CAROUSEL PANEL */}
+          <div
+            ref={carouselRef}
+            className={`view-panel ${view === "carousel" ? "is-active" : ""}`}
+            aria-hidden={view !== "carousel"}
+          >
+            <div className="stack">
+              <Carousel title="Portraits" items={data.Portraits || []} perView={3} />
+              <Carousel title="Landscapes" items={data.Landscapes || []} perView={1} />
+            </div>
+          </div>
 
-      {loaded && !error && view === "grid" && (
-        <section className="album-grid stylised" aria-label="Album (all photos)">
-          {flat.map((p, i) => {
-            const id = `${p.image}-${i}`;
-            const isLoaded = !!loadedMap[id];
-            return (
-              <figure className={`album-item ${isLoaded ? "is-loaded" : ""}`} key={id}>
-                <img
-                  src={`${IMG_BASE}${p.image}`}
-                  alt={p.header || "Photo"}
-                  loading="lazy"
-                  decoding="async"
-                  onLoad={() => markLoaded(id)}
-                />
-              </figure>
-            );
-          })}
-        </section>
+          {/* GRID PANEL */}
+          <div
+            ref={gridRef}
+            className={`view-panel ${view === "grid" ? "is-active" : ""}`}
+            aria-hidden={view !== "grid"}
+          >
+            <section
+              className="album-grid stylised full-bleed"
+              aria-label="Album (all photos)"
+            >
+              {flat.map((p, i) => {
+                const id = `${p.image}-${i}`;
+                const isLoaded = !!loadedMap[id];
+                const isFirst = i === 0; // boost LCP a bit
+                return (
+                  <figure
+                    className={`album-item ${isLoaded ? "is-loaded" : ""}`}
+                    key={id}
+                  >
+                    <img
+                      src={`${IMG_BASE}${p.image}`}
+                      alt={p.header || "Photo"}
+                      loading={isFirst ? "eager" : "lazy"}
+                      fetchPriority={isFirst ? "high" : "auto"}
+                      decoding="async"
+                      onLoad={() => markLoaded(id)}
+                    />
+                  </figure>
+                );
+              })}
+            </section>
+          </div>
+        </div>
       )}
     </div>
   );
@@ -147,7 +210,9 @@ function Carousel({ title, items, perView }) {
   return (
     <section className="carousel" aria-label={`${title} carousel`}>
       <div className="carousel-shell">
-        <button className="arrow left" aria-label={`Previous ${title}`} onClick={prev}>‹</button>
+        <button className="arrow left" aria-label={`Previous ${title}`} onClick={prev}>
+          ‹
+        </button>
 
         <div className="viewport">
           <div className="track" style={{ transform: `translateX(-${index * 100}%)` }}>
@@ -174,12 +239,14 @@ function Carousel({ title, items, perView }) {
           </div>
         </div>
 
-        <button className="arrow right" aria-label={`Next ${title}`} onClick={next}>›</button>
+        <button className="arrow right" aria-label={`Next ${title}`} onClick={next}>
+          ›
+        </button>
       </div>
 
-      <div className="carousel-head-row">
-        <h3 className="carousel-title">{title}</h3>
-        <div className="dots compact" role="tablist" aria-label={`${title} pages`}>
+      <div className="carousel-head-row" style={{ marginLeft: "30px" }}>
+        <h3 className="carousel-title" >{title}</h3>
+        <div className="dots compact" role="tablist" style={{ marginRight: "50px" }} aria-label={`${title} pages` } >
           {slides.map((_, i) => (
             <button
               key={i}

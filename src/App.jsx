@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Programming from "./pages/Programming";
 import Photography from "./pages/Photography";
 import Contact from "./pages/Contact";
+import "./App.css";
 import "./components/ComponentStyles.css";
 import "./pages/PageStyles.css";
 
@@ -49,7 +50,7 @@ function Home() {
         <div className="grid two">
           <div className="panel">
             <h3 className="card-title">What I focus on</h3>
-            <ul className="list muted">
+            <ul className="list muted" style={{listStyle: 'none'}}>
               <li>UE5 (Blueprints & C++)</li>
               <li>Graphics & engine tinkering (SFML / SEG)</li>
               <li>Gameplay prototyping</li>
@@ -65,43 +66,69 @@ function Home() {
       </section>
 
       {/* Highlights */}
-      <section className="section section-alt">
-        <div className="container">
-          <header className="section-head">
-            <div className="section-eyebrow">Highlights</div>
-            <h2 className="section-title">Selected Work</h2>
-          </header>
+      <section id="selected-work" className="section section-alt">
+  <div className="container">
+    <header className="section-head">
+      <div className="section-eyebrow">Highlights</div>
+      <h2 className="section-title">Selected Work</h2>
+    </header>
 
-          <div className="grid three">
-            <div className="card">
-              <div className="thumb" />
-              <h3 className="card-title">Photography Game (UE5)</h3>
-              <p className="muted">First-person photography with save-to-disk screenshots.</p>
-              <div className="chips">
-                <span className="chip">UE5</span><span className="chip">C++</span><span className="chip">Gameplay</span>
-              </div>
-            </div>
-
-            <div className="card">
-              <div className="thumb" />
-              <h3 className="card-title">SEG Graphics Demo</h3>
-              <p className="muted">Tessellated spheres, particles, and custom pipeline.</p>
-              <div className="chips">
-                <span className="chip">Graphics</span><span className="chip">C++</span><span className="chip">SFML</span>
-              </div>
-            </div>
-
-            <div className="card">
-              <div className="thumb" />
-              <h3 className="card-title">Vitual Assistant</h3>
-              <p className="muted">A voice-activated virtual assistant running on a Raspberry Pi, designed for accessibility and everyday tasks.</p>
-              <div className="chips">
-                <span className="chip">Python</span><span className="chip">Accessibility</span><span className="chip">UX</span>
-              </div>
-            </div>
-          </div>
+    <div className="grid three">
+      {/* Photography Game (UE5) */}
+      <div className="card">
+        <figure className="thumb">
+          <img
+            src="images/projects/photography/HighresScreenshot00007.png"
+            alt="Photography Game — desert biome at dusk"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <h3 className="card-title">Photography Game (UE5)</h3>
+        <p className="muted">First-person photography with save-to-disk screenshots.</p>
+        <div className="chips">
+          <span className="chip">UE5</span><span className="chip">Blueprints</span><span className="chip">Gameplay</span>
         </div>
-      </section>
+      </div>
+
+      {/* Music Website */}
+      <div className="card">
+        <figure className="thumb">
+          <img
+            src="images/projects/music/Website%20Home.jpg"  // rename to Website-Home.jpg if you prefer
+            alt="Music website homepage featuring highlighted albums"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <h3 className="card-title">Music Website</h3>
+        <p className="muted">Browse albums, rate & review, and see rankings.</p>
+        <div className="chips">
+          <span className="chip">PHP</span><span className="chip">JavaScript</span><span className="chip">MySQL</span>
+        </div>
+      </div>
+
+      {/* Virtual Assistant */}
+      <div className="card">
+        <figure className="thumb">
+          <img
+            src="images/projects/Virtual-Assistant.png"
+            alt="Raspberry Pi virtual assistant"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+        <h3 className="card-title">Virtual Assistant</h3>
+        <p className="muted">
+          A voice-activated assistant running on a Raspberry Pi, designed for accessibility and everyday tasks.
+        </p>
+        <div className="chips">
+          <span className="chip">Python</span><span className="chip">Accessibility</span><span className="chip">UX</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Footer */}
       <footer className="footer">
