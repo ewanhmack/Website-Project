@@ -1,55 +1,89 @@
 [
-{
-  "header": "3D Group Puzzle Game",
-  "description": "UE5 puzzle/platformer made by a team of four with two main levels: a platformer-style puzzle course and a haunted mansion puzzle level.",
-  "longDescription": "This was a 3D Unreal Engine 5 game I built with three teammates. It features two main levels. Level 1 plays like a platformer with three rooms, each built around a unique mechanic—pressure plates that require moving boxes to open doors, a checkered-floor trap that resets you if you step on the wrong tiles, and key progression between rooms. Level 2 shifts into a horror vibe with a global fog layer. You spawn outside the house, explore the surrounding forest to find the front-door key, solve indoor puzzles, and use a basement parkour section to reach the first floor.",
-  "media": [
-    { "src": "unreal/level-blockout-1.png",        "caption": "Level 1 – Layout Blockout",       "blurb": "Overall blockout showing how the three puzzle rooms connect." },
-    { "src": "unreal/interior-bright-glow.png",    "caption": "Level 1 – Puzzle Room",           "blurb": "Room setup for the pressure-plate puzzle where boxes unlock the door." },
-    { "src": "unreal/interior-ceiling-light.png",  "caption": "Level 1 – Checkered Trap",        "blurb": "Lighting pass over the room with the checkered floor that resets mistakes." },
-    { "src": "unreal/platforming-silhouettes.png", "caption": "Level 1 – Platforming Readability","blurb": "Clear silhouettes and spacing tuned for jump timing between platforms." },
-    { "src": "unreal/parkour-room.png",            "caption": "Level 1 – Parkour Section",       "blurb": "Parkour section used to gain a key." },
-    { "src": "unreal/forest-overview.png",         "caption": "Level 2 – Forest Key Hunt",       "blurb": "Explore the forest around the house to find the key for the front door." },
-    { "src": "unreal/fog-plane-setup.png",         "caption": "Level 2 – Fog Layer",             "blurb": "Exponential height fog + atmosphere for the horror tone." },
-    { "src": "unreal/porch-approach.png",          "caption": "Level 2 – House Exterior",        "blurb": "Approach to the porch before entering the mansion." },
-    { "src": "unreal/doorway-silhouette.png",      "caption": "Level 2 – Entryway",              "blurb": "Strong rim light guiding you toward the objective inside." },
-    { "src": "unreal/hub-room.png",                "caption": "Shared – Hub/Connector Space",    "blurb": "Connector area linking sections and gating progress with keys." }
-  ],
-  "tech": ["Unreal Engine 5", "Blueprints", "Level Design", "Lighting"],
-  "links": [
-    { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/4225Comp" }
+  {
+    "header": "3D Group Puzzle Game",
+    "description": "UE5 puzzle/platformer made by a team of four with two main levels: a platformer-style puzzle course and a haunted mansion puzzle level.",
+    "longDescription": "This was a 3D Unreal Engine 5 game I built with three teammates. It features two main levels. Level 1 plays like a platformer with three rooms, each built around a unique mechanic—pressure plates that require moving boxes to open doors, a checkered-floor trap that resets you if you step on the wrong tiles, and key progression between rooms. Level 2 shifts into a horror vibe with a global fog layer. You spawn outside the house, explore the surrounding forest to find the front-door key, solve indoor puzzles, and use a basement parkour section to reach the first floor.",
+    "media": [
+      { "src": "unreal/level-blockout-1.png",        "caption": "Level 1 – Layout Blockout",       "blurb": "Overall blockout showing how the three puzzle rooms connect." },
+      { "src": "unreal/interior-bright-glow.png",    "caption": "Level 1 – Puzzle Room",           "blurb": "Room setup for the pressure-plate puzzle where boxes unlock the door." },
+      { "src": "unreal/interior-ceiling-light.png",  "caption": "Level 1 – Checkered Trap",        "blurb": "Lighting pass over the room with the checkered floor that resets mistakes." },
+      { "src": "unreal/platforming-silhouettes.png", "caption": "Level 1 – Platforming Readability","blurb": "Clear silhouettes and spacing tuned for jump timing between platforms." },
+      { "src": "unreal/parkour-room.png",            "caption": "Level 1 – Parkour Section",       "blurb": "Parkour section used to gain a key." },
+      { "src": "unreal/forest-overview.png",         "caption": "Level 2 – Forest Key Hunt",       "blurb": "Explore the forest around the house to find the key for the front door." },
+      { "src": "unreal/fog-plane-setup.png",         "caption": "Level 2 – Fog Layer",             "blurb": "Exponential height fog + atmosphere for the horror tone." },
+      { "src": "unreal/porch-approach.png",          "caption": "Level 2 – House Exterior",        "blurb": "Approach to the porch before entering the mansion." },
+      { "src": "unreal/doorway-silhouette.png",      "caption": "Level 2 – Entryway",              "blurb": "Strong rim light guiding you toward the objective inside." },
+      { "src": "unreal/hub-room.png",                "caption": "Shared – Hub/Connector Space",    "blurb": "Connector area linking sections and gating progress with keys." }
+    ],
+    "tech": ["Unreal Engine 5", "Blueprints", "Level Design", "Lighting"],
+    "links": [
+      { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/4225Comp" }
+      ]
+    },
+
+    {
+      "header": "Music Website",
+      "description": "A PHP, JavaScript, and MySQL website for browsing, rating, and reviewing albums.",
+      "longDescription": "This website allows users to register, log in, and explore a collection of music albums. Each album page shows detailed track listings, release info, and lets users leave ratings and reviews. A rankings page sorts albums by their average rating, while user profiles store favourite albums and personal details. The project was built with HTML, CSS, JavaScript, PHP, and MySQL, with a dark UI theme for a modern look.",    "media": [
+      { "src": "music/Website Home.jpg", "caption": "Home", "blurb": "The homepage featuring highlighted albums with quick access to their details." },
+      { "src": "music/Website-Login.jpg", "caption": "Register / Login", "blurb": "Secure registration and login system for users with form validation." },
+      { "src": "music/Website-Albums.jpg", "caption": "Album Details", "blurb": "Album information, track listing, and user review submission form." },
+      { "src": "music/Website-Ranking.jpg", "caption": "Rankings", "blurb": "Albums ranked by average score with detailed track listings visible." },
+      { "src": "music/Website-Profile.jpg", "caption": "Profile Page", "blurb": "User account details, favourite album selection, and profile management." }
+    ],
+    "tech": ["PHP", "JavaScript", "MySQL", "HTML", "CSS"],
+    "links": [
+      { "label": "Source Code", "href": "https://github.com/ewanhmack/4222Comp" }
+    ]
+    },
+    {
+    "header": "3D Photography Game",
+    "description": "UE5 blueprint project where you explore biomes and take in-game photos.",
+    "longDescription": "This is a 3D photography game I’m building in my free time with Unreal Engine 5 blueprints. I generated an island with multiple biomes (desert, mountains, forest/grassland) and the current goal is simply to explore and capture shots of the world. Controls: WASD to move, right mouse button toggles a camera viewfinder, and the mouse wheel adjusts zoom. Photos are saved to the Unreal project directory; a future feature will add an in-game portfolio to review your shots. The current zoom logic moves the camera ~50 units forward along the facing direction when the viewfinder is toggled; I plan to replace this with a spring-arm approach.",
+    "media": [
+      { "src": "photography/HighresScreenshot00007.png", "caption": "Desert Biome at Dusk", "blurb": "Golden-hour dunes—wide dynamic range with soft cloud cover." },
+      { "src": "photography/HighresScreenshot00015.png", "caption": "Mountain Peaks", "blurb": "Snow-capped ridges and hard rock detail under clear skies." },
+      { "src": "photography/HighresScreenshot00005.png", "caption": "Grassland Vista", "blurb": "Rolling greenery in the foreground framing distant mountains." },
+      { "src": "photography/Unreal.jpg", "caption": "Island Editor View", "blurb": "Procedurally composed island with distinct biomes laid out in UE5." },
+      { "src": "photography/blueprints.jpg", "caption": "Viewfinder Blueprint", "blurb": "Zoom toggle logic—RMB enters the viewfinder until toggled again." }
+    ],
+    "tech": ["Unreal Engine 5", "Blueprints", "Procedural Generation", "Landscape"],
+    "links": [
+      { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/photo-game" }
     ]
   },
-
   {
-    "header": "Music Website",
-    "description": "A PHP, JavaScript, and MySQL website for browsing, rating, and reviewing albums.",
-    "longDescription": "This website allows users to register, log in, and explore a collection of music albums. Each album page shows detailed track listings, release info, and lets users leave ratings and reviews. A rankings page sorts albums by their average rating, while user profiles store favourite albums and personal details. The project was built with HTML, CSS, JavaScript, PHP, and MySQL, with a dark UI theme for a modern look.",    "media": [
-    { "src": "music/Website Home.jpg", "caption": "Home", "blurb": "The homepage featuring highlighted albums with quick access to their details." },
-    { "src": "music/Website-Login.jpg", "caption": "Register / Login", "blurb": "Secure registration and login system for users with form validation." },
-    { "src": "music/Website-Albums.jpg", "caption": "Album Details", "blurb": "Album information, track listing, and user review submission form." },
-    { "src": "music/Website-Ranking.jpg", "caption": "Rankings", "blurb": "Albums ranked by average score with detailed track listings visible." },
-    { "src": "music/Website-Profile.jpg", "caption": "Profile Page", "blurb": "User account details, favourite album selection, and profile management." }
-  ],
-  "tech": ["PHP", "JavaScript", "MySQL", "HTML", "CSS"],
-  "links": [
-    { "label": "Source Code", "href": "https://github.com/your-repo" }
-  ]
+    "header": "3D Racing Track Project",
+    "description": "OpenGL/C++ project with a slot-car style track, dynamic day/night cycle, working car lights, and on-screen debug info.",
+    "longDescription": "This is a coursework project built in C++ using OpenGL, featuring a detailed slot-car style race track set against a mountainous backdrop. The environment includes a dynamic day/night cycle, with lighting that changes over time and a starry night sky. At night, the car’s headlights automatically turn on, realistically illuminating the track ahead. The car follows a fixed path around the track, similar to a Scalextric setup, and its speed is controlled using the arrow keys. On-screen debug information shows the car’s position, current speed, and direction, as well as real-time FPS and time-per-frame values to monitor performance. The scene features textured track sections, surrounding terrain, decorative trees, and distant mountain backdrops, all rendered smoothly at high frame rates.",
+    "media": [
+      { "src": "scalextric/track_closeup.jpg", "caption": "Track and Car Close-Up", "blurb": "Detailed slot-car track with realistic road texture and lighting." },
+      { "src": "scalextric/track_overview.jpg", "caption": "Track Overview", "blurb": "Full view of the winding race track with trees and mountains in the distance." },
+      { "src": "scalextric/night_sky.jpg", "caption": "Starry Night Backdrop", "blurb": "Dynamic skybox showing stars and moon as part of the day/night cycle." },
+      { "src": "scalextric/carlights.jpg", "caption": "Car Lights in Action", "blurb": "Headlights illuminate the track during night scenes." },
+      { "src": "scalextric/track_topdown.jpg", "caption": "Track Topdown", "blurb": "The track from a top down perspective showing the curves" }
+    ],
+    "tech": ["C++", "OpenGL", "3D Modelling", "Lighting", "Day/Night Cycle", "Dynamic Lighting", "Debug HUD"],
+    "links": [
+      { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/5208Comp" }
+    ]
   },
   {
-  "header": "3D Photography Game",
-  "description": "UE5 blueprint project where you explore biomes and take in-game photos.",
-  "longDescription": "This is a 3D photography game I’m building in my free time with Unreal Engine 5 blueprints. I generated an island with multiple biomes (desert, mountains, forest/grassland) and the current goal is simply to explore and capture shots of the world. Controls: WASD to move, right mouse button toggles a camera viewfinder, and the mouse wheel adjusts zoom. Photos are saved to the Unreal project directory; a future feature will add an in-game portfolio to review your shots. The current zoom logic moves the camera ~50 units forward along the facing direction when the viewfinder is toggled; I plan to replace this with a spring-arm approach.",
+  "header": "Angry Birds-Style Physics Game",
+  "description": "A C++ and SFML game where players launch birds at towers to knock down pigs using realistic physics.",
+  "longDescription": "This coursework project is a 2D Angry Birds–inspired game built with C++ and SFML, focusing on the implementation of data structures and optimised collision detection. Players control a slingshot to launch a sequence of birds, aiming to destroy all pigs positioned within block towers. Gameplay is driven by a queue system for managing bird order, a doubly linked list for tower structure, and a Bounding Volume Hierarchy (BVH) for efficient collision detection. The game features a scoring system based on hit targets, visual feedback for collisions, and smooth performance above 30 FPS. Victory is achieved by eliminating all pigs before running out of birds.",
   "media": [
-    { "src": "photography/HighresScreenshot00007.png", "caption": "Desert Biome at Dusk", "blurb": "Golden-hour dunes—wide dynamic range with soft cloud cover." },
-    { "src": "photography/HighresScreenshot00015.png", "caption": "Mountain Peaks", "blurb": "Snow-capped ridges and hard rock detail under clear skies." },
-    { "src": "photography/HighresScreenshot00005.png", "caption": "Grassland Vista", "blurb": "Rolling greenery in the foreground framing distant mountains." },
-    { "src": "photography/Unreal.jpg", "caption": "Island Editor View", "blurb": "Procedurally composed island with distinct biomes laid out in UE5." },
-    { "src": "photography/blueprints.jpg", "caption": "Viewfinder Blueprint", "blurb": "Zoom toggle logic—RMB enters the viewfinder until toggled again." }
+    { "src": "angrybirds/angrybirds_gameplay1.png", "caption": "Aiming system", "blurb": "Slingshot and tower setup ready for the first bird launch, along with a trajectory system." },
+    { "src": "angrybirds/angrybirds_gameplay2.png", "caption": "Bird in Flight", "blurb": "A launched bird mid-air, heading towards the tower of bricks." },
+    { "src": "angrybirds/angrybirds_gameplay3.png", "caption": "Tower Collision", "blurb": "Impact moment as a bird hits the bricks and pigs." },
+    { "src": "angrybirds/angrybirds_gameplay4.png", "caption": "Mid-Game Scene", "blurb": "Partially destroyed tower with remaining pigs in sight." },
+    { "src": "angrybirds/angrybirds_gameplay5.png", "caption": "Victory Screen", "blurb": "All pigs eliminated and level completed." }
   ],
-  "tech": ["Unreal Engine 5", "Blueprints", "Procedural Generation", "Landscape"],
+  "tech": ["C++", "SFML", "2D Physics", "Queue Data Structure", "Doubly Linked List", "Bounding Volume Hierarchy"],
   "links": [
-    { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/photo-game" }
+    { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/5207Comp" }
   ]
 }
+
+
 ]
