@@ -1,7 +1,7 @@
 import React from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import SiteFooter from "./components/SiteFooter"; // ← import
+import SiteFooter from "./components/SiteFooter";
 import Programming from "./pages/Programming";
 import Photography from "./pages/Photography";
 import Contact from "./pages/Contact";
