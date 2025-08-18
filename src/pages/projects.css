@@ -1,3 +1,10 @@
+/* Root + animation timing variables */
+:root {
+  --skeleton-base: #111827;
+  --skeleton-shine: #1f2937;
+  --modal-exit-ms: 220ms; /* keep in sync with JS EXIT_MS */
+}
+
 /* =========================================================
    Projects Grid + Cards (refined)
    ========================================================= */
@@ -114,7 +121,7 @@
 }
 
 /* =========================================================
-   Modal Gallery (new)
+   Modal Gallery
    ========================================================= */
 
 .modal-overlay {
@@ -202,8 +209,9 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 2; /* <--- keeps it above the image */
   border: 0;
-  background: rgba(255,255,255,0.12);
+  background: rgba(0,0,0,0.4); /* darker so it pops */
   color: white;
   width: 40px;
   height: 40px;
@@ -212,12 +220,15 @@
   font-size: 22px;
   display: grid;
   place-items: center;
+  transition: background .2s;
 }
+
 .modal-arrow:hover,
 .modal-arrow:focus-visible {
-  background: rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.6);
   outline: none;
 }
+
 .modal-arrow.left { left: 8px; }
 .modal-arrow.right { right: 8px; }
 
@@ -257,10 +268,14 @@
   height: 10px;
   border-radius: 999px;
   border: 0;
-  background: #c9c9c9;
+  background: var(--border, #334155); /* muted border shade */
   cursor: pointer;
+  transition: background .2s ease;
 }
-.modal-dots .dot.active { background: #ffffff; }
+
+.modal-dots .dot.active {
+  background: var(--brand, #4f46e5); /* highlight with brand colour */
+}
 
 .modal-project-desc {
   margin-top: 16px;
@@ -304,9 +319,125 @@
   .modal-arrow { transition: none; }
 }
 
-
 /* ===== Projects grid tiny-device tweaks (added by patch) ===== */
 @media (max-width: 480px) {
   .project-body { padding: 12px; }
   .project-title { font-size: 1rem; }
+}
+
+/* =========================================================
+   NEW: Loading skeletons (shimmer)
+   ========================================================= */
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--skeleton-base);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  animation: skeleton-shimmer 1.1s linear infinite;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.06) 50%,
+    rgba(255,255,255,0) 100%
+  );
+}
+@keyframes skeleton-shimmer {
+  100% { transform: translateX(100%); }
+}
+
+.skeleton-card .project-media { background: transparent; }
+.skeleton-media {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 0;
+}
+
+.skeleton-line {
+  height: 10px;
+  border-radius: 6px;
+  margin: 8px 0;
+  background: var(--skeleton-base);
+}
+.skeleton-title { height: 14px; width: 70%; }
+.skeleton-line.short { width: 40%; }
+
+/* =========================================================
+   NEW: Staggered card reveal (when real content mounts)
+   ========================================================= */
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.projects-grid .project-card {
+  opacity: 0;
+  animation: card-in .38s ease forwards;
+}
+
+/* simple stagger using nth-child */
+.projects-grid .project-card:nth-child(1) { animation-delay: 30ms; }
+.projects-grid .project-card:nth-child(2) { animation-delay: 60ms; }
+.projects-grid .project-card:nth-child(3) { animation-delay: 90ms; }
+.projects-grid .project-card:nth-child(4) { animation-delay: 120ms; }
+.projects-grid .project-card:nth-child(5) { animation-delay: 150ms; }
+.projects-grid .project-card:nth-child(6) { animation-delay: 180ms; }
+.projects-grid .project-card:nth-child(7) { animation-delay: 210ms; }
+.projects-grid .project-card:nth-child(8) { animation-delay: 240ms; }
+.projects-grid .project-card:nth-child(9) { animation-delay: 270ms; }
+.projects-grid .project-card:nth-child(10){ animation-delay: 300ms; }
+.projects-grid .project-card:nth-child(11){ animation-delay: 330ms; }
+.projects-grid .project-card:nth-child(12){ animation-delay: 360ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after { animation: none; }
+  .projects-grid .project-card { animation: none; opacity: 1; }
+}
+
+/* =========================================================
+   NEW: Modal open/close animations
+   ========================================================= */
+
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes overlay-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes dialog-in {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes dialog-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(6px) scale(.985); }
+}
+
+/* hook onto data-state from JS */
+.modal-overlay[data-state="open"]   { animation: overlay-in 160ms ease forwards; }
+.modal-overlay[data-state="closing"]{ animation: overlay-out var(--modal-exit-ms) ease forwards; }
+
+.modal[data-state="open"]    { animation: dialog-in 200ms cubic-bezier(.2,.8,.2,1) forwards; }
+.modal[data-state="closing"] { animation: dialog-out var(--modal-exit-ms) cubic-bezier(.2,.8,.2,1) forwards; }
+
+/* =========================================================
+   NEW (optional): slide cross-fade
+   ========================================================= */
+
+@keyframes fade-swap-in {
+  from { opacity: 0; transform: scale(0.995); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.fade-swap {
+  animation: fade-swap-in 180ms ease forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-swap { animation: none; }
 }

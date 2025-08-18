@@ -1,3 +1,6 @@
+/* =========================================================
+   Base (your existing styles)
+   ========================================================= */
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -11,35 +14,21 @@
   will-change: filter;
   transition: filter 300ms;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+.logo:hover { filter: drop-shadow(0 0 2em #646cffaa); }
+.logo.react:hover { filter: drop-shadow(0 0 2em #61dafbaa); }
 
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
-
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
+.card { padding: 2em; }
+.read-the-docs { color: #888; }
 
 /* homepage cards */
 .thumb {
@@ -71,7 +60,6 @@
   object-fit: cover;
 }
 
-
 /* ===== Mobile/site overrides (added by patch) ===== */
 #root {
   max-width: none;
@@ -79,7 +67,180 @@
   padding: 0;
   text-align: initial;
 }
-
 @media (max-width: 600px) {
   .card { padding: 1rem; }
+}
+
+/* =========================================================
+   NEW: Page + Card Entrance Animations (matches Programming page)
+   ========================================================= */
+
+/* 1) Subtle page fade on first paint */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* animate the main content wrapper (tweak selector to your layout) */
+main, .App, #root > *:first-child {
+  animation: page-in 280ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+/* 2) Staggered card reveal */
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* Any .card fades in; stagger with nth-child delays */
+.card {
+  opacity: 0;
+  animation: card-in .38s ease forwards;
+}
+.card:nth-of-type(1)  { animation-delay: 30ms; }
+.card:nth-of-type(2)  { animation-delay: 60ms; }
+.card:nth-of-type(3)  { animation-delay: 90ms; }
+.card:nth-of-type(4)  { animation-delay: 120ms; }
+.card:nth-of-type(5)  { animation-delay: 150ms; }
+.card:nth-of-type(6)  { animation-delay: 180ms; }
+.card:nth-of-type(7)  { animation-delay: 210ms; }
+.card:nth-of-type(8)  { animation-delay: 240ms; }
+.card:nth-of-type(9)  { animation-delay: 270ms; }
+.card:nth-of-type(10) { animation-delay: 300ms; }
+
+/* 3) Thumbnail gentle zoom on hover (consistent with projects grid) */
+.card .thumb img {
+  transform: translateZ(0);
+  transition: transform .25s ease, opacity .25s ease;
+}
+.card:hover .thumb img,
+.card:focus-within .thumb img {
+  transform: scale(1.02);
+}
+
+/* 4) Optional: image appear animation for thumbs (nice with lazy loading) */
+@keyframes img-in {
+  from { opacity: 0; transform: scale(.995); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.card .thumb img { animation: img-in 180ms ease both; }
+
+/* Respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+  main, .App, #root > *:first-child,
+  .card, .card .thumb img {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+
+/* =========================================================
+   Home page animations (match Programming page feel)
+   ========================================================= */
+
+/* Page fade-in */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.home {
+  animation: page-in 280ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+/* Hero stagger (eyebrow, title, sub, ctas) */
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(8px); filter: blur(2px); }
+  to   { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.home .hero-text > * {
+  opacity: 0;
+  animation: hero-in .42s ease forwards;
+}
+.home .hero-text > *:nth-child(1) { animation-delay: 40ms; }
+.home .hero-text > *:nth-child(2) { animation-delay: 90ms; }
+.home .hero-text > *:nth-child(3) { animation-delay: 140ms; }
+.home .hero-text > *:nth-child(4) { animation-delay: 190ms; }
+
+/* Hero side card pop */
+@keyframes card-pop-in {
+  from { opacity: 0; transform: translateY(10px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.home .hero-card {
+  opacity: 0;
+  animation: card-pop-in .42s cubic-bezier(.2,.8,.2,1) forwards;
+  animation-delay: 160ms;
+}
+
+/* Section header fade */
+@keyframes section-head-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.home .section-head {
+  opacity: 0;
+  animation: section-head-in .34s ease forwards;
+  animation-delay: 120ms;
+}
+
+/* Staggered cards in the Highlights grid */
+@keyframes grid-card-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.home .grid.three .card {
+  opacity: 0;
+  animation: grid-card-in .38s ease forwards;
+}
+.home .grid.three .card:nth-of-type(1) { animation-delay: 60ms; }
+.home .grid.three .card:nth-of-type(2) { animation-delay: 120ms; }
+.home .grid.three .card:nth-of-type(3) { animation-delay: 180ms; }
+
+/* Gentle image appear on thumbs (pairs nicely with loading="lazy") */
+@keyframes img-in {
+  from { opacity: 0; transform: scale(.995); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.home .thumb img {
+  animation: img-in 180ms ease both;
+  transform: translateZ(0);
+  transition: transform .25s ease, opacity .25s ease;
+}
+.home .card:hover .thumb img,
+.home .card:focus-within .thumb img {
+  transform: scale(1.02);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .home,
+  .home .hero-text > *,
+  .home .hero-card,
+  .home .section-head,
+  .home .grid.three .card,
+  .home .thumb img {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+/* Space above the global footer */
+.footer {
+  margin-top: clamp(16px, 4vw, 40px);
+}
+
+
+/* Layout shell to push footer down on short pages */
+.app-shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-offset {
+  flex: 1; /* page content grows and pushes footer to bottom */
 }

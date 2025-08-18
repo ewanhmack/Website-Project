@@ -160,3 +160,11 @@
 @media (prefers-reduced-motion: reduce) {
   #selected-work .card { transition: none !important; }
 }
+
+/* Add side margin/padding on the contact page */
+.page-container.contact {
+  padding-left: clamp(1rem, 4vw, 2rem);
+  padding-right: clamp(1rem, 4vw, 2rem);
+}
+
+

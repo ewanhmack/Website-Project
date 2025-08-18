@@ -193,3 +193,21 @@ html::-webkit-scrollbar {
   padding-left: max(var(--space, 16px), env(safe-area-inset-left));
   padding-right: max(var(--space, 16px), env(safe-area-inset-right));
 }
+
+/* ===== Navbar: small-screen tweaks ===== */
+@media (max-width: 640px) {
+  /* hide "Ewan MacKerracher" brand on mobile */
+  .brand {
+    display: none !important;
+  }
+
+  /* center the nav since the brand is gone (optional but looks tidy) */
+  .navbar-inner {
+    justify-content: center;
+  }
+
+  /* tighter spacing between links */
+  .navbar-links {
+    gap: 10px; /* was 28px */
+  }
+}

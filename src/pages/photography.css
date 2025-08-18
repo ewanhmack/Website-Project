@@ -7,6 +7,16 @@
   --media-edge: clamp(18px, 2.2vw, 24px);
 }
 
+/* ---------- Page fade-in ---------- */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* add class "photography" to the page wrapper to target this */
+.photography {
+  animation: page-in 280ms cubic-bezier(.2,.8,.2,1) both;
+}
+
 /* ---------- Header ---------- */
 .photos-header {
   width: min(100%, 1440px);
@@ -26,12 +36,11 @@
 
 /* ---------- Toggle switch (Carousels ⇄ Album Grid) ---------- */
 .view-switch {
-  /* thinner track + pill sized like your screenshot */
   --w: clamp(220px, 32vw, 270px);
   --h: 34px;
   --pad: 3px;
-  --thumb-w: 110px;      /* purple pill width */
-  --thumb-h: 28px;       /* purple pill height */
+  --thumb-w: 110px;
+  --thumb-h: 28px;
   --dur: .28s;
   --ease: cubic-bezier(.2,.7,.2,1);
 
@@ -54,11 +63,11 @@
 }
 .view-switch .thumb {
   position: absolute;
-  z-index: 0; /* behind labels */
+  z-index: 0;
   width: var(--thumb-w);
   height: var(--thumb-h);
   top: 50%;
-  left: 24%; /* center of left half (tuned) */
+  left: 24%;
   transform: translate(-50%, -50%);
   border-radius: 999px;
   background: color-mix(in srgb, var(--brand, #6366f1) 75%, #ffffff 10%);
@@ -94,14 +103,25 @@
 }
 
 /* ---------- View switch transition (content panels) ---------- */
-.view-stage { position: relative; transition: height .32s cubic-bezier(.2,.7,.2,1); will-change: height; }
+/* LIMIT SCROLL during view transitions */
+.view-stage {
+  position: relative;
+  transition: height .32s cubic-bezier(.2,.7,.2,1);
+  will-change: height;
+  overflow: hidden; /* KEY: prevents inactive panel from adding scroll */
+}
 .view-panel {
   position: absolute; inset: 0;
   opacity: 0; transform: translateY(8px) scale(.985);
   pointer-events: none;
   transition: opacity .28s cubic-bezier(.2,.7,.2,1), transform .28s cubic-bezier(.2,.7,.2,1);
 }
-.view-panel.is-active { position: relative; opacity: 1; transform: none; pointer-events: auto; }
+.view-panel.is-active {
+  position: relative;
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
 
 /* ==========================================
    CAROUSELS — centered, responsive width
@@ -120,10 +140,15 @@
 }
 .carousel-title { margin: 0; font-size: clamp(1rem, 2vw, 1.2rem); }
 
-/* dots */
+/* dots (THEMED) */
 .dots.compact { display: flex; gap: 6px; }
-.dot { height: 6px; width: 6px; border-radius: 999px; background: #455066; border: 0; cursor: pointer; }
-.dot.active { background: var(--text, #e5e7eb); }
+.dot {
+  height: 6px; width: 6px; border-radius: 999px; border: 0; cursor: pointer;
+  background: var(--border, #455066);
+  transition: background .2s ease, transform .2s ease;
+}
+.dot:hover { transform: scale(1.15); }
+.dot.active { background: var(--brand, #4f46e5); }
 
 /* shell */
 .carousel-shell {
@@ -133,7 +158,7 @@
   gap: clamp(10px, 2vw, 18px);
   justify-content: center;
 }
-/* arrows */
+/* arrows (bold + on top) */
 .arrow {
   height: 30px; width: 30px; display: grid; place-items: center;
   border-radius: 999px;
@@ -141,9 +166,14 @@
   border: 1px solid var(--border, #1f2937);
   color: var(--text, #e5e7eb);
   cursor: pointer;
-  transition: transform .08s ease, border-color .2s ease;
+  transition: transform .08s ease, border-color .2s ease, background .2s ease;
+  z-index: 2;
 }
-.arrow:hover { transform: translateY(-1px); border-color: color-mix(in srgb, var(--brand, #4f46e5) 25%, var(--border, #1f2937)); }
+.arrow:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--brand, #4f46e5) 25%, var(--border, #1f2937));
+  background: color-mix(in srgb, var(--panel, #0f172a) 85%, transparent);
+}
 
 /* viewport/track */
 .viewport {
@@ -163,8 +193,18 @@
 .tiles { display: grid; grid-auto-rows: 100%; gap: clamp(6px, 1vw, 10px); height: 100%; }
 .tiles-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .tiles-1 { grid-template-columns: 1fr; }
-.tile { margin: 0; height: 100%; border-radius: 8px; overflow: hidden; border: 1px solid var(--border, #1f2937); background: #0d1325; }
-.tile img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.tile {
+  margin: 0; height: 100%; border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--border, #1f2937); background: #0d1325;
+}
+.tile img {
+  width: 100%; height: 100%; display: block; object-fit: cover;
+  opacity: 0; transform: scale(.998);
+  animation: tile-in 200ms ease forwards;
+}
+@keyframes tile-in {
+  to { opacity: 1; transform: scale(1); }
+}
 
 @media (max-width: 720px) { .tiles-3 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .tiles-3 { grid-template-columns: 1fr; } }
@@ -186,7 +226,7 @@
 @media (min-width: 1400px) { .full-bleed { column-count: 4; } }
 @media (min-width: 1800px) { .full-bleed { column-count: 5; } }
 
-.album-grid.stylised { padding: 0 var(--media-edge); } /* for non full-bleed fallbacks */
+.album-grid.stylised { padding: 0 var(--media-edge); }
 .album-item {
   position: relative;
   break-inside: avoid;
@@ -206,6 +246,13 @@
 
 /* Misc */
 .page-container { overflow-x: visible; }
+
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
+  .photography { animation: none !important; }
   .track, .arrow, .view-stage, .view-panel { transition: none !important; }
+  .tile img { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .album-item img { transition: none !important; opacity: 1 !important; transform: none !important; }
 }
+
+

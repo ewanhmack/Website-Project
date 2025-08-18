@@ -1,0 +1,77 @@
+/* =========================
+   CONTACT — animations + polish
+   ========================= */
+
+/* Page fade-in */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* add "contact" class to the page wrapper */
+.contact {
+  animation: page-in 280ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+/* Card / panel entrance */
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Stagger the three contact cards */
+.contact-grid .contact-card {
+  opacity: 0;
+  animation: card-in .36s ease forwards;
+}
+.contact-grid .contact-card:nth-of-type(1) { animation-delay: 40ms; }
+.contact-grid .contact-card:nth-of-type(2) { animation-delay: 90ms; }
+.contact-grid .contact-card:nth-of-type(3) { animation-delay: 140ms; }
+
+/* Panels after cards */
+.contact-form.panel,
+.cv-panel {
+  opacity: 0;
+  animation: card-in .36s ease forwards;
+}
+.contact-form.panel { animation-delay: 180ms; }
+.cv-panel           { animation-delay: 220ms; }
+
+/* Hover polish */
+.contact-card { position: relative; }
+.contact-card .contact-arrow {
+  transition: transform .2s ease, opacity .2s ease;
+}
+.contact-card:hover .contact-arrow { transform: translateX(2px); opacity: 1; }
+
+.contact-icon {
+  transition: transform .2s ease, background .2s ease, border-color .2s ease;
+}
+.contact-card:hover .contact-icon {
+  transform: scale(1.03);
+  background: color-mix(in srgb, var(--brand, #4f46e5) 18%, #0d1528);
+  border-color: color-mix(in srgb, var(--brand, #4f46e5) 25%, var(--border, #1f2937));
+}
+
+/* Inputs focus */
+.field input, .field textarea {
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.field input:focus, .field textarea:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--brand, #4f46e5) 30%, var(--border, #1f2937));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand, #4f46e5) 18%, transparent);
+  background: #0e1831;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .contact,
+  .contact-grid .contact-card,
+  .contact-form.panel,
+  .cv-panel {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
