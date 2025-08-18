@@ -17,9 +17,8 @@ export default function Photography() {
   const [data, setData] = useState({ Portraits: [], Landscapes: [] });
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
-  const [view, setView] = useState("carousel"); // "carousel" | "grid"
+  const [view, setView] = useState("carousel");
 
-  // fetch data
   useEffect(() => {
     let alive = true;
     fetch("data/photography.json")
@@ -33,7 +32,6 @@ export default function Photography() {
     return () => (alive = false);
   }, []);
 
-  // Flat, shuffled list for album grid
   const flat = useMemo(() => {
     const out = [];
     Object.entries(data || {}).forEach(([category, arr]) =>
@@ -42,63 +40,50 @@ export default function Photography() {
     return shuffle(out);
   }, [data]);
 
-  /* ========= Transition stage sizing (so page doesn't jump) ========= */
-  const stageRef = useRef(null);
+  // ==== transition stage sizing (limit scroll) ====
   const carouselRef = useRef(null);
   const gridRef = useRef(null);
   const [stageH, setStageH] = useState("auto");
-
   const measureActive = useCallback(() => {
     const el = view === "carousel" ? carouselRef.current : gridRef.current;
     if (el) setStageH(el.offsetHeight + "px");
   }, [view]);
 
-  // measure on mount + when view changes (double RAF avoids race with CSS class flip)
   useLayoutEffect(() => {
     if (loaded && !error) {
-      requestAnimationFrame(() => {
-        requestAnimationFrame(measureActive);
-      });
+      requestAnimationFrame(() => requestAnimationFrame(measureActive));
     }
   }, [view, loaded, error, measureActive]);
 
-  // re-measure on resize
   useEffect(() => {
     const onR = () => requestAnimationFrame(measureActive);
     window.addEventListener("resize", onR);
     return () => window.removeEventListener("resize", onR);
   }, [measureActive]);
 
-  // Progressive grid: fade tiles in as they load (then re-measure)
+  // progressive grid load → re-measure
   const [loadedMap, setLoadedMap] = useState({});
-  const markLoaded = useCallback(
-    (id) => {
-      setLoadedMap((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
-      requestAnimationFrame(measureActive);
-    },
-    [measureActive]
-  );
+  const markLoaded = useCallback((id) => {
+    setLoadedMap((prev) => (prev[id] ? prev : { ...prev, [id]: true }));
+    requestAnimationFrame(measureActive);
+  }, [measureActive]);
 
-  // When carousel images load, also re-measure
   const onCarouselMediaLoad = useCallback(() => {
     requestAnimationFrame(measureActive);
   }, [measureActive]);
 
   return (
     <div className="page-container photography">
-      {/* Header */}
       <header className="photos-header">
         <div className="photos-header-row">
           <div>
             <h2>Photography</h2>
             <p className="muted">Browse by carousel or view the complete album grid.</p>
           </div>
-
           <ViewToggle view={view} setView={setView} />
         </div>
       </header>
 
-      {/* Status */}
       {!loaded && (
         <div className="muted" style={{ marginTop: 24 }} aria-live="polite">
           Loading photos…
@@ -110,9 +95,8 @@ export default function Photography() {
         </div>
       )}
 
-      {/* Views with animated transition */}
       {loaded && !error && (
-        <div className="view-stage" ref={stageRef} style={{ height: stageH }}>
+        <div className="view-stage" style={{ height: stageH }}>
           {/* CAROUSEL PANEL */}
           <div
             ref={carouselRef}
@@ -120,16 +104,21 @@ export default function Photography() {
             aria-hidden={view !== "carousel"}
           >
             <div className="stack">
+              {/* Portraits: 3-up desktop → 1-up on small screens */}
               <Carousel
                 title="Portraits"
                 items={data.Portraits || []}
                 perView={3}
+                perViewSm={1}
+                variant="portrait"
                 onMediaLoad={onCarouselMediaLoad}
               />
+              {/* Landscapes: keep 1-up but smaller height on small screens via CSS */}
               <Carousel
                 title="Landscapes"
                 items={data.Landscapes || []}
                 perView={1}
+                variant="landscape"
                 onMediaLoad={onCarouselMediaLoad}
               />
             </div>

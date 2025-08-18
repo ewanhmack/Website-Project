@@ -12,7 +12,6 @@
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-/* add class "photography" to the page wrapper to target this */
 .photography {
   animation: page-in 280ms cubic-bezier(.2,.8,.2,1) both;
 }
@@ -43,7 +42,6 @@
   --thumb-h: 28px;
   --dur: .28s;
   --ease: cubic-bezier(.2,.7,.2,1);
-
   appearance: none;
   background: none;
   border: 0;
@@ -75,7 +73,6 @@
   transition: left var(--dur) var(--ease), transform 120ms ease;
 }
 .view-switch.is-on .thumb { left: 76%; }
-
 .view-switch .label {
   position: absolute;
   z-index: 1;
@@ -92,23 +89,21 @@
 .view-switch .label.on  { left: 76%; }
 .view-switch:not(.is-on) .label.off,
 .view-switch.is-on       .label.on { color: #f1f5f9; }
-
 .view-switch:focus-visible .track { outline: 2px solid var(--brand, #6366f1); outline-offset: 2px; }
 .view-switch:hover .thumb  { transform: translate(-50%, -50%) scale(1.03); }
 .view-switch:active .thumb { transform: translate(-50%, -50%) scale(.98); }
 
 @media (max-width: 480px) {
-  .view-switch      { --w: 200px; --thumb-w: 100px; --thumb-h: 26px; }
+  .view-switch { --w: 200px; --thumb-w: 100px; --thumb-h: 26px; }
   .view-switch .label { font-size: .88rem; }
 }
 
 /* ---------- View switch transition (content panels) ---------- */
-/* LIMIT SCROLL during view transitions */
 .view-stage {
   position: relative;
   transition: height .32s cubic-bezier(.2,.7,.2,1);
   will-change: height;
-  overflow: hidden; /* KEY: prevents inactive panel from adding scroll */
+  overflow: hidden; /* prevents inactive panel from adding scroll */
 }
 .view-panel {
   position: absolute; inset: 0;
@@ -132,7 +127,7 @@
 .carousel { --carousel-height: clamp(360px, 60vh, 650px); margin: 0 auto; }
 .stack { display: grid; gap: clamp(16px, 2vw, 22px); justify-content: center; }
 
-/* section header (e.g., “Portraits”) aligned with images */
+/* section header */
 .carousel-head-row {
   margin: 6px auto 20px;
   padding-inline: var(--media-edge);
@@ -140,7 +135,7 @@
 }
 .carousel-title { margin: 0; font-size: clamp(1rem, 2vw, 1.2rem); }
 
-/* dots (THEMED) */
+/* dots (theme) */
 .dots.compact { display: flex; gap: 6px; }
 .dot {
   height: 6px; width: 6px; border-radius: 999px; border: 0; cursor: pointer;
@@ -158,7 +153,8 @@
   gap: clamp(10px, 2vw, 18px);
   justify-content: center;
 }
-/* arrows (bold + on top) */
+
+/* arrows */
 .arrow {
   height: 30px; width: 30px; display: grid; place-items: center;
   border-radius: 999px;
@@ -202,9 +198,7 @@
   opacity: 0; transform: scale(.998);
   animation: tile-in 200ms ease forwards;
 }
-@keyframes tile-in {
-  to { opacity: 1; transform: scale(1); }
-}
+@keyframes tile-in { to { opacity: 1; transform: scale(1); } }
 
 @media (max-width: 720px) { .tiles-3 { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 520px) { .tiles-3 { grid-template-columns: 1fr; } }
@@ -255,4 +249,89 @@
   .album-item img { transition: none !important; opacity: 1 !important; transform: none !important; }
 }
 
+/* ==========================================
+   RESPONSIVE SIZING (no duplicates)
+   ========================================== */
 
+/* Landscape baseline height; smaller at narrower breakpoints */
+.carousel--landscape { 
+  --carousel-height: clamp(240px, 45vh, 520px);
+}
+@media (max-width: 700px) {
+  .carousel--landscape { --carousel-height: clamp(160px, 34vh, 320px); }
+}
+@media (max-width: 420px) {
+  .carousel--landscape { --carousel-height: 140px; }
+  .carousel--portrait  { --carousel-height: 450px; }
+}
+
+/* Slightly tighter gaps on very small screens */
+@media (max-width: 480px) {
+  .tiles { gap: 6px; }
+}
+
+/* Small screens: hide dots, overlay arrows, and narrow the viewport widths */
+@media (max-width: 700px) {
+  /* Hide dots */
+  .carousel-head-row .dots,
+  .dots { display: none !important; }
+
+  /* Overlay arrows on the viewport */
+  .carousel-shell {
+    grid-template-columns: 1fr !important; /* viewport only */
+    position: relative;
+  }
+  .carousel-shell > .viewport {
+    grid-area: 1 / 1;
+    margin-inline: auto;
+  }
+  .carousel-shell > .arrow {
+    grid-area: 1 / 1;
+    align-self: center;
+    z-index: 3;
+    width: 28px;
+    height: 28px;
+    background: rgba(0,0,0,.35);
+    border-color: rgba(255,255,255,.14);
+  }
+  .carousel-shell > .arrow.left  { justify-self: start; margin-left: 6px; }
+  .carousel-shell > .arrow.right { justify-self: end;   margin-right: 6px; }
+  .carousel-shell > .arrow:hover,
+  .carousel-shell > .arrow:focus-visible { background: rgba(0,0,0,.5); }
+
+  /* Narrow the viewports */
+  .carousel--portrait  .viewport { width: min(22vw, 120px); }
+.carousel--landscape .viewport {
+    width: min(84vw, 360px);
+    height: calc(min(84vw, 360px) * 9 / 16); /* 16:9 from width */
+  }
+  /* Center single-tile slides inside the narrower viewport */
+  .tiles-1 { justify-items: center; }
+  .tiles-1 .tile { width: 100%; }
+}
+
+@media (max-width: 420px) {
+  .carousel--portrait  .viewport { width: min(66vw, 360px); }
+  .carousel--landscape .viewport {
+    width: min(88vw, 320px);
+    height: calc(min(88vw, 320px) * 9 / 16); /* 16:9 from width */
+  }
+}
+
+@media (max-width: 700px) {
+  .carousel--landscape .tile img { object-fit: contain; background: #0d1325; }
+}
+
+/* Center carousel titles on small screens */
+@media (max-width: 700px) {
+  .carousel-head-row {
+    justify-content: center;     /* center the row */
+    text-align: center;          /* center text inside */
+    gap: 6px;
+    margin-left: 0 !important;   /* override the inline margin-left from JSX */
+  }
+  .carousel-head-row .carousel-title {
+    text-align: center;
+    width: 100%;                 /* ensure it spans so centering works cleanly */
+  }
+}
