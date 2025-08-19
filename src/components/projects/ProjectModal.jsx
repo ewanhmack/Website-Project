@@ -123,9 +123,12 @@ export default function ProjectModal({
           {project.longDescription && (
             <div className="modal-project-desc">
               <h4>About this project</h4>
-              <p>{project.longDescription}</p>
+              {project.longDescription.split("\n\n").map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
             </div>
           )}
+
 
           {(project.tech?.length || project.links?.length) && (
             <div className="modal-meta">
