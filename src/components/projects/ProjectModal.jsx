@@ -1,4 +1,6 @@
+// src/components/projects/ProjectModal.jsx
 import React, { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { MEDIA_BASE, getMediaArray } from "../../utils/projects";
 
 export default function ProjectModal({
@@ -15,40 +17,53 @@ export default function ProjectModal({
   const total = Math.max(1, media.length);
   const dialogRef = useRef(null);
 
-  // Simple focus trap
+  // --- Simple focus trap + prevent scroll on focus (stops jump)
   useEffect(() => {
     const el = dialogRef.current;
     if (!el) return;
+
     const focusable = el.querySelectorAll(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
 
+    // focus first element WITHOUT scrolling the page
+    if (first && typeof first.focus === "function") {
+      try { first.focus({ preventScroll: true }); } catch { first.focus?.(); }
+    }
+
     const handle = (e) => {
       if (e.key !== "Tab") return;
       if (e.shiftKey && document.activeElement === first) {
         e.preventDefault();
-        last?.focus();
+        try { last?.focus({ preventScroll: true }); } catch { last?.focus(); }
       } else if (!e.shiftKey && document.activeElement === last) {
         e.preventDefault();
-        first?.focus();
+        try { first?.focus({ preventScroll: true }); } catch { first?.focus(); }
       }
     };
 
     el.addEventListener("keydown", handle);
-    first?.focus();
     return () => el.removeEventListener("keydown", handle);
   }, []);
 
-  return (
+  // --- Close on overlay click (but not on modal content click)
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) onClose();
+  };
+
+  // --- Helpers
+  const isVideo = (src = "") => /\.mp4$|\.webm$|\.ogg$/i.test(src);
+  const srcUrl = current?.src ? MEDIA_BASE + current.src : null;
+
+  // --- Overlay with ORIGINAL class names so your CSS works as before
+  const overlay = (
     <div
       className="modal-overlay"
       data-state={isClosing ? "closing" : "open"}
       role="presentation"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
+      onClick={handleOverlayClick}
     >
       <div
         className="modal"
@@ -62,7 +77,7 @@ export default function ProjectModal({
           <h3 id="project-modal-title" className="modal-title">
             {project.header || "Project"}
           </h3>
-          <button className="modal-close" onClick={onClose} aria-label="Close">
+          <button className="modal-close" onClick={onClose} aria-label="Close" type="button">
             ×
           </button>
         </header>
@@ -71,24 +86,42 @@ export default function ProjectModal({
           {media.length > 0 ? (
             <figure className="modal-figure">
               <div className="modal-media-shell">
-                <button className="modal-arrow left" onClick={onPrev} aria-label="Previous">
-                  ‹
-                </button>
+                {/* arrows (old classes) */}
+                {total > 1 && (
+                  <button className="modal-arrow left" onClick={onPrev} aria-label="Previous" type="button">
+                    ‹
+                  </button>
+                )}
 
-                {/* Cross-fade per slide */}
-                <img
-                  key={current.src || slide}
-                  className="modal-media fade-swap"
-                  src={MEDIA_BASE + (current.src || "")}
-                  alt={current.caption ? `Slide: ${current.caption}` : "Project media"}
-                  loading="eager"
-                />
+                {/* media — image (as before) or video (optional add) */}
+                {srcUrl && !isVideo(srcUrl) && (
+                  <img
+                    key={current.src || slide}
+                    className="modal-media fade-swap"
+                    src={srcUrl}
+                    alt={current.caption ? `Slide: ${current.caption}` : "Project media"}
+                    loading="eager"
+                  />
+                )}
+                {srcUrl && isVideo(srcUrl) && (
+                  <video
+                    key={current.src || slide}
+                    className="modal-media fade-swap"
+                    src={srcUrl}
+                    controls
+                    playsInline
+                    preload="metadata"
+                  />
+                )}
 
-                <button className="modal-arrow right" onClick={onNext} aria-label="Next">
-                  ›
-                </button>
+                {total > 1 && (
+                  <button className="modal-arrow right" onClick={onNext} aria-label="Next" type="button">
+                    ›
+                  </button>
+                )}
               </div>
 
+              {/* caption/top row exactly like old */}
               <figcaption className="modal-caption">
                 <div className="modal-caption-top">
                   <span className="modal-slide-idx" aria-live="polite">
@@ -101,6 +134,7 @@ export default function ProjectModal({
                 {current.blurb && <p className="modal-caption-text">{current.blurb}</p>}
               </figcaption>
 
+              {/* dots (old structure & classes) */}
               {media.length > 1 && (
                 <div className="modal-dots" role="tablist" aria-label="Slides">
                   {media.map((_, i) => (
@@ -111,6 +145,7 @@ export default function ProjectModal({
                       className={`dot ${i === slide ? "active" : ""}`}
                       onClick={() => setSlide(i)}
                       aria-label={`Go to slide ${i + 1}`}
+                      type="button"
                     />
                   ))}
                 </div>
@@ -120,6 +155,7 @@ export default function ProjectModal({
             <p className="muted">No media available for this project.</p>
           )}
 
+          {/* project description (old block & class) */}
           {project.longDescription && (
             <div className="modal-project-desc">
               <h4>About this project</h4>
@@ -129,7 +165,7 @@ export default function ProjectModal({
             </div>
           )}
 
-
+          {/* tech + links (unchanged classes) */}
           {(project.tech?.length || project.links?.length) && (
             <div className="modal-meta">
               {project.tech?.length ? (
@@ -165,4 +201,8 @@ export default function ProjectModal({
       </div>
     </div>
   );
+
+  // Mount to #modal-root if present, else <body>
+  const mountNode = document.getElementById("modal-root") || document.body;
+  return createPortal(overlay, mountNode);
 }
