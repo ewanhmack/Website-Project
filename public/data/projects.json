@@ -89,9 +89,9 @@
     "description": "An interactive LEGO Barad-dûr build with a camera-driven, motorised Eye that tracks nearby people in real time.",
     "longDescription": "STILL A WIP\n\nThis physical computing project embeds a camera into a LEGO Barad-dûr model and drives the Eye at the top to follow anyone the camera can see. A computer-vision pipeline (face/person detection with object tracking) estimates target position, while a PID control loop commands a motor/servo mechanism to smoothly pan/tilt the Eye. The system prioritises stable, non-jittery motion and runs continuously, re-acquiring targets if they leave frame. Safety and reliability features include motion limits to protect the LEGO structure, idle fallback when no person is detected, and a calibration routine to centre the Eye on boot.",
     "media": [
+      { "src": "baraddur/BaradDurApi.png", "caption": "Control Tuning", "blurb": "Built in API user interface to allow controls externally" }, 
       { "src": "baraddur/eye_tracker_setup.png", "caption": "Build Overview", "blurb": "Camera and motor assembly integrated into the LEGO Barad-dûr tower." },
       { "src": "baraddur/eye_tracker_tracking1.png", "caption": "Live Tracking", "blurb": "The Eye rotates to follow a person moving across the room." },
-      { "src": "baraddur/eye_tracker_pid.png", "caption": "Control Tuning", "blurb": "PID tuning for smooth, responsive motion without overshoot." },
       { "src": "baraddur/eye_tracker_internals.png", "caption": "Electronics", "blurb": "Controller, motor driver, and cable management inside the tower." },
       { "src": "baraddur/eye_tracker_demo.png", "caption": "Demo Mode", "blurb": "Idle scanning pattern when no person is detected." }
     ],
@@ -106,7 +106,7 @@
     ],
     "links": [
       { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/Barad-Dur" },
-      { "label": "Demo Video", "href": "#" }
+      { "label": "Demo Video", "href": "https://youtu.be/mD3r3ENEHBs" }
     ]
   }, 
   {
