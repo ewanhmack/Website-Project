@@ -87,13 +87,12 @@
   {
     "header": "Barad-dûr Eye Tracker",
     "description": "An interactive LEGO Barad-dûr build with a camera-driven, motorised Eye that tracks nearby people in real time.",
-    "longDescription": "STILL A WIP\n\nThis physical computing project embeds a camera into a LEGO Barad-dûr model and drives the Eye at the top to follow anyone the camera can see. A computer-vision pipeline (face/person detection with object tracking) estimates target position, while a PID control loop commands a motor/servo mechanism to smoothly pan/tilt the Eye. The system prioritises stable, non-jittery motion and runs continuously, re-acquiring targets if they leave frame. Safety and reliability features include motion limits to protect the LEGO structure, idle fallback when no person is detected, and a calibration routine to centre the Eye on boot.",
+    "longDescription": "STILL A WIP\n\nThis physical computing project embeds a camera into a LEGO Barad-dûr model and drives the Eye at the top to follow anyone the camera can see. A computer-vision pipeline (face/person detection with object tracking) estimates target position, while a PID control loop commands a motor/servo mechanism to smoothly pan/tilt the Eye. The system prioritises stable, non-jittery motion and runs continuously, re-acquiring targets if they leave frame. Safety and reliability features include motion limits to protect the LEGO structure, idle fallback when no person is detected, and a calibration routine to centre the Eye on boot. The movement can be controlled through a local hosted API, or through a connected console controller(e.g. Xbox One Controller)",
     "media": [
-      { "src": "baraddur/BaradDurApi.png", "caption": "Control Tuning", "blurb": "Built in API user interface to allow controls externally" }, 
-      { "src": "baraddur/eye_tracker_setup.png", "caption": "Build Overview", "blurb": "Camera and motor assembly integrated into the LEGO Barad-dûr tower." },
-      { "src": "baraddur/eye_tracker_tracking1.png", "caption": "Live Tracking", "blurb": "The Eye rotates to follow a person moving across the room." },
-      { "src": "baraddur/eye_tracker_internals.png", "caption": "Electronics", "blurb": "Controller, motor driver, and cable management inside the tower." },
-      { "src": "baraddur/eye_tracker_demo.png", "caption": "Demo Mode", "blurb": "Idle scanning pattern when no person is detected." }
+      { "src": "baraddur/BaradDurAPI.png", "caption": "Control Tuning", "blurb": "Built in API user interface to allow controls externally" }, 
+      { "src": "baraddur/BaradDurConsole.png", "caption": "Console Log", "blurb": "A console log of the motor movement." },
+      { "src": "baraddur/FaceTracking.png", "caption": "Live Tracking", "blurb": "Working face tracking." },
+      { "src": "https://youtu.be/mD3r3ENEHBs", "caption": "Demo Video", "blurb": "A demo video of the software functionality" }
     ],
     "tech": [
       "Python",
@@ -106,7 +105,7 @@
     ],
     "links": [
       { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/Barad-Dur" },
-      { "label": "Demo Video", "href": "https://youtu.be/mD3r3ENEHBs" }
+      { "label": "Demo Video", "href": "https://youtu.be/ISWo70u-oWg" }
     ]
   }, 
   {
@@ -114,11 +113,7 @@
     "description": "A responsive, accessible React portfolio with a custom Navbar, animated section transitions, and a JSON-driven projects system deployed on GitHub Pages.",
     "longDescription": "This project is the codebase behind my live portfolio. It’s a single-page React app that renders sections (Home, About, Projects, Contact) using reusable components (e.g., Navbar.jsx) and a JSON content layer for easy updates. The layout is fully responsive with CSS grid/flex, supports dark/light themes, and includes keyboard-first navigation with a visible focus ring and a Skip-to-Content link. Images and sections are lazy-loaded for performance, with route-level code splitting. A11y improvements include semantic landmarks, ARIA labelling on nav and controls, and motion-reduced animations that respect user preferences. The Projects page consumes a local JSON file to generate cards (title, blurb, tech chips, and modal gallery). CI runs Lighthouse and ESLint on each push, and the site auto-deploys to GitHub Pages.",
     "media": [
-      { "src": "portfolio/hero.png", "caption": "Landing • Hero", "blurb": "Intro section with call-to-action and smooth scroll to Projects." },
-      { "src": "portfolio/projects_grid.png", "caption": "Projects Grid", "blurb": "Cards generated from JSON with filters and tech chips." },
-      { "src": "portfolio/navbar.png", "caption": "Navbar.jsx", "blurb": "Sticky, keyboard-navigable navbar with active section highlight." },
-      { "src": "portfolio/dark_mode.png", "caption": "Theme Toggle", "blurb": "Dark/light themes persisted via localStorage and CSS variables." },
-      { "src": "portfolio/perf_report.png", "caption": "Performance", "blurb": "Lighthouse 90+ scores; lazy loading and code splitting." }
+      { "src": "portfolio/PortfolioSite.png", "caption": "Homepage", "blurb": "Intro section with call-to-action and smooth scroll to Projects." }
     ],
     "tech": [
       "React",

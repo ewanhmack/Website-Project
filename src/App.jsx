@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import SiteFooter from "./components/SiteFooter";
 import Programming from "./pages/Programming";
+import ProjectDetail from "./components/projects/ProjectDetail";
 import Photography from "./pages/Photography";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
@@ -19,6 +20,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/programming" element={<Programming />} />
+            <Route path="/projects/:slug" element={<ProjectDetail />} />
             <Route path="/photography" element={<Photography />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>

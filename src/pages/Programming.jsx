@@ -1,110 +1,107 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import "../pages/projects.css";
 import ProjectsGrid from "../components/projects/ProjectsGrid";
 import SkeletonGrid from "../components/projects/SkeletonGrid";
-import ProjectModal from "../components/projects/ProjectModal";
-import { getMediaArray } from "../utils/projects";
-import "../pages/projects.css";      // keep your existing CSS paths
-import "../pages/PageStyles.css";    // adjust path if needed
+
+const DATA_URL = `${import.meta.env.BASE_URL}data/projects.json`;
 
 export default function Programming() {
   const [projects, setProjects] = useState([]);
-  const [loaded, setLoaded] = useState(false);
-  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  // Modal state
-  const [openProject, setOpenProject] = useState(null);
-  const [slide, setSlide] = useState(0);
-  const [isClosing, setIsClosing] = useState(false);
+  const q = searchParams.get("q") ?? "";
 
-  // fetch projects
   useEffect(() => {
-    fetch("data/projects.json")
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
+    let cancelled = false;
+    setLoading(true);
+    fetch(DATA_URL)
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
       })
-      .then((data) => setProjects(Array.isArray(data) ? data : []))
-      .catch((err) => setError(err.message || "Failed to load"))
-      .finally(() => setLoaded(true));
+      .then(data => {
+        if (!cancelled) {
+          setProjects(Array.isArray(data) ? data : []);
+          setLoading(false);
+        }
+      })
+      .catch(err => {
+        if (!cancelled) {
+          setError(err.message || "Failed to load projects.");
+          setLoading(false);
+        }
+      });
+    return () => (cancelled = true);
   }, []);
 
-  // open/close
-  const open = useCallback((project) => {
-    setOpenProject(project);
-    setSlide(0);
-  }, []);
+  const filtered = useMemo(() => {
+    let list = projects;
+    if (q) {
+      const query = q.toLowerCase();
+      list = list.filter(p =>
+        [p.header, p.description, p.longDescription]
+          .filter(Boolean)
+          .some(txt => String(txt).toLowerCase().includes(query))
+      );
+    }
+    return list;
+  }, [projects, q]);
 
-  const close = useCallback(() => {
-    setIsClosing(true);
-    const EXIT_MS = 220;
-    setTimeout(() => {
-      setOpenProject(null);
-      setSlide(0);
-      setIsClosing(false);
-    }, EXIT_MS);
-  }, []);
-
-  // slide nav
-  const next = useCallback(() => {
-    if (!openProject) return;
-    const m = getMediaArray(openProject);
-    setSlide((s) => (s + 1) % Math.max(1, m.length));
-  }, [openProject]);
-
-  const prev = useCallback(() => {
-    if (!openProject) return;
-    const m = getMediaArray(openProject);
-    const len = Math.max(1, m.length);
-    setSlide((s) => (s - 1 + len) % len);
-  }, [openProject]);
-
-  // keyboard + scroll lock while modal open
-  useEffect(() => {
-    if (!openProject) return;
-    const onKey = (e) => {
-      if (e.key === "Escape") close();
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
-    };
-    window.addEventListener("keydown", onKey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [openProject, close, next, prev]);
+  const setParam = (key, val) => {
+    const next = new URLSearchParams(searchParams);
+    if (val) next.set(key, val); else next.delete(key);
+    setSearchParams(next, { replace: true });
+  };
 
   return (
-    <div className="page-container">
-      <header className="projects-header">
-        <h2>Programming Projects</h2>
-        <p className="muted">
-          Selected work across Unreal Engine, graphics (SFML/SEG), and web.
-        </p>
+    <main className="projects-page">
+      <header className="projects-hero container">
+        <div className="hero-text">
+          <h1>Projects</h1>
+          <p>Selected builds, experiments, and coursework. Click any card to view a dedicated project page with full media and write-up.</p>
+        </div>
+        <div className="hero-actions">
+          <div className="input-group">
+            <input
+              type="search"
+              value={q}
+              onChange={e => setParam("q", e.target.value)}
+              placeholder="Search projects…"
+              aria-label="Search projects"
+            />
+            {q && (
+              <button className="ghost" onClick={() => setParam("q", "")} aria-label="Clear search">×</button>
+            )}
+          </div>
+        </div>
       </header>
 
-      {!loaded && <SkeletonGrid count={6} />}
-
-      {loaded && error && (
-        <div className="error-banner" role="alert">
-          Couldn’t load projects ({error}). Check <code>public/data/projects.json</code>.
+      {loading && <SkeletonGrid count={9} />}
+      {error && (
+        <div className="error container" role="alert">
+          <strong>Couldn’t load projects.</strong>
+          <div className="subtle">{error}</div>
         </div>
       )}
-
-      {loaded && !error && <ProjectsGrid projects={projects} onOpen={open} />}
-
-      {openProject && (
-        <ProjectModal
-          project={openProject}
-          slide={slide}
-          setSlide={setSlide}
-          onPrev={prev}
-          onNext={next}
-          onClose={close}
-          isClosing={isClosing}
-        />
+      {!loading && !error && (
+        <section className="container">
+          {filtered.length === 0 ? (
+            <div className="empty-state">
+              <p>No projects match your search.</p>
+              <button className="ghost" onClick={() => setSearchParams({}, { replace: true })}>Reset filters</button>
+            </div>
+          ) : (
+            <ProjectsGrid projects={filtered} />
+          )}
+        </section>
       )}
-    </div>
+
+      <footer className="projects-footer container">
+        <Link to="/" className="ghost">← Back home</Link>
+      </footer>
+    </main>
   );
 }

@@ -1,12 +1,12 @@
 import React from "react";
 import ProjectCard from "./ProjectCard";
 
-export default function ProjectsGrid({ projects, onOpen }) {
+export default function ProjectsGrid({ projects }) {
   return (
-    <section aria-label="Projects Grid" className="projects-grid">
-      {projects.map((p, i) => (
-        <ProjectCard key={(p.header || "project") + "-" + i} project={p} onOpen={onOpen} />
+    <ul className="projects-grid" role="list">
+      {projects.map(p => (
+        <ProjectCard key={p.header} project={p} />
       ))}
-    </section>
+    </ul>
   );
 }
