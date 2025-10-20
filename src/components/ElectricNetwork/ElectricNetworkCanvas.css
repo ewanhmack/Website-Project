@@ -1,0 +1,20 @@
+canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
+.badge {
+  position: fixed;
+  right: 12px;
+  top: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(16, 212, 255, 0.14);
+  border: 1px solid rgba(16, 212, 255, 0.3);
+  font-weight: 600;
+  font-size: 11px;
+  color: #ccefff;
+  pointer-events: none;
+  user-select: none;
+}

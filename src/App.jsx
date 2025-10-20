@@ -10,6 +10,8 @@ import Home from "./pages/Home";
 import "./App.css";
 import "./components/ComponentStyles.css";
 import "./pages/PageStyles.css";
+import Electric from "./pages/Electric";
+
 
 export default function App() {
   return (
@@ -23,6 +25,7 @@ export default function App() {
             <Route path="/projects/:slug" element={<ProjectDetail />} />
             <Route path="/photography" element={<Photography />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/electric" element={<Electric />} />
           </Routes>
         </main>
         <SiteFooter />
