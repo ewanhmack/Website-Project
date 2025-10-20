@@ -130,7 +130,30 @@
       { "label": "Live Site", "href": "https://ewanhmack.github.io/Website-Project/" },
       { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/Website-Project" }
     ]
-  }
+  },
+  {
+  "header": "Electric Ball Network — Multi-Window Visualiser",
+  "description": "A real-time network visualisation where each browser window becomes a glowing node connected by animated electric lines.",
+  "longDescription": "This creative coding project demonstrates inter-tab communication using the BroadcastChannel API. Each window you open becomes a unique, glowing ball in a shared animated network. Lines spark between peers, shockwaves pulse on collision, and the layout dynamically adjusts as tabs open or close. The effect is inspired by neon cyberpunk visuals, with support for high-DPI rendering, graceful canvas resizing, and clean disconnection logic. Built in vanilla JavaScript and integrated into this React site as a project demo.",
+  "media": [
+    { "src": "ElectricBallNetwork/ElectricBallNetwork.png", "caption": "Connected Nodes", "blurb": "Each window renders the full ring with its own node at the center." },
+    { "src": "https://youtu.be/E3wNVX2kMLk", "caption": "Demo Video", "blurb": "A demo video of the functionality" }
+
+  ],
+  "tech": [
+    "JavaScript",
+    "BroadcastChannel API",
+    "HTML Canvas",
+    "React Integration",
+    "CSS (radial backgrounds, glow)",
+    "High-DPI Scaling"
+  ],
+  "links": [
+    { "label": "Live Demo", "href": "https://ewanhmack.github.io/Website-Project/#/electric" },
+    { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/ElectricBallNetwork" }
+  ]
+}
+
 
 
 ]
