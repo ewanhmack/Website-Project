@@ -11,6 +11,7 @@ import "./App.css";
 import "./components/ComponentStyles.css";
 import "./pages/PageStyles.css";
 import Electric from "./pages/Electric";
+import ColorPicker from "./pages/ColorPicker";
 
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/photography" element={<Photography />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/electric" element={<Electric />} />
+            <Route path="/ColorPicker" element={<ColorPicker />} />
           </Routes>
         </main>
         <SiteFooter />
