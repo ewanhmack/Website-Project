@@ -153,7 +153,22 @@
     { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/ElectricBallNetwork" }
   ]
 }
-
-
-
+{
+  "header": "Colour Picker Package",
+  "description": "A react colour picker component package ",
+  "longDescription": "This react component was inspired by the pre-existing react-colour-palette package",
+  "media": [
+    { "src": "ColorPicker/ColorPicker.png", "caption": "Color Picker component", "blurb": "The color picker component in a react page" },
+    { "src": "ColorPicker/ColorPickerUse.gif", "caption": "Usage", "blurb": "A gif showing the package in use" },
+  ],
+  "tech": [
+    "Typescript",
+    "React",
+    "Packages"
+  ],
+  "links": [
+    { "label": "Live Demo", "href": "https://ewanhmack.github.io/Website-Project/#/ColorPicker" },
+    { "label": "GitHub Repo", "href": "https://github.com/ewanhmack/ColorPicker" }
+  ]
+}
 ]
