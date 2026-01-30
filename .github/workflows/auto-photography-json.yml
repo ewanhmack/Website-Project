@@ -1,0 +1,45 @@
+name: Auto-generate photography.json
+
+on:
+  push:
+    paths:
+      - "public/images/photos/**/*.webp"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-photography-json
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Pillow
+        run: pip install pillow
+
+      - name: Generate photography.json
+        run: python scripts/generate_photography_json.py
+
+      - name: Commit changes
+        run: |
+          if git diff --quiet -- public/data/photography.json; then
+            echo "No changes to public/data/photography.json"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data/photography.json
+          git commit -m "chore: update photography.json"
+          git push
