@@ -37,11 +37,11 @@ export default function Highlights() {
       chips: ["PHP", "JavaScript", "MySQL"],
     },
     {
-      imgSrc: "images/projects/Virtual-Assistant.png",
-      imgAlt: "Raspberry Pi virtual assistant",
-      title: "Virtual Assistant",
-      desc: "A voice-activated assistant running on a Raspberry Pi, designed for accessibility and everyday tasks.",
-      chips: ["Python", "Accessibility", "UX"],
+      imgSrc: "images/projects/BaradDurApi.png",
+      imgAlt: "Barad Dur API Software",
+      title: "Barad-Dur Eye Tracker",
+      desc: "A face tracking software built into a Lego Barad-Dur which rotates the eye of Sauron to follow the user.",
+      chips: ["Python", "API", "Raspberry Pi"],
     },
   ];
 
