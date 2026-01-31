@@ -14,6 +14,44 @@ import { shuffle, IMG_BASE } from "../utils/photos";
 import "./photography.css";
 import "./PageStyles.css";
 
+function formatShutterSpeed(value) {
+  if (value === undefined || value === null) {
+    return "";
+  }
+
+  const rawText = String(value).trim();
+
+  if (rawText.length === 0) {
+    return "";
+  }
+
+  if (rawText.includes("/")) {
+    return rawText;
+  }
+
+  const seconds = Number(rawText);
+
+  if (Number.isNaN(seconds)) {
+    return rawText;
+  }
+
+  if (seconds >= 1) {
+    return `${seconds}s`;
+  }
+
+  if (seconds <= 0) {
+    return rawText;
+  }
+
+  const denominator = Math.round(1 / seconds);
+
+  if (denominator <= 0) {
+    return rawText;
+  }
+
+  return `1/${denominator}`;
+}
+
 function PhotoModal({ photo, onClose }) {
   useEffect(() => {
     if (!photo) {
@@ -54,15 +92,15 @@ function PhotoModal({ photo, onClose }) {
   const title = photo.header || "Photo";
   const category = photo.category || "";
 
+  const metadata = photo.metadata || {};
+
   const details = [
-    ["Shutter", photo.shutter],
-    ["Aperture", photo.aperture],
-    ["ISO", photo.iso],
-    ["Focal length", photo.focalLength],
-    ["Lens", photo.lens],
-    ["Camera", photo.camera],
-    ["Date", photo.date],
-    ["Location", photo.location],
+    ["Shutter Speed", formatShutterSpeed(metadata.shutterSpeed)],
+    ["Aperture", metadata.aperture],
+    ["ISO", metadata.iso],
+    ["Created", metadata.createdDateTime],
+    ["Camera Model", metadata.cameraModel],
+    ["Lens Model", metadata.lensModel],
   ].filter(([, value]) => {
     if (value === undefined || value === null) {
       return false;
