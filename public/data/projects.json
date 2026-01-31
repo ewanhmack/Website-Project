@@ -171,6 +171,8 @@
 			{ "src": "baraddur/BaradDurApi.png", "caption": "Control Tuning", "blurb": "Built in API user interface to allow controls externally" },
 			{ "src": "baraddur/BaradDurConsole.png", "caption": "Console Log", "blurb": "A console log of the motor movement." },
 			{ "src": "baraddur/FaceTracking.png", "caption": "Live Tracking", "blurb": "Working face tracking." },
+			{ "src": "baraddur/HeadMovement.mp4", "caption": "Live Tracking", "blurb": "Getting head of tower to rotate through motors." },
+			{ "src": "baraddur/LiveVideoTrack.mp4", "caption": "Live Tracking", "blurb": "Linking head movement to face tracking software." },
 			{ "src": "https://youtu.be/mD3r3ENEHBs", "caption": "Demo Video", "blurb": "A demo video of the software functionality" }
 		],
 		"tech": [

@@ -8,9 +8,11 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "dev": "vite",
-    "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "posters": "node scripts/generate-video-posters.mjs public",
+    "posters:force": "node scripts/generate-video-posters.mjs public --force",
+    "build": "npm run posters && vite build"
   },
   "dependencies": {
     "exifr": "^7.1.3",
