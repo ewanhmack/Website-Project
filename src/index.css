@@ -67,8 +67,6 @@ button:focus-visible {
   }
 }
 
-
-/* ===== Reset boilerplate centering for full-bleed sections (added by patch) ===== */
 body {
   display: block;
   place-items: initial;

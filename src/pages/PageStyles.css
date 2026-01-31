@@ -1,6 +1,10 @@
-/* (keep your existing content) */
+/* Additions */
 
-/* Additions: */
+.page-container .muted {
+  color: var(--secondary-text);
+}
+
+/* ---------- Contact list ---------- */
 .contact-list {
   list-style: none;
   padding: 0;
@@ -11,12 +15,25 @@
   max-width: 560px;
   text-align: left;
 }
-.page-container .muted { color: var(--secondary-text); }
 
-/* --- Contact page --- */
-.contact-hero { margin-bottom: 16px; }
-.contact-hero h2 { margin: 0 0 6px; font-size: clamp(1.6rem, 3vw, 2rem); }
-.contact-hero p { margin: 0; }
+/* ---------- Contact page ---------- */
+.page-container.contact {
+  padding-left: clamp(1rem, 4vw, 2rem);
+  padding-right: clamp(1rem, 4vw, 2rem);
+}
+
+.contact-hero {
+  margin-bottom: 16px;
+}
+
+.contact-hero h2 {
+  margin: 0 0 6px;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+}
+
+.contact-hero p {
+  margin: 0;
+}
 
 .contact-grid {
   display: grid;
@@ -26,7 +43,9 @@
 }
 
 @media (min-width: 760px) {
-  .contact-grid { grid-template-columns: repeat(3, 1fr); }
+  .contact-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .contact-card {
@@ -39,8 +58,9 @@
   background: var(--panel-soft);
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
-  transition: transform .08s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+  transition: transform 0.08s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
 }
+
 .contact-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
@@ -49,26 +69,51 @@
 }
 
 .contact-icon {
-  width: 42px; height: 42px;
-  display: grid; place-items: center;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
   border-radius: 12px;
   background: #0d1528;
   color: var(--brand);
   border: 1px solid var(--border);
 }
-.contact-body h3 { margin: 0 0 2px; font-size: 1.05rem; }
-.contact-body p { margin: 0; }
-.contact-arrow { opacity: .7; }
 
-.contact-form.panel { margin-top: 8px; }
+.contact-body h3 {
+  margin: 0 0 2px;
+  font-size: 1.05rem;
+}
+
+.contact-body p {
+  margin: 0;
+}
+
+.contact-arrow {
+  opacity: 0.7;
+}
+
+.contact-form.panel {
+  margin-top: 8px;
+}
+
 .contact-form-grid {
-  display: grid; gap: 12px;
+  display: grid;
+  gap: 12px;
   grid-template-columns: 1fr 1fr;
 }
 
-.field { display: grid; gap: 6px; }
-.field span { font-size: .95rem; color: var(--muted); }
-.field input, .field textarea {
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.field span {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.field input,
+.field textarea {
   width: 100%;
   padding: 10px 12px;
   border-radius: 10px;
@@ -76,43 +121,68 @@
   background: #0d1528;
   color: var(--text);
 }
-.field-full { grid-column: 1 / -1; }
 
-.actions { display: flex; gap: 10px; }
+.field-full {
+  grid-column: 1 / -1;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
 
 .cv-panel {
   margin-top: 16px;
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
-.cv-copy { display: grid; gap: 4px; }
 
+.cv-copy {
+  display: grid;
+  gap: 4px;
+}
 
-/* ===== Homepage 'Selected Work' scoped styles (added by patch) ===== */
+/* ==========================================
+   Homepage 'Selected Work' scoped styles
+   ========================================== */
 #selected-work .grid.three {
   --gap: clamp(16px, 3vw, 24px);
   display: grid;
   gap: var(--gap);
   grid-template-columns: 1fr;
 }
-@media (min-width: 720px) { #selected-work .grid.three { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1100px){ #selected-work .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+@media (min-width: 720px) {
+  #selected-work .grid.three {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  #selected-work .grid.three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
 
 #selected-work .card {
   background: var(--panel, #0f172a);
   border: 1px solid var(--border, #1f2937);
   border-radius: var(--radius-lg, 16px);
-  box-shadow: var(--shadow, 0 1px 2px rgba(2,6,23,.6), 0 2px 6px rgba(2,6,23,.5));
+  box-shadow: var(--shadow, 0 1px 2px rgba(2, 6, 23, 0.6), 0 2px 6px rgba(2, 6, 23, 0.5));
   padding: clamp(14px, 2vw, 18px);
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  transition: transform .08s ease, box-shadow .2s ease, border-color .2s ease;
+  transition: transform 0.08s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
+
 #selected-work .card:hover,
 #selected-work .card:focus-within {
   transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--brand, #4f46e5) 25%, var(--border, #1f2937));
-  box-shadow: 0 6px 18px rgba(2,6,23,.6);
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
   outline: none;
 }
 
@@ -124,6 +194,7 @@
   overflow: hidden;
   background: #0d1325;
 }
+
 #selected-work .thumb img {
   display: block;
   width: 100%;
@@ -131,22 +202,26 @@
   object-fit: cover;
   object-position: center;
 }
+
 #selected-work .card-title {
   margin: 2px 0 8px;
   font-size: clamp(1.05rem, 2.2vw, 1.2rem);
   line-height: 1.3;
   color: #e5e7eb;
 }
+
 #selected-work .muted {
   color: var(--muted, #94a3b8);
   margin: 0 0 12px 0;
 }
+
 #selected-work .chips {
   margin-top: auto;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
+
 #selected-work .chip {
   display: inline-block;
   padding: 6px 10px;
@@ -157,14 +232,9 @@
   font-size: 0.85rem;
   line-height: 1;
 }
+
 @media (prefers-reduced-motion: reduce) {
-  #selected-work .card { transition: none !important; }
+  #selected-work .card {
+    transition: none !important;
+  }
 }
-
-/* Add side margin/padding on the contact page */
-.page-container.contact {
-  padding-left: clamp(1rem, 4vw, 2rem);
-  padding-right: clamp(1rem, 4vw, 2rem);
-}
-
-
