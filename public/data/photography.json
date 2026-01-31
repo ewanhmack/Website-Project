@@ -1,156 +1,198 @@
 {
   "Portraits": [
     {
-      "header": "IMG_5077.webp",
-      "image": "IMG_5077.webp",
-      "metadata": {
-        "shutterSpeed": "0.0008",
-        "aperture": "f/4.5",
-        "iso": "800",
-        "createdDateTime": "2025:06:03 19:41:20",
-        "lensModel": "18-200mm"
-      }
+      "header": "DSC00044.webp",
+      "image": "DSC00044.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_1058.webp",
-      "image": "IMG_1058.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/5",
-        "iso": "160",
-        "createdDateTime": "2021:08:30 14:42:46",
-        "lensModel": "EF-S18-55mm f/3.5-5.6 III"
-      }
+      "header": "DSC00079.webp",
+      "image": "DSC00079.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_4858 (1).webp",
-      "image": "IMG_4858 (1).webp",
-      "metadata": {
-        "shutterSpeed": "0.000625",
-        "aperture": "f/4.5",
-        "iso": "1600",
-        "createdDateTime": "2025:06:03 19:21:15",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
+      "header": "DSC00124.webp",
+      "image": "DSC00124.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_5203.webp",
-      "image": "IMG_5203.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:06:05 19:25:41",
-        "lensModel": "18-200mm"
-      }
+      "header": "DSC00134.webp",
+      "image": "DSC00134.webp",
+      "metadata": {}
     },
     {
-      "header": "DSC00630.webp",
-      "image": "DSC00630.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:11:14 11:50:41",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
+      "header": "DSC00181.webp",
+      "image": "DSC00181.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_8874.webp",
-      "image": "IMG_8874.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/5.6",
-        "iso": "1600",
-        "createdDateTime": "2025:05:14 22:11:19",
-        "lensModel": "18-200mm"
-      }
+      "header": "DSC00274.webp",
+      "image": "DSC00274.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC00294.webp",
+      "image": "DSC00294.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC00369.webp",
+      "image": "DSC00369.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC00480.webp",
+      "image": "DSC00480.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC00494.webp",
+      "image": "DSC00494.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC00580.webp",
+      "image": "DSC00580.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC00607.webp",
+      "image": "DSC00607.webp",
+      "metadata": {}
     },
     {
       "header": "DSC00628.webp",
       "image": "DSC00628.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/5",
-        "iso": "800",
-        "createdDateTime": "2025:11:14 11:49:52",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG-20250617-WA0006.webp",
-      "image": "IMG-20250617-WA0006.webp",
       "metadata": {}
     },
     {
-      "header": "IMG_4747.webp",
-      "image": "IMG_4747.webp",
-      "metadata": {
-        "shutterSpeed": "0.0008",
-        "aperture": "f/4",
-        "iso": "800",
-        "createdDateTime": "2022:11:17 17:04:05",
-        "lensModel": "18-200mm"
-      }
+      "header": "DSC00630.webp",
+      "image": "DSC00630.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_3361.webp",
-      "image": "IMG_3361.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/5.6",
-        "iso": "1600",
-        "createdDateTime": "2025:04:26 18:19:24",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
+      "header": "DSC00652.webp",
+      "image": "DSC00652.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_3128.webp",
-      "image": "IMG_3128.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/10",
-        "iso": "100",
-        "createdDateTime": "2022:03:06 10:56:18",
-        "lensModel": "18-200mm"
-      }
+      "header": "DSC00685.webp",
+      "image": "DSC00685.webp",
+      "metadata": {}
     },
     {
-      "header": "DSC01867.webp",
-      "image": "DSC01867.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/5.6",
-        "iso": "6400",
-        "createdDateTime": "2025:12:26 16:52:23",
-        "lensModel": "E 50mm F1.8 OSS"
-      }
+      "header": "DSC00781.webp",
+      "image": "DSC00781.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_5905.webp",
-      "image": "IMG_5905.webp",
-      "metadata": {
-        "shutterSpeed": "0.025",
-        "aperture": "f/4",
-        "iso": "100",
-        "createdDateTime": "2023:04:21 20:31:03",
-        "lensModel": "18-200mm"
-      }
+      "header": "DSC00809.webp",
+      "image": "DSC00809.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC00827.webp",
+      "image": "DSC00827.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC00894.webp",
+      "image": "DSC00894.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01033.webp",
+      "image": "DSC01033.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01293.webp",
+      "image": "DSC01293.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01304.webp",
+      "image": "DSC01304.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01389.webp",
+      "image": "DSC01389.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01415.webp",
+      "image": "DSC01415.webp",
+      "metadata": {}
     },
     {
       "header": "DSC01441.webp",
       "image": "DSC01441.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/0",
-        "iso": "640",
-        "createdDateTime": "2025:12:20 11:32:16",
-        "lensModel": "----"
-      }
+      "metadata": {}
     },
     {
-      "header": "IMG-20250617-WA0012.webp",
-      "image": "IMG-20250617-WA0012.webp",
+      "header": "DSC01471.webp",
+      "image": "DSC01471.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01481.webp",
+      "image": "DSC01481.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01508.webp",
+      "image": "DSC01508.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01514.webp",
+      "image": "DSC01514.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01727.webp",
+      "image": "DSC01727.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01728.webp",
+      "image": "DSC01728.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01768.webp",
+      "image": "DSC01768.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01790.webp",
+      "image": "DSC01790.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01802.webp",
+      "image": "DSC01802.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01824.webp",
+      "image": "DSC01824.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01840.webp",
+      "image": "DSC01840.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01854.webp",
+      "image": "DSC01854.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01867.webp",
+      "image": "DSC01867.webp",
       "metadata": {}
     },
     {
@@ -159,274 +201,9 @@
       "metadata": {}
     },
     {
-      "header": "IMG_3145.webp",
-      "image": "IMG_3145.webp",
-      "metadata": {
-        "shutterSpeed": "0.0025",
-        "aperture": "f/8",
-        "iso": "100",
-        "createdDateTime": "2022:03:06 11:17:16",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_20250502_204216482.webp",
-      "image": "IMG_20250502_204216482.webp",
-      "metadata": {
-        "shutterSpeed": "0.01",
-        "aperture": "f/1.9",
-        "iso": "154",
-        "createdDateTime": "2025:05:02 20:42:18"
-      }
-    },
-    {
-      "header": "DSC00134.webp",
-      "image": "DSC00134.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/6.3",
-        "iso": "6400",
-        "createdDateTime": "2025:10:29 08:22:33",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_3333.webp",
-      "image": "IMG_3333.webp",
-      "metadata": {
-        "shutterSpeed": "0.01666666667",
-        "aperture": "f/3.5",
-        "iso": "320",
-        "createdDateTime": "2022:03:30 10:56:08",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_3411.webp",
-      "image": "IMG_3411.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/4",
-        "iso": "3200",
-        "createdDateTime": "2025:04:26 19:13:28",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_4645.webp",
-      "image": "IMG_4645.webp",
-      "metadata": {
-        "shutterSpeed": "0.0015625",
-        "aperture": "f/4.5",
-        "iso": "6400",
-        "createdDateTime": "2025:06:02 18:08:48",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_3680.webp",
-      "image": "IMG_3680.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:05:11 12:15:23",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_8880.webp",
-      "image": "IMG_8880.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/4.5",
-        "iso": "1600",
-        "createdDateTime": "2025:05:14 22:14:22",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_3088.webp",
-      "image": "IMG_3088.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:04:21 19:17:48",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_5909.webp",
-      "image": "IMG_5909.webp",
-      "metadata": {
-        "shutterSpeed": "0.0008",
-        "aperture": "f/14",
-        "iso": "6400",
-        "createdDateTime": "2025:07:20 19:18:57",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "DSC01389.webp",
-      "image": "DSC01389.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/5.6",
-        "iso": "6400",
-        "createdDateTime": "2025:11:29 15:49:55",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_4499.webp",
-      "image": "IMG_4499.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/4",
-        "iso": "3200",
-        "createdDateTime": "2025:06:01 18:31:59",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_3635.webp",
-      "image": "IMG_3635.webp",
-      "metadata": {
-        "shutterSpeed": "0.01666666667",
-        "aperture": "f/5",
-        "iso": "6400",
-        "createdDateTime": "2025:04:29 20:06:32",
-        "lensModel": "EF35-80mm f/4-5.6"
-      }
-    },
-    {
-      "header": "IMG_9886.webp",
-      "image": "IMG_9886.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2023:05:06 17:51:52",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_6010.webp",
-      "image": "IMG_6010.webp",
-      "metadata": {
-        "shutterSpeed": "0.01",
-        "aperture": "f/5.6",
-        "iso": "1600",
-        "createdDateTime": "2025:08:15 18:56:28",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_5236.webp",
-      "image": "IMG_5236.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:06:10 17:03:55",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_6012.webp",
-      "image": "IMG_6012.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/5.6",
-        "iso": "1600",
-        "createdDateTime": "2025:08:15 18:56:37",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "DSC00124.webp",
-      "image": "DSC00124.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/5.6",
-        "iso": "6400",
-        "createdDateTime": "2025:10:29 08:22:20",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_5978.webp",
-      "image": "IMG_5978.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/29",
-        "iso": "800",
-        "createdDateTime": "2025:08:10 14:08:43",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_5221.webp",
-      "image": "IMG_5221.webp",
-      "metadata": {
-        "shutterSpeed": "0.0015625",
-        "aperture": "f/5",
-        "iso": "800",
-        "createdDateTime": "2025:06:05 19:43:52",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_5951.webp",
-      "image": "IMG_5951.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/16",
-        "iso": "800",
-        "createdDateTime": "2025:08:10 13:28:32",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_5163.webp",
-      "image": "IMG_5163.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/4.5",
-        "iso": "800",
-        "createdDateTime": "2025:06:05 19:03:12",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_9886 (1).webp",
-      "image": "IMG_9886 (1).webp",
-      "metadata": {
-        "createdDateTime": "2025:03:02 21:57:47"
-      }
-    },
-    {
-      "header": "IMG_3150.webp",
-      "image": "IMG_3150.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/29",
-        "iso": "800",
-        "createdDateTime": "2022:03:06 11:20:31",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_4481.webp",
-      "image": "IMG_4481.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/4",
-        "iso": "1600",
-        "createdDateTime": "2025:06:01 18:25:28",
-        "lensModel": "18-200mm"
-      }
+      "header": "file_00000000a940620a84fa9af6e9e18c38.webp",
+      "image": "file_00000000a940620a84fa9af6e9e18c38.webp",
+      "metadata": {}
     },
     {
       "header": "file_00000000c5607246915a5b9da34bb443.webp",
@@ -434,79 +211,23 @@
       "metadata": {}
     },
     {
-      "header": "IMG_5176.webp",
-      "image": "IMG_5176.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:06:05 19:09:34",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_0098.webp",
-      "image": "IMG_0098.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/5.6",
-        "iso": "400",
-        "createdDateTime": "2023:05:12 13:58:55",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "DSC00494.webp",
-      "image": "DSC00494.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/6.3",
-        "iso": "800",
-        "createdDateTime": "2025:11:14 10:56:19",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "file_00000000a940620a84fa9af6e9e18c38.webp",
-      "image": "file_00000000a940620a84fa9af6e9e18c38.webp",
+      "header": "file_00000000ccbc62439ec17c4d8a27b884.webp",
+      "image": "file_00000000ccbc62439ec17c4d8a27b884.webp",
       "metadata": {}
-    },
-    {
-      "header": "IMG_4637.webp",
-      "image": "IMG_4637.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/11",
-        "iso": "6400",
-        "createdDateTime": "2025:06:02 18:05:27",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_6019.webp",
-      "image": "IMG_6019.webp",
-      "metadata": {
-        "shutterSpeed": "0.01",
-        "aperture": "f/5.6",
-        "iso": "3200",
-        "createdDateTime": "2025:08:15 19:03:02",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "DSC00294.webp",
-      "image": "DSC00294.webp",
-      "metadata": {
-        "shutterSpeed": "0.0025",
-        "aperture": "f/5",
-        "iso": "800",
-        "createdDateTime": "2025:11:09 14:26:59",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
     },
     {
       "header": "file_00000000d5c4622fa349c32ab53dcfbc.webp",
       "image": "file_00000000d5c4622fa349c32ab53dcfbc.webp",
+      "metadata": {}
+    },
+    {
+      "header": "file_00000000ecb47243b6b01155d8aff11b.webp",
+      "image": "file_00000000ecb47243b6b01155d8aff11b.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG-20250617-WA0002.webp",
+      "image": "IMG-20250617-WA0002.webp",
       "metadata": {}
     },
     {
@@ -515,840 +236,96 @@
       "metadata": {}
     },
     {
-      "header": "DSC01471.webp",
-      "image": "DSC01471.webp",
-      "metadata": {
-        "shutterSpeed": "0.001",
-        "aperture": "f/5",
-        "iso": "640",
-        "createdDateTime": "2025:12:20 11:53:55",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
+      "header": "IMG-20250617-WA0006.webp",
+      "image": "IMG-20250617-WA0006.webp",
+      "metadata": {}
     },
     {
-      "header": "DSC01514.webp",
-      "image": "DSC01514.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/6.3",
-        "iso": "640",
-        "createdDateTime": "2025:12:20 12:05:53",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_6050.webp",
-      "image": "IMG_6050.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/5",
-        "iso": "1600",
-        "createdDateTime": "2025:10:18 15:10:38",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_4077.webp",
-      "image": "IMG_4077.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/8",
-        "iso": "3200",
-        "createdDateTime": "2025:05:11 12:45:01",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_3559.webp",
-      "image": "IMG_3559.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/8",
-        "iso": "400",
-        "createdDateTime": "2025:04:29 19:25:59",
-        "lensModel": "EF35-80mm f/4-5.6"
-      }
-    },
-    {
-      "header": "IMG_5750.webp",
-      "image": "IMG_5750.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:07:04 15:49:25",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_4563.webp",
-      "image": "IMG_4563.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/4.5",
-        "iso": "6400",
-        "createdDateTime": "2025:06:01 19:07:22",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_5173.webp",
-      "image": "IMG_5173.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/4.5",
-        "iso": "800",
-        "createdDateTime": "2025:06:05 19:09:23",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_3207.webp",
-      "image": "IMG_3207.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/13",
-        "iso": "800",
-        "createdDateTime": "2022:03:13 17:02:44",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "DSC01508.webp",
-      "image": "DSC01508.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/6.3",
-        "iso": "640",
-        "createdDateTime": "2025:12:20 12:05:52",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_4724.webp",
-      "image": "IMG_4724.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/4.5",
-        "iso": "6400",
-        "createdDateTime": "2025:06:02 18:38:46",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "DSC01033.webp",
-      "image": "DSC01033.webp",
-      "metadata": {
-        "shutterSpeed": "5",
-        "aperture": "f/29",
-        "iso": "100",
-        "createdDateTime": "2025:11:28 17:28:17",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_3389.webp",
-      "image": "IMG_3389.webp",
-      "metadata": {
-        "shutterSpeed": "0.02",
-        "aperture": "f/3.5",
-        "iso": "800",
-        "createdDateTime": "2022:04:06 16:06:52",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_5994.webp",
-      "image": "IMG_5994.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/6.3",
-        "iso": "800",
-        "createdDateTime": "2025:08:15 18:43:49",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_5161.webp",
-      "image": "IMG_5161.webp",
-      "metadata": {
-        "shutterSpeed": "0.00125",
-        "aperture": "f/4.5",
-        "iso": "3200",
-        "createdDateTime": "2025:06:05 19:00:19",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_5962.webp",
-      "image": "IMG_5962.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/6.3",
-        "iso": "800",
-        "createdDateTime": "2025:08:10 13:48:06",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_6015.webp",
-      "image": "IMG_6015.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/6.3",
-        "iso": "6400",
-        "createdDateTime": "2025:08:15 18:58:14",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_2468.webp",
-      "image": "IMG_2468.webp",
-      "metadata": {
-        "shutterSpeed": "0.001",
-        "aperture": "f/14",
-        "iso": "6400",
-        "createdDateTime": "2025:03:30 17:16:37",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "DSC01840.webp",
-      "image": "DSC01840.webp",
-      "metadata": {
-        "shutterSpeed": "0.0025",
-        "aperture": "f/2.8",
-        "iso": "200",
-        "createdDateTime": "2025:12:26 16:18:01",
-        "lensModel": "E 50mm F1.8 OSS"
-      }
-    },
-    {
-      "header": "IMG_2908.webp",
-      "image": "IMG_2908.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/10",
-        "iso": "800",
-        "createdDateTime": "2022:01:30 11:07:01",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "DSC00652.webp",
-      "image": "DSC00652.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/8",
-        "iso": "800",
-        "createdDateTime": "2025:11:23 13:15:20",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_0547.webp",
-      "image": "IMG_0547.webp",
-      "metadata": {
-        "shutterSpeed": "0.0005",
-        "aperture": "f/4",
-        "iso": "800",
-        "createdDateTime": "2025:03:12 17:31:37",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "DSC00809.webp",
-      "image": "DSC00809.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/4.5",
-        "iso": "800",
-        "createdDateTime": "2025:11:23 13:36:22",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_3500.webp",
-      "image": "IMG_3500.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:04:27 10:15:47",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_3141.webp",
-      "image": "IMG_3141.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/29",
-        "iso": "800",
-        "createdDateTime": "2022:03:06 11:05:14",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_6025.webp",
-      "image": "IMG_6025.webp",
-      "metadata": {
-        "shutterSpeed": "0.0003125",
-        "iso": "6400",
-        "createdDateTime": "2025:08:17 03:38:33"
-      }
+      "header": "IMG-20250617-WA0012.webp",
+      "image": "IMG-20250617-WA0012.webp",
+      "metadata": {}
     },
     {
       "header": "IMG_0017.webp",
       "image": "IMG_0017.webp",
       "metadata": {
-        "shutterSpeed": "0.01666666667",
-        "aperture": "f/5.6",
-        "iso": "1600",
-        "createdDateTime": "2023:05:11 18:06:37",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
+        "createdDateTime": "2025:03:07 22:26:37"
       }
     },
     {
-      "header": "DSC01854.webp",
-      "image": "DSC01854.webp",
+      "header": "IMG_0098.webp",
+      "image": "IMG_0098.webp",
       "metadata": {
-        "shutterSpeed": "0.0025",
-        "aperture": "f/5.6",
-        "iso": "6400",
-        "createdDateTime": "2025:12:26 16:21:59",
-        "lensModel": "E 50mm F1.8 OSS"
+        "createdDateTime": "2025:03:09 19:55:57"
       }
     },
     {
-      "header": "DSC01768.webp",
-      "image": "DSC01768.webp",
-      "metadata": {
-        "shutterSpeed": "0.01",
-        "aperture": "f/1.8",
-        "iso": "320",
-        "createdDateTime": "2025:12:26 15:37:22",
-        "lensModel": "E 50mm F1.8 OSS"
-      }
+      "header": "IMG_0260.webp",
+      "image": "IMG_0260.webp",
+      "metadata": {}
     },
     {
-      "header": "DSC00827.webp",
-      "image": "DSC00827.webp",
+      "header": "IMG_0304.webp",
+      "image": "IMG_0304.webp",
       "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/6.3",
-        "iso": "800",
-        "createdDateTime": "2025:11:23 13:42:01",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_5962 (1).webp",
-      "image": "IMG_5962 (1).webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/6.3",
-        "iso": "800",
-        "createdDateTime": "2025:08:10 13:48:06",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
+        "createdDateTime": "2025:03:09 19:57:08"
       }
     },
     {
       "header": "IMG_0449.webp",
       "image": "IMG_0449.webp",
       "metadata": {
-        "shutterSpeed": "0.000625",
-        "aperture": "f/5",
+        "createdDateTime": "2025:03:12 22:20:10"
+      }
+    },
+    {
+      "header": "IMG_0509.webp",
+      "image": "IMG_0509.webp",
+      "metadata": {
+        "createdDateTime": "2025:03:12 22:20:19"
+      }
+    },
+    {
+      "header": "IMG_0547.webp",
+      "image": "IMG_0547.webp",
+      "metadata": {
+        "shutterSpeed": "1/2000",
+        "aperture": "f/4.0",
         "iso": "800",
-        "createdDateTime": "2025:03:12 06:46:49",
+        "createdDateTime": "2025:03:12 17:31:37",
+        "cameraModel": "Canon EOS 600D",
         "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_2844.webp",
-      "image": "IMG_2844.webp",
-      "metadata": {
-        "shutterSpeed": "0.0015625",
-        "aperture": "f/6.3",
-        "iso": "800",
-        "createdDateTime": "2025:04:03 17:17:16",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_6051.webp",
-      "image": "IMG_6051.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/4",
-        "iso": "1600",
-        "createdDateTime": "2025:10:18 15:11:43",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_5988.webp",
-      "image": "IMG_5988.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:08:15 18:42:47",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "DSC00274.webp",
-      "image": "DSC00274.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:11:09 14:22:45",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_5939.webp",
-      "image": "IMG_5939.webp",
-      "metadata": {
-        "shutterSpeed": "0.04",
-        "aperture": "f/14",
-        "iso": "800",
-        "createdDateTime": "2025:08:10 13:21:01",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_0782.webp",
-      "image": "IMG_0782.webp",
-      "metadata": {
-        "shutterSpeed": "0.0005",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:03:16 15:36:43",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_0260.webp",
-      "image": "IMG_0260.webp",
-      "metadata": {
-        "shutterSpeed": "0.00125",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2023:05:13 12:11:32",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_3321.webp",
-      "image": "IMG_3321.webp",
-      "metadata": {
-        "shutterSpeed": "0.01666666667",
-        "aperture": "f/4",
-        "iso": "1600",
-        "createdDateTime": "2025:04:23 20:16:28",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_3844.webp",
-      "image": "IMG_3844.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/9",
-        "iso": "3200",
-        "createdDateTime": "2025:05:11 12:29:48",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_3401.webp",
-      "image": "IMG_3401.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/4",
-        "iso": "1600",
-        "createdDateTime": "2025:04:26 19:07:03",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_3179.webp",
-      "image": "IMG_3179.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/5.6",
-        "iso": "400",
-        "createdDateTime": "2022:03:09 21:49:26",
-        "lensModel": "EF75-300mm f/4-5.6"
-      }
-    },
-    {
-      "header": "DSC01415.webp",
-      "image": "DSC01415.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/6.3",
-        "iso": "6400",
-        "createdDateTime": "2025:12:20 11:15:13",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "DSC01802.webp",
-      "image": "DSC01802.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/5.6",
-        "iso": "3200",
-        "createdDateTime": "2025:12:26 15:47:46",
-        "lensModel": "E 50mm F1.8 OSS"
-      }
-    },
-    {
-      "header": "IMG_6023.webp",
-      "image": "IMG_6023.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/6.3",
-        "iso": "3200",
-        "createdDateTime": "2025:08:15 19:04:28",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_3919.webp",
-      "image": "IMG_3919.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/8",
-        "iso": "3200",
-        "createdDateTime": "2025:05:11 12:32:30",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_5236 (2).webp",
-      "image": "IMG_5236 (2).webp",
-      "metadata": {}
-    },
-    {
-      "header": "DSC00685.webp",
-      "image": "DSC00685.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/6.3",
-        "iso": "800",
-        "createdDateTime": "2025:11:23 13:16:18",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_5746 (1).webp",
-      "image": "IMG_5746 (1).webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/6.3",
-        "iso": "800",
-        "createdDateTime": "2025:07:04 15:48:48",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "DSC00781.webp",
-      "image": "DSC00781.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/6.3",
-        "iso": "800",
-        "createdDateTime": "2025:11:23 13:26:32",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_2574.webp",
-      "image": "IMG_2574.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/6.3",
-        "iso": "200",
-        "createdDateTime": "2021:12:28 15:29:56",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_5112.webp",
-      "image": "IMG_5112.webp",
-      "metadata": {
-        "shutterSpeed": "0.0015625",
-        "aperture": "f/6.3",
-        "iso": "3200",
-        "createdDateTime": "2025:06:05 18:37:25",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_4271.webp",
-      "image": "IMG_4271.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/14",
-        "iso": "1600",
-        "createdDateTime": "2025:05:26 20:23:05",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_20250301_190224736.webp",
-      "image": "IMG_20250301_190224736.webp",
-      "metadata": {}
-    },
-    {
-      "header": "DSC00079.webp",
-      "image": "DSC00079.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/5.6",
-        "iso": "6400",
-        "createdDateTime": "2025:10:29 08:09:39",
-        "lensModel": "E PZ 16-50mm F3.5-5.6 OSS"
-      }
-    },
-    {
-      "header": "IMG_5070.webp",
-      "image": "IMG_5070.webp",
-      "metadata": {
-        "shutterSpeed": "0.000625",
-        "aperture": "f/4.5",
-        "iso": "800",
-        "createdDateTime": "2025:06:03 19:40:23",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "DSC01790.webp",
-      "image": "DSC01790.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/9",
-        "iso": "3200",
-        "createdDateTime": "2025:12:26 15:44:00",
-        "lensModel": "E 50mm F1.8 OSS"
-      }
-    },
-    {
-      "header": "IMG_4585.webp",
-      "image": "IMG_4585.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/5.6",
-        "iso": "1600",
-        "createdDateTime": "2025:06:02 17:54:20",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "DSC01304.webp",
-      "image": "DSC01304.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/5.6",
-        "iso": "6400",
-        "createdDateTime": "2025:11:29 15:10:16",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_20250428_121433296.webp",
-      "image": "IMG_20250428_121433296.webp",
-      "metadata": {}
-    },
-    {
-      "header": "IMG_3158.webp",
-      "image": "IMG_3158.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/7.1",
-        "iso": "100",
-        "createdDateTime": "2022:03:06 11:35:15",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "DSC00607.webp",
-      "image": "DSC00607.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:11:14 11:44:24",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
       }
     },
     {
       "header": "IMG_0617.webp",
       "image": "IMG_0617.webp",
       "metadata": {
-        "shutterSpeed": "0.001",
+        "shutterSpeed": "1/1000",
         "aperture": "f/5.6",
         "iso": "800",
         "createdDateTime": "2025:03:12 17:59:10",
+        "cameraModel": "Canon EOS 600D",
         "lensModel": "EF-S55-250mm f/4-5.6 IS II"
       }
     },
     {
-      "header": "IMG_2554.webp",
-      "image": "IMG_2554.webp",
+      "header": "IMG_0782.webp",
+      "image": "IMG_0782.webp",
       "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2021:12:28 15:24:52",
-        "lensModel": "18-200mm"
+        "createdDateTime": "2025:03:16 17:35:01"
       }
     },
     {
-      "header": "IMG_3518.webp",
-      "image": "IMG_3518.webp",
+      "header": "IMG_1058.webp",
+      "image": "IMG_1058.webp",
       "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/7.1",
-        "iso": "800",
-        "createdDateTime": "2025:04:27 10:22:24",
-        "lensModel": "EF35-80mm f/4-5.6"
-      }
-    },
-    {
-      "header": "IMG_3969.webp",
-      "image": "IMG_3969.webp",
-      "metadata": {
-        "shutterSpeed": "0.00125",
-        "aperture": "f/9",
-        "iso": "3200",
-        "createdDateTime": "2025:05:11 12:36:20",
+        "shutterSpeed": "1/400",
+        "aperture": "f/9.0",
+        "iso": "400",
+        "createdDateTime": "2025:03:30 13:08:15",
+        "cameraModel": "Canon EOS 600D",
         "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "Lumii_20251019_112614135.webp",
-      "image": "Lumii_20251019_112614135.webp",
-      "metadata": {}
-    },
-    {
-      "header": "IMG_3092.webp",
-      "image": "IMG_3092.webp",
-      "metadata": {
-        "shutterSpeed": "0.01",
-        "aperture": "f/5.6",
-        "iso": "3200",
-        "createdDateTime": "2025:04:21 19:25:30",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "DSC01727.webp",
-      "image": "DSC01727.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/1.8",
-        "iso": "6400",
-        "createdDateTime": "2025:12:25 16:30:31",
-        "lensModel": "E 50mm F1.8 OSS"
-      }
-    },
-    {
-      "header": "IMG_5236 (1).webp",
-      "image": "IMG_5236 (1).webp",
-      "metadata": {}
-    },
-    {
-      "header": "IMG_4231.webp",
-      "image": "IMG_4231.webp",
-      "metadata": {
-        "shutterSpeed": "0.01",
-        "aperture": "f/6.3",
-        "iso": "3200",
-        "createdDateTime": "2025:05:21 21:02:12",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_5165.webp",
-      "image": "IMG_5165.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:06:05 19:06:07",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_0304.webp",
-      "image": "IMG_0304.webp",
-      "metadata": {
-        "shutterSpeed": "0.0025",
-        "aperture": "f/4",
-        "iso": "800",
-        "createdDateTime": "2023:05:13 12:40:14",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_6076.webp",
-      "image": "IMG_6076.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/5",
-        "iso": "1600",
-        "createdDateTime": "2025:10:18 15:55:41",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "DSC00369.webp",
-      "image": "DSC00369.webp",
-      "metadata": {
-        "shutterSpeed": "0.0025",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:11:09 14:50:35",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_3022.webp",
-      "image": "IMG_3022.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/8",
-        "iso": "800",
-        "createdDateTime": "2022:02:20 16:00:30",
-        "lensModel": "EF-S18-55mm f/3.5-5.6 III"
-      }
-    },
-    {
-      "header": "IMG_3381.webp",
-      "image": "IMG_3381.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/5",
-        "iso": "1600",
-        "createdDateTime": "2025:04:26 18:27:03",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_4643.webp",
-      "image": "IMG_4643.webp",
-      "metadata": {
-        "shutterSpeed": "0.0015625",
-        "aperture": "f/5",
-        "iso": "6400",
-        "createdDateTime": "2025:06:02 18:07:55",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
       }
     },
     {
@@ -1357,781 +334,651 @@
       "metadata": {}
     },
     {
-      "header": "IMG_3450.webp",
-      "image": "IMG_3450.webp",
+      "header": "IMG_20250301_190224736.webp",
+      "image": "IMG_20250301_190224736.webp",
       "metadata": {
-        "shutterSpeed": "0.01",
-        "aperture": "f/5.6",
+        "shutterSpeed": "1/7",
+        "aperture": "f/1.9",
+        "iso": "5630",
+        "createdDateTime": "2025:03:01 19:02:28",
+        "cameraModel": "A063"
+      }
+    },
+    {
+      "header": "IMG_20250428_121433296.webp",
+      "image": "IMG_20250428_121433296.webp",
+      "metadata": {
+        "aperture": "f/1.9",
         "iso": "100",
-        "createdDateTime": "2022:04:18 16:13:21",
-        "lensModel": "18-200mm"
+        "createdDateTime": "2025:04:28 12:14:35",
+        "cameraModel": "A063"
       }
     },
     {
-      "header": "DSC01728.webp",
-      "image": "DSC01728.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/8",
-        "iso": "200",
-        "createdDateTime": "2025:12:26 15:23:41",
-        "lensModel": "E 50mm F1.8 OSS"
-      }
+      "header": "IMG_20250502_204216482.webp",
+      "image": "IMG_20250502_204216482.webp",
+      "metadata": {}
     },
     {
-      "header": "DSC01824.webp",
-      "image": "DSC01824.webp",
+      "header": "IMG_2468.webp",
+      "image": "IMG_2468.webp",
       "metadata": {
-        "shutterSpeed": "0.00025",
-        "aperture": "f/1.8",
-        "iso": "640",
-        "createdDateTime": "2025:12:26 16:01:50",
-        "lensModel": "E 50mm F1.8 OSS"
-      }
-    },
-    {
-      "header": "DSC00181.webp",
-      "image": "DSC00181.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/6.3",
+        "shutterSpeed": "1/1000",
+        "aperture": "f/14.0",
         "iso": "6400",
-        "createdDateTime": "2025:10:29 08:24:13",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_0509.webp",
-      "image": "IMG_0509.webp",
-      "metadata": {
-        "shutterSpeed": "0.00125",
-        "aperture": "f/4",
-        "iso": "800",
-        "createdDateTime": "2025:03:12 13:31:58",
+        "createdDateTime": "2025:03:30 17:16:37",
+        "cameraModel": "Canon EOS 600D",
         "lensModel": "EF-S55-250mm f/4-5.6 IS II"
       }
     },
     {
-      "header": "IMG_5925.webp",
-      "image": "IMG_5925.webp",
-      "metadata": {
-        "shutterSpeed": "1.3",
-        "aperture": "f/18",
-        "iso": "100",
-        "createdDateTime": "2025:07:20 20:11:09",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_6349.webp",
-      "image": "IMG_6349.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/7.1",
-        "iso": "100",
-        "createdDateTime": "2023:07:08 17:12:10",
-        "lensModel": "EF-S18-55mm f/3.5-5.6 IS"
-      }
-    },
-    {
-      "header": "DSC00894.webp",
-      "image": "DSC00894.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/6.3",
-        "iso": "1000",
-        "createdDateTime": "2025:11:28 14:19:31",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "DSC00480.webp",
-      "image": "DSC00480.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/6.3",
-        "iso": "800",
-        "createdDateTime": "2025:11:14 10:54:11",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "DSC01293.webp",
-      "image": "DSC01293.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/6.3",
-        "iso": "6400",
-        "createdDateTime": "2025:11:29 15:04:03",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_6061.webp",
-      "image": "IMG_6061.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/4",
-        "iso": "1600",
-        "createdDateTime": "2025:10:18 15:46:53",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_4895.webp",
-      "image": "IMG_4895.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/5",
-        "iso": "1600",
-        "createdDateTime": "2025:06:03 19:22:42",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "DSC00580.webp",
-      "image": "DSC00580.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:11:14 11:36:36",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_9495.webp",
-      "image": "IMG_9495.webp",
+      "header": "IMG_2554.webp",
+      "image": "IMG_2554.webp",
       "metadata": {}
     },
     {
-      "header": "IMG_5060.webp",
-      "image": "IMG_5060.webp",
-      "metadata": {
-        "shutterSpeed": "0.001",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:06:03 19:35:12",
-        "lensModel": "18-200mm"
-      }
+      "header": "IMG_2574.webp",
+      "image": "IMG_2574.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_4539.webp",
-      "image": "IMG_4539.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/5.6",
-        "iso": "3200",
-        "createdDateTime": "2025:06:01 18:55:48",
-        "lensModel": "18-200mm"
-      }
+      "header": "IMG_2671.webp",
+      "image": "IMG_2671.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG-20250617-WA0002.webp",
-      "image": "IMG-20250617-WA0002.webp",
+      "header": "IMG_2813.webp",
+      "image": "IMG_2813.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_2844.webp",
+      "image": "IMG_2844.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_2908.webp",
+      "image": "IMG_2908.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3022.webp",
+      "image": "IMG_3022.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3049.webp",
+      "image": "IMG_3049.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3088.webp",
+      "image": "IMG_3088.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3092.webp",
+      "image": "IMG_3092.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3128.webp",
+      "image": "IMG_3128.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3141.webp",
+      "image": "IMG_3141.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3145.webp",
+      "image": "IMG_3145.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3150.webp",
+      "image": "IMG_3150.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3157.webp",
+      "image": "IMG_3157.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3158.webp",
+      "image": "IMG_3158.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3179.webp",
+      "image": "IMG_3179.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3207.webp",
+      "image": "IMG_3207.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3321.webp",
+      "image": "IMG_3321.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3333.webp",
+      "image": "IMG_3333.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3361.webp",
+      "image": "IMG_3361.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3374.webp",
+      "image": "IMG_3374.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3381.webp",
+      "image": "IMG_3381.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3389.webp",
+      "image": "IMG_3389.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3401.webp",
+      "image": "IMG_3401.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3411.webp",
+      "image": "IMG_3411.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3418.webp",
+      "image": "IMG_3418.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3450.webp",
+      "image": "IMG_3450.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3500.webp",
+      "image": "IMG_3500.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3518.webp",
+      "image": "IMG_3518.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3559.webp",
+      "image": "IMG_3559.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3635.webp",
+      "image": "IMG_3635.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3680.webp",
+      "image": "IMG_3680.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3773.webp",
+      "image": "IMG_3773.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3844.webp",
+      "image": "IMG_3844.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3919.webp",
+      "image": "IMG_3919.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3969.webp",
+      "image": "IMG_3969.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4077.webp",
+      "image": "IMG_4077.webp",
       "metadata": {}
     },
     {
       "header": "IMG_4181.webp",
       "image": "IMG_4181.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/8",
-        "iso": "3200",
-        "createdDateTime": "2025:05:11 12:54:16",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
+      "metadata": {}
     },
     {
-      "header": "IMG_3374.webp",
-      "image": "IMG_3374.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/5",
-        "iso": "1600",
-        "createdDateTime": "2025:04:26 18:25:28",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
+      "header": "IMG_4231.webp",
+      "image": "IMG_4231.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_8878.webp",
-      "image": "IMG_8878.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/4.5",
-        "iso": "1600",
-        "createdDateTime": "2025:05:14 22:14:00",
-        "lensModel": "18-200mm"
-      }
+      "header": "IMG_4240.webp",
+      "image": "IMG_4240.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_6003.webp",
-      "image": "IMG_6003.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/10",
-        "iso": "800",
-        "createdDateTime": "2025:08:15 18:47:20",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
+      "header": "IMG_4271.webp",
+      "image": "IMG_4271.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_2671.webp",
-      "image": "IMG_2671.webp",
-      "metadata": {
-        "shutterSpeed": "0.04",
-        "aperture": "f/3.5",
-        "iso": "3200",
-        "createdDateTime": "2021:12:31 16:21:31",
-        "lensModel": "18-200mm"
-      }
+      "header": "IMG_4481.webp",
+      "image": "IMG_4481.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_5005.webp",
-      "image": "IMG_5005.webp",
-      "metadata": {
-        "shutterSpeed": "0.000625",
-        "aperture": "f/4.5",
-        "iso": "1600",
-        "createdDateTime": "2025:06:03 19:28:06",
-        "lensModel": "18-200mm"
-      }
+      "header": "IMG_4499.webp",
+      "image": "IMG_4499.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_3049.webp",
-      "image": "IMG_3049.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/5.6",
-        "iso": "3200",
-        "createdDateTime": "2025:04:21 19:07:23",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
+      "header": "IMG_4539.webp",
+      "image": "IMG_4539.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_2813.webp",
-      "image": "IMG_2813.webp",
-      "metadata": {
-        "shutterSpeed": "0.0025",
-        "aperture": "f/7.1",
-        "iso": "800",
-        "createdDateTime": "2025:04:03 17:11:29",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
+      "header": "IMG_4563.webp",
+      "image": "IMG_4563.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4585.webp",
+      "image": "IMG_4585.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4637.webp",
+      "image": "IMG_4637.webp",
+      "metadata": {}
     },
     {
       "header": "IMG_4638.webp",
       "image": "IMG_4638.webp",
-      "metadata": {
-        "shutterSpeed": "0.0025",
-        "aperture": "f/10",
-        "iso": "6400",
-        "createdDateTime": "2025:06:02 18:06:54",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
+      "metadata": {}
     },
     {
-      "header": "IMG_3773.webp",
-      "image": "IMG_3773.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/8",
-        "iso": "3200",
-        "createdDateTime": "2025:05:11 12:26:24",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
+      "header": "IMG_4643.webp",
+      "image": "IMG_4643.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_3418.webp",
-      "image": "IMG_3418.webp",
-      "metadata": {
-        "shutterSpeed": "0.01",
-        "aperture": "f/5.6",
-        "iso": "3200",
-        "createdDateTime": "2025:04:26 19:20:15",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "file_00000000ecb47243b6b01155d8aff11b.webp",
-      "image": "file_00000000ecb47243b6b01155d8aff11b.webp",
+      "header": "IMG_4645.webp",
+      "image": "IMG_4645.webp",
       "metadata": {}
     },
     {
       "header": "IMG_4698.webp",
       "image": "IMG_4698.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/4.5",
-        "iso": "6400",
-        "createdDateTime": "2025:06:02 18:31:11",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
+      "metadata": {}
     },
     {
       "header": "IMG_4709.webp",
       "image": "IMG_4709.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/4.5",
-        "iso": "6400",
-        "createdDateTime": "2025:06:02 18:33:14",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "file_00000000ccbc62439ec17c4d8a27b884.webp",
-      "image": "file_00000000ccbc62439ec17c4d8a27b884.webp",
       "metadata": {}
     },
     {
-      "header": "DSC00044.webp",
-      "image": "DSC00044.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/6.3",
-        "iso": "400",
-        "createdDateTime": "2025:10:29 07:54:36",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_6041.webp",
-      "image": "IMG_6041.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "iso": "200",
-        "createdDateTime": "2025:09:05 21:45:22"
-      }
-    },
-    {
-      "header": "IMG_4240.webp",
-      "image": "IMG_4240.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/13",
-        "iso": "3200",
-        "createdDateTime": "2025:05:21 21:02:29",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_5106.webp",
-      "image": "IMG_5106.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/8",
-        "iso": "3200",
-        "createdDateTime": "2025:06:05 18:31:41",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_4858.webp",
-      "image": "IMG_4858.webp",
-      "metadata": {
-        "shutterSpeed": "0.000625",
-        "aperture": "f/4.5",
-        "iso": "1600",
-        "createdDateTime": "2025:06:03 19:21:15",
-        "lensModel": "18-200mm"
-      }
+      "header": "IMG_4724.webp",
+      "image": "IMG_4724.webp",
+      "metadata": {}
     },
     {
       "header": "IMG_4747 (1).webp",
       "image": "IMG_4747 (1).webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4747.webp",
+      "image": "IMG_4747.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4858 (1).webp",
+      "image": "IMG_4858 (1).webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4858.webp",
+      "image": "IMG_4858.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4895.webp",
+      "image": "IMG_4895.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5005.webp",
+      "image": "IMG_5005.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5060.webp",
+      "image": "IMG_5060.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5070.webp",
+      "image": "IMG_5070.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5077.webp",
+      "image": "IMG_5077.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5106.webp",
+      "image": "IMG_5106.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5112.webp",
+      "image": "IMG_5112.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5161.webp",
+      "image": "IMG_5161.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5163.webp",
+      "image": "IMG_5163.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5165.webp",
+      "image": "IMG_5165.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5173.webp",
+      "image": "IMG_5173.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5176.webp",
+      "image": "IMG_5176.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5203.webp",
+      "image": "IMG_5203.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5221.webp",
+      "image": "IMG_5221.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5236 (1).webp",
+      "image": "IMG_5236 (1).webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5236 (2).webp",
+      "image": "IMG_5236 (2).webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5236.webp",
+      "image": "IMG_5236.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5746 (1).webp",
+      "image": "IMG_5746 (1).webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5750.webp",
+      "image": "IMG_5750.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5905.webp",
+      "image": "IMG_5905.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5909.webp",
+      "image": "IMG_5909.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5925.webp",
+      "image": "IMG_5925.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5939.webp",
+      "image": "IMG_5939.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5951.webp",
+      "image": "IMG_5951.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5962 (1).webp",
+      "image": "IMG_5962 (1).webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5962.webp",
+      "image": "IMG_5962.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5978.webp",
+      "image": "IMG_5978.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5988.webp",
+      "image": "IMG_5988.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5994.webp",
+      "image": "IMG_5994.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6003.webp",
+      "image": "IMG_6003.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6010.webp",
+      "image": "IMG_6010.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6012.webp",
+      "image": "IMG_6012.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6015.webp",
+      "image": "IMG_6015.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6019.webp",
+      "image": "IMG_6019.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6023.webp",
+      "image": "IMG_6023.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6025.webp",
+      "image": "IMG_6025.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6041.webp",
+      "image": "IMG_6041.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6050.webp",
+      "image": "IMG_6050.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6051.webp",
+      "image": "IMG_6051.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6061.webp",
+      "image": "IMG_6061.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6076.webp",
+      "image": "IMG_6076.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6349.webp",
+      "image": "IMG_6349.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_8874.webp",
+      "image": "IMG_8874.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_8878.webp",
+      "image": "IMG_8878.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_8880.webp",
+      "image": "IMG_8880.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_9495.webp",
+      "image": "IMG_9495.webp",
       "metadata": {
-        "shutterSpeed": "0.00125",
-        "aperture": "f/6.3",
-        "iso": "6400",
-        "createdDateTime": "2025:06:03 19:00:30",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
+        "createdDateTime": "2025:03:04 15:42:20"
       }
     },
     {
-      "header": "IMG_3157.webp",
-      "image": "IMG_3157.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/22",
-        "iso": "800",
-        "createdDateTime": "2022:03:06 11:35:05",
-        "lensModel": "18-200mm"
-      }
+      "header": "IMG_9886 (1).webp",
+      "image": "IMG_9886 (1).webp",
+      "metadata": {}
     },
     {
-      "header": "DSC01481.webp",
-      "image": "DSC01481.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/6.3",
-        "iso": "640",
-        "createdDateTime": "2025:12:20 12:04:56",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
+      "header": "IMG_9886.webp",
+      "image": "IMG_9886.webp",
+      "metadata": {}
+    },
+    {
+      "header": "Lumii_20251019_112614135.webp",
+      "image": "Lumii_20251019_112614135.webp",
+      "metadata": {}
     }
   ],
   "Landscapes": [
     {
-      "header": "DSC00736.webp",
-      "image": "DSC00736.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/5",
-        "iso": "800",
-        "createdDateTime": "2025:11:23 13:20:06",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_3738.webp",
-      "image": "IMG_3738.webp",
-      "metadata": {
-        "shutterSpeed": "0.0015625",
-        "aperture": "f/9",
-        "iso": "3200",
-        "createdDateTime": "2025:05:11 12:23:58",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
       "header": "DSC00218.webp",
       "image": "DSC00218.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/6.3",
-        "iso": "6400",
-        "createdDateTime": "2025:10:29 08:25:09",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG-20250617-WA0017.webp",
-      "image": "IMG-20250617-WA0017.webp",
       "metadata": {}
     },
     {
-      "header": "IMG_6058.webp",
-      "image": "IMG_6058.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/5.6",
-        "iso": "1600",
-        "createdDateTime": "2025:10:18 15:43:52",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_3454.webp",
-      "image": "IMG_3454.webp",
-      "metadata": {
-        "shutterSpeed": "0.0125",
-        "aperture": "f/4",
-        "iso": "100",
-        "createdDateTime": "2022:04:18 16:15:07",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "file_00000000d128620aa6061504d248b2a6.webp",
-      "image": "file_00000000d128620aa6061504d248b2a6.webp",
+      "header": "DSC00336.webp",
+      "image": "DSC00336.webp",
       "metadata": {}
     },
     {
-      "header": "IMG_2537.webp",
-      "image": "IMG_2537.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2021:12:28 15:17:36",
-        "lensModel": "18-200mm"
-      }
+      "header": "DSC00350.webp",
+      "image": "DSC00350.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_5111.webp",
-      "image": "IMG_5111.webp",
-      "metadata": {
-        "shutterSpeed": "0.0015625",
-        "aperture": "f/4.5",
-        "iso": "3200",
-        "createdDateTime": "2025:06:05 18:34:39",
-        "lensModel": "18-200mm"
-      }
+      "header": "DSC00389.webp",
+      "image": "DSC00389.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG_3048.webp",
-      "image": "IMG_3048.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/5.6",
-        "iso": "3200",
-        "createdDateTime": "2025:04:21 19:06:47",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
+      "header": "DSC00443.webp",
+      "image": "DSC00443.webp",
+      "metadata": {}
     },
     {
-      "header": "IMG-20250617-WA0024.webp",
-      "image": "IMG-20250617-WA0024.webp",
+      "header": "DSC00705.webp",
+      "image": "DSC00705.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC00736.webp",
+      "image": "DSC00736.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC00846.webp",
+      "image": "DSC00846.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01017.webp",
+      "image": "DSC01017.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01246.webp",
+      "image": "DSC01246.webp",
+      "metadata": {}
+    },
+    {
+      "header": "DSC01276.webp",
+      "image": "DSC01276.webp",
       "metadata": {}
     },
     {
       "header": "DSC01522.webp",
       "image": "DSC01522.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/6.3",
-        "iso": "640",
-        "createdDateTime": "2025:12:20 12:06:00",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
+      "metadata": {}
     },
     {
-      "header": "IMG_2674.webp",
-      "image": "IMG_2674.webp",
-      "metadata": {
-        "shutterSpeed": "3",
-        "aperture": "f/3.5",
-        "iso": "100",
-        "createdDateTime": "2021:12:31 16:23:00",
-        "lensModel": "18-200mm"
-      }
+      "header": "DSC01753.webp",
+      "image": "DSC01753.webp",
+      "metadata": {}
     },
     {
       "header": "DSC01832.webp",
       "image": "DSC01832.webp",
-      "metadata": {
-        "shutterSpeed": "0.0025",
-        "aperture": "f/1.8",
-        "iso": "1600",
-        "createdDateTime": "2025:12:26 16:17:31",
-        "lensModel": "E 50mm F1.8 OSS"
-      }
-    },
-    {
-      "header": "IMG-20250617-WA0018.webp",
-      "image": "IMG-20250617-WA0018.webp",
       "metadata": {}
-    },
-    {
-      "header": "IMG_3345.webp",
-      "image": "IMG_3345.webp",
-      "metadata": {
-        "shutterSpeed": "0.025",
-        "aperture": "f/3.5",
-        "iso": "2500",
-        "createdDateTime": "2022:03:31 19:39:15",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "DSC00443.webp",
-      "image": "DSC00443.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/4.5",
-        "iso": "800",
-        "createdDateTime": "2025:11:14 10:43:23",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_6047.webp",
-      "image": "IMG_6047.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/3.5",
-        "iso": "400",
-        "createdDateTime": "2025:10:18 15:06:49",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "DSC01246.webp",
-      "image": "DSC01246.webp",
-      "metadata": {
-        "shutterSpeed": "0.0025",
-        "aperture": "f/6.3",
-        "iso": "6400",
-        "createdDateTime": "2025:11:29 14:55:20",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "DSC00336.webp",
-      "image": "DSC00336.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/4.5",
-        "iso": "800",
-        "createdDateTime": "2025:11:09 14:36:37",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_4466.webp",
-      "image": "IMG_4466.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/6.3",
-        "iso": "3200",
-        "createdDateTime": "2025:06:01 18:19:47",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_2851.webp",
-      "image": "IMG_2851.webp",
-      "metadata": {
-        "shutterSpeed": "0.0025",
-        "aperture": "f/7.1",
-        "iso": "100",
-        "createdDateTime": "2022:01:22 15:19:29",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_9786.webp",
-      "image": "IMG_9786.webp",
-      "metadata": {
-        "shutterSpeed": "0.005",
-        "aperture": "f/5.6",
-        "iso": "400",
-        "createdDateTime": "2023:05:06 17:09:21",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "DSC01276.webp",
-      "image": "DSC01276.webp",
-      "metadata": {
-        "shutterSpeed": "0.002",
-        "aperture": "f/5.6",
-        "iso": "500",
-        "createdDateTime": "2025:11:29 15:01:31",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_5190.webp",
-      "image": "IMG_5190.webp",
-      "metadata": {
-        "shutterSpeed": "0.01",
-        "aperture": "f/4.5",
-        "iso": "800",
-        "createdDateTime": "2025:06:05 19:19:37",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_4725.webp",
-      "image": "IMG_4725.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/4.5",
-        "iso": "6400",
-        "createdDateTime": "2025:06:02 18:44:07",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "DSC00846.webp",
-      "image": "DSC00846.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/5",
-        "iso": "800",
-        "createdDateTime": "2025:11:23 13:48:38",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "DSC01017.webp",
-      "image": "DSC01017.webp",
-      "metadata": {
-        "shutterSpeed": "0.01",
-        "aperture": "f/6.3",
-        "iso": "6400",
-        "createdDateTime": "2025:11:28 17:23:36",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "DSC00389.webp",
-      "image": "DSC00389.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:11:09 14:53:35",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_2782.webp",
-      "image": "IMG_2782.webp",
-      "metadata": {
-        "shutterSpeed": "0.04",
-        "aperture": "f/40",
-        "iso": "200",
-        "createdDateTime": "2022:01:17 21:49:48",
-        "lensModel": "EF75-300mm f/4-5.6"
-      }
-    },
-    {
-      "header": "IMG_2884.webp",
-      "image": "IMG_2884.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/5.6",
-        "iso": "200",
-        "createdDateTime": "2022:01:22 15:39:35",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_5238.webp",
-      "image": "IMG_5238.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/8",
-        "iso": "800",
-        "createdDateTime": "2025:06:10 17:05:33",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_3328.webp",
-      "image": "IMG_3328.webp",
-      "metadata": {
-        "shutterSpeed": "0.01",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2022:03:30 10:52:20",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_4721.webp",
-      "image": "IMG_4721.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/4.5",
-        "iso": "6400",
-        "createdDateTime": "2025:06:02 18:38:32",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_5789.webp",
-      "image": "IMG_5789.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/5.6",
-        "iso": "100",
-        "createdDateTime": "2023:04:16 17:03:22",
-        "lensModel": "18-200mm"
-      }
     },
     {
       "header": "file_000000003a3c62439f7d1d62b31a80a6.webp",
@@ -2139,228 +986,213 @@
       "metadata": {}
     },
     {
-      "header": "IMG_3486.webp",
-      "image": "IMG_3486.webp",
-      "metadata": {
-        "shutterSpeed": "0.02",
-        "aperture": "f/4",
-        "iso": "100",
-        "createdDateTime": "2022:04:18 16:39:11",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_4553.webp",
-      "image": "IMG_4553.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/5.6",
-        "iso": "1600",
-        "createdDateTime": "2025:06:01 19:01:12",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_6071.webp",
-      "image": "IMG_6071.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/4",
-        "iso": "1600",
-        "createdDateTime": "2025:10:18 15:50:00",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_5250.webp",
-      "image": "IMG_5250.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/8",
-        "iso": "800",
-        "createdDateTime": "2025:06:10 17:09:35",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_3412.webp",
-      "image": "IMG_3412.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/4.5",
-        "iso": "3200",
-        "createdDateTime": "2025:04:26 19:18:59",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_0261.webp",
-      "image": "IMG_0261.webp",
-      "metadata": {
-        "shutterSpeed": "0.00025",
-        "aperture": "f/5",
-        "iso": "800",
-        "createdDateTime": "2023:05:13 12:12:38",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_4140.webp",
-      "image": "IMG_4140.webp",
-      "metadata": {
-        "shutterSpeed": "0.00125",
-        "aperture": "f/10",
-        "iso": "3200",
-        "createdDateTime": "2025:05:11 12:52:00",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_3415.webp",
-      "image": "IMG_3415.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/5.6",
-        "iso": "3200",
-        "createdDateTime": "2025:04:26 19:19:29",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_4476.webp",
-      "image": "IMG_4476.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/6.3",
-        "iso": "3200",
-        "createdDateTime": "2025:06:01 18:24:19",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_5803.webp",
-      "image": "IMG_5803.webp",
-      "metadata": {
-        "shutterSpeed": "0.025",
-        "aperture": "f/3.5",
-        "iso": "320",
-        "createdDateTime": "2023:04:17 19:14:36",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_5285.webp",
-      "image": "IMG_5285.webp",
-      "metadata": {
-        "shutterSpeed": "0.004",
-        "aperture": "f/9",
-        "iso": "800",
-        "createdDateTime": "2025:06:10 17:47:27",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_5771.webp",
-      "image": "IMG_5771.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/5.6",
-        "iso": "800",
-        "createdDateTime": "2025:07:04 15:57:21",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "DSC00705.webp",
-      "image": "DSC00705.webp",
-      "metadata": {
-        "shutterSpeed": "0.003125",
-        "aperture": "f/6.3",
-        "iso": "800",
-        "createdDateTime": "2025:11:23 13:16:44",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "IMG_2299.webp",
-      "image": "IMG_2299.webp",
-      "metadata": {
-        "shutterSpeed": "0.01666666667",
-        "aperture": "f/5",
-        "iso": "800",
-        "createdDateTime": "2021:12:19 13:37:00",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "DSC00350.webp",
-      "image": "DSC00350.webp",
-      "metadata": {
-        "shutterSpeed": "0.0025",
-        "aperture": "f/4.5",
-        "iso": "800",
-        "createdDateTime": "2025:11:09 14:42:00",
-        "lensModel": "E 55-210mm F4.5-6.3 OSS"
-      }
-    },
-    {
-      "header": "DSC01753.webp",
-      "image": "DSC01753.webp",
-      "metadata": {
-        "shutterSpeed": "0.00625",
-        "aperture": "f/1.8",
-        "iso": "2000",
-        "createdDateTime": "2025:12:26 15:33:00",
-        "lensModel": "E 50mm F1.8 OSS"
-      }
-    },
-    {
-      "header": "IMG_3768.webp",
-      "image": "IMG_3768.webp",
-      "metadata": {
-        "shutterSpeed": "0.00125",
-        "aperture": "f/10",
-        "iso": "3200",
-        "createdDateTime": "2025:05:11 12:25:06",
-        "lensModel": "EF-S55-250mm f/4-5.6 IS II"
-      }
-    },
-    {
-      "header": "IMG_3310.webp",
-      "image": "IMG_3310.webp",
-      "metadata": {
-        "shutterSpeed": "0.0005",
-        "aperture": "f/6.3",
-        "iso": "400",
-        "createdDateTime": "2022:03:27 14:21:24",
-        "lensModel": "18-200mm"
-      }
-    },
-    {
-      "header": "IMG_6008.webp",
-      "image": "IMG_6008.webp",
-      "metadata": {
-        "shutterSpeed": "0.008",
-        "aperture": "f/6.3",
-        "iso": "1600",
-        "createdDateTime": "2025:08:15 18:54:42",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
-    },
-    {
-      "header": "IMG_4583.webp",
-      "image": "IMG_4583.webp",
-      "metadata": {
-        "shutterSpeed": "0.01",
-        "aperture": "f/5.6",
-        "iso": "1600",
-        "createdDateTime": "2025:06:02 17:51:29",
-        "lensModel": "TAMRON 18-200mm F/3.5-6.3 DiII A14E"
-      }
+      "header": "file_00000000d128620aa6061504d248b2a6.webp",
+      "image": "file_00000000d128620aa6061504d248b2a6.webp",
+      "metadata": {}
     },
     {
       "header": "IMG-20250610-WA0000.webp",
       "image": "IMG-20250610-WA0000.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG-20250617-WA0017.webp",
+      "image": "IMG-20250617-WA0017.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG-20250617-WA0018.webp",
+      "image": "IMG-20250617-WA0018.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG-20250617-WA0024.webp",
+      "image": "IMG-20250617-WA0024.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_0261.webp",
+      "image": "IMG_0261.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_2299.webp",
+      "image": "IMG_2299.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_2537.webp",
+      "image": "IMG_2537.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_2674.webp",
+      "image": "IMG_2674.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_2782.webp",
+      "image": "IMG_2782.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_2851.webp",
+      "image": "IMG_2851.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_2884.webp",
+      "image": "IMG_2884.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3048.webp",
+      "image": "IMG_3048.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3310.webp",
+      "image": "IMG_3310.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3328.webp",
+      "image": "IMG_3328.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3345.webp",
+      "image": "IMG_3345.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3412.webp",
+      "image": "IMG_3412.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3415.webp",
+      "image": "IMG_3415.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3454.webp",
+      "image": "IMG_3454.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3486.webp",
+      "image": "IMG_3486.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3738.webp",
+      "image": "IMG_3738.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_3768.webp",
+      "image": "IMG_3768.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4140.webp",
+      "image": "IMG_4140.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4466.webp",
+      "image": "IMG_4466.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4476.webp",
+      "image": "IMG_4476.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4553.webp",
+      "image": "IMG_4553.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4583.webp",
+      "image": "IMG_4583.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4721.webp",
+      "image": "IMG_4721.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_4725.webp",
+      "image": "IMG_4725.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5111.webp",
+      "image": "IMG_5111.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5190.webp",
+      "image": "IMG_5190.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5238.webp",
+      "image": "IMG_5238.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5250.webp",
+      "image": "IMG_5250.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5285.webp",
+      "image": "IMG_5285.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5771.webp",
+      "image": "IMG_5771.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5789.webp",
+      "image": "IMG_5789.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_5803.webp",
+      "image": "IMG_5803.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6008.webp",
+      "image": "IMG_6008.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6047.webp",
+      "image": "IMG_6047.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6058.webp",
+      "image": "IMG_6058.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_6071.webp",
+      "image": "IMG_6071.webp",
+      "metadata": {}
+    },
+    {
+      "header": "IMG_9786.webp",
+      "image": "IMG_9786.webp",
       "metadata": {}
     }
   ]
