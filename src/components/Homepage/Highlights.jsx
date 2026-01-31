@@ -1,54 +1,65 @@
 import React from "react";
 
-/** Reusable card */
-function HighlightCard({ imgSrc, imgAlt, title, desc, chips = [] }) {
+function HighlightCard({ imageSource, imageAlt, title, description, chips, href }) {
   return (
-    <div className="card">
-      <figure className="thumb">
-        <img src={imgSrc} alt={imgAlt} loading="lazy" decoding="async" />
-      </figure>
-      <h3 className="card-title">{title}</h3>
-      <p className="muted">{desc}</p>
-      {!!chips.length && (
-        <div className="chips">
-          {chips.map((c, i) => (
-            <span key={i} className="chip">{c}</span>
-          ))}
+    <article className="card">
+      <a className="card-link" href={href} aria-label={title}>
+        <figure className="thumb">
+          <img src={imageSource} alt={imageAlt} loading="lazy" decoding="async" />
+        </figure>
+
+        <div className="card-body">
+          <h3 className="card-title">{title}</h3>
+          <p className="muted">{description}</p>
+
+          {chips && chips.length > 0 ? (
+            <div className="chips">
+              {chips.map((chip) => (
+                <span key={chip} className="chip">
+                  {chip}
+                </span>
+              ))}
+            </div>
+          ) : null}
         </div>
-      )}
-    </div>
+      </a>
+    </article>
   );
 }
 
 export default function Highlights() {
-  const items = [
+  const highlightItems = [
     {
-      imgSrc: "images/projects/photography/HighresScreenshot00007.png",
-      imgAlt: "Photography Game — desert biome at dusk",
+      imageSource: "images/projects/photography/HighresScreenshot00007.png",
+      imageAlt: "Photography Game — desert biome at dusk",
       title: "Photography Game (UE5)",
-      desc: "First-person photography with save-to-disk screenshots.",
+      description: "First-person photography with save-to-disk screenshots.",
       chips: ["UE5", "Blueprints", "Gameplay"],
+      href: "#/projects/3d-photography-game",
     },
     {
-      imgSrc: "images/projects/music/Website%20Home.jpg",
-      imgAlt: "Music website homepage featuring highlighted albums",
+      imageSource: "images/projects/music/Website%20Home.jpg",
+      imageAlt: "Music website homepage featuring highlighted albums",
       title: "Music Website",
-      desc: "Browse albums, rate & review, and see rankings.",
+      description: "Browse albums, rate & review, and see rankings.",
       chips: ["PHP", "JavaScript", "MySQL"],
+      href: "#/projects/music-website",
     },
     {
-      imgSrc: "images/projects/BaradDurApi.png",
-      imgAlt: "Barad Dur API Software",
+      imageSource: "images/projects/BaradDurApi.png",
+      imageAlt: "Barad-Dur API Software",
       title: "Barad-Dur Eye Tracker",
-      desc: "A face tracking software built into a Lego Barad-Dur which rotates the eye of Sauron to follow the user.",
+      description:
+        "Face tracking software built into a Lego Barad-Dur that rotates the Eye of Sauron to follow the user.",
       chips: ["Python", "API", "Raspberry Pi"],
+      href: "#/projects/barad-du-r-eye-tracker",
     },
   ];
 
   return (
-    <div className="grid three">
-      {items.map((item) => (
-        <HighlightCard key={item.title} {...item} />
+    <div className="grid three" aria-label="Selected work">
+      {highlightItems.map((highlightItem) => (
+        <HighlightCard key={highlightItem.title} {...highlightItem} />
       ))}
     </div>
   );
