@@ -1,8 +1,6 @@
 import json
-import os
-import subprocess
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Any, Dict, List, Tuple
 
 from PIL import Image
 
@@ -10,12 +8,14 @@ from PIL import Image
 PHOTOS_DIR = Path("public/images/photos")
 OUTPUT_JSON = Path("public/data/photography.json")
 
+supported_extension = ".webp"
 
-def generate_entry(file_name: str, metadata: Dict[str, str]) -> Dict[str, Any]:
+
+def generate_entry(file_name: str) -> Dict[str, Any]:
     return {
         "header": file_name,
         "image": file_name,
-        "metadata": metadata,
+        "metadata": {},
     }
 
 
@@ -29,117 +29,90 @@ def get_orientation(image_path: Path) -> str:
     return "Landscapes"
 
 
-def safe_text(value: Any) -> str:
-    if value is None:
-        return ""
-    return str(value).strip()
+def load_existing_payload() -> Dict[str, List[Dict[str, Any]]]:
+    if OUTPUT_JSON.exists() is False:
+        return {"Portraits": [], "Landscapes": []}
+
+    with OUTPUT_JSON.open("r", encoding="utf-8") as existing_file:
+        existing_payload = json.load(existing_file)
+
+    if isinstance(existing_payload, dict) is False:
+        return {"Portraits": [], "Landscapes": []}
+
+    portraits = existing_payload.get("Portraits")
+    landscapes = existing_payload.get("Landscapes")
+
+    if isinstance(portraits, list) is False:
+        portraits = []
+
+    if isinstance(landscapes, list) is False:
+        landscapes = []
+
+    return {"Portraits": portraits, "Landscapes": landscapes}
 
 
-def format_aperture(value: Any) -> str:
-    value_text = safe_text(value)
-    if value_text == "":
-        return ""
-    if value_text.lower().startswith("f/"):
-        return value_text
-    return f"f/{value_text}"
+def index_existing(payload: Dict[str, List[Dict[str, Any]]]) -> Tuple[Dict[str, str], set]:
+    file_name_to_bucket: Dict[str, str] = {}
+    file_names: set = set()
+
+    for bucket in ["Portraits", "Landscapes"]:
+        for record in payload.get(bucket, []):
+            image_name = record.get("image")
+            if isinstance(image_name, str) is False:
+                continue
+
+            file_name_to_bucket[image_name] = bucket
+            file_names.add(image_name)
+
+    return file_name_to_bucket, file_names
 
 
-def build_metadata_from_exif(exif_payload: Dict[str, Any]) -> Dict[str, str]:
-    shutter_speed = safe_text(exif_payload.get("ExposureTime") or exif_payload.get("ShutterSpeed"))
-    aperture = format_aperture(exif_payload.get("FNumber") or exif_payload.get("Aperture"))
-    iso_value = safe_text(exif_payload.get("ISO"))
-    created_date_time = safe_text(exif_payload.get("DateTimeOriginal") or exif_payload.get("CreateDate"))
-    camera_model = safe_text(exif_payload.get("CameraModelName") or exif_payload.get("Model"))
-    lens_model = safe_text(exif_payload.get("LensModel") or exif_payload.get("Lens"))
+def ensure_record_shape(record: Dict[str, Any]) -> Dict[str, Any]:
+    header = record.get("header")
+    image_name = record.get("image")
+    metadata = record.get("metadata")
 
-    metadata = {
-        "shutterSpeed": shutter_speed,
-        "aperture": aperture,
-        "iso": iso_value,
-        "createdDateTime": created_date_time,
-        "cameraModel": camera_model,
-        "lensModel": lens_model,
+    if isinstance(header, str) is False:
+        header = image_name if isinstance(image_name, str) else ""
+
+    if isinstance(image_name, str) is False:
+        image_name = header if isinstance(header, str) else ""
+
+    if isinstance(metadata, dict) is False:
+        metadata = {}
+
+    return {
+        "header": header,
+        "image": image_name,
+        "metadata": metadata,
     }
-
-    return {key: value for key, value in metadata.items() if value != ""}
-
-
-def run_exiftool_batch(image_paths: List[Path]) -> Dict[str, Dict[str, Any]]:
-    if len(image_paths) == 0:
-        return {}
-
-    requested_tags = [
-        "-FileName",
-        "-ExposureTime",
-        "-ShutterSpeed",
-        "-FNumber",
-        "-Aperture",
-        "-ISO",
-        "-DateTimeOriginal",
-        "-CreateDate",
-        "-CameraModelName",
-        "-Model",
-        "-LensModel",
-        "-Lens",
-    ]
-
-    process = subprocess.run(
-        ["exiftool", "-j", "-charset", "filename=utf8", *requested_tags, *[str(path) for path in image_paths]],
-        capture_output=True,
-        text=True,
-        check=False,
-    )
-
-    if process.returncode != 0:
-        return {}
-
-    try:
-        parsed_payload = json.loads(process.stdout)
-    except Exception:
-        return {}
-
-    if isinstance(parsed_payload, list) is False:
-        return {}
-
-    mapped_by_file_name: Dict[str, Dict[str, Any]] = {}
-
-    for item in parsed_payload:
-        if isinstance(item, dict) is False:
-            continue
-
-        file_name = safe_text(item.get("FileName"))
-        if file_name == "":
-            continue
-
-        mapped_by_file_name[file_name] = item
-
-    return mapped_by_file_name
 
 
 def main() -> None:
     if PHOTOS_DIR.exists() is False:
         raise RuntimeError(f"Photos directory not found: {PHOTOS_DIR}")
 
-    image_paths = sorted([path for path in PHOTOS_DIR.glob("*.webp") if path.is_file()], key=lambda p: p.name.lower())
+    existing_payload = load_existing_payload()
+    existing_bucket_by_file, existing_file_names = index_existing(existing_payload)
 
-    exif_by_file_name = run_exiftool_batch(image_paths)
+    portraits: List[Dict[str, Any]] = [ensure_record_shape(item) for item in existing_payload["Portraits"]]
+    landscapes: List[Dict[str, Any]] = [ensure_record_shape(item) for item in existing_payload["Landscapes"]]
 
-    portraits: List[Dict[str, Any]] = []
-    landscapes: List[Dict[str, Any]] = []
+    for image_path in sorted(PHOTOS_DIR.glob(f"*{supported_extension}"), key=lambda p: p.name.lower()):
+        if image_path.is_file() is False:
+            continue
 
-    for image_path in image_paths:
         file_name = image_path.name
+
+        if file_name in existing_file_names:
+            continue
+
         bucket = get_orientation(image_path)
 
-        exif_payload = exif_by_file_name.get(file_name, {})
-        metadata = build_metadata_from_exif(exif_payload)
-
-        entry = generate_entry(file_name, metadata)
-
         if bucket == "Portraits":
-            portraits.append(entry)
+            portraits.append(generate_entry(file_name))
         else:
-            landscapes.append(entry)
+            landscapes.append(generate_entry(file_name))
 
     payload = {
         "Portraits": portraits,
