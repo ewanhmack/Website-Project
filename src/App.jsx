@@ -12,6 +12,7 @@ import "./components/ComponentStyles.css";
 import "./pages/PageStyles.css";
 import Electric from "./pages/Electric";
 import ColorPicker from "./pages/ColorPicker";
+import AboutMe from "./pages/AboutMe";
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/electric" element={<Electric />} />
             <Route path="/ColorPicker" element={<ColorPicker />} />
+            <Route path="/about-me" element={<AboutMe />} />
           </Routes>
         </main>
         <SiteFooter />
