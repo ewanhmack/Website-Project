@@ -13,6 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "exifr": "^7.1.3",
     "react": "^19.1.0",
     "react-colour-palette": "file:local-packages/react-colour-palette-0.0.1.tgz",
     "react-dom": "^19.1.1",
