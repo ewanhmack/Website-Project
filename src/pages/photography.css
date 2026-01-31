@@ -710,3 +710,80 @@
 .photo-modal-empty {
   margin-top: 8px;
 }
+
+/* Mobile-safe modal sizing */
+.photo-modal-backdrop {
+  padding: 1rem;
+}
+
+/* Make the modal fit within the viewport and behave predictably */
+.photo-modal {
+  width: min(960px, 100%);
+  max-height: calc(100dvh - 2rem);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+/* Put the close button in a header row so it doesn't overlap media */
+.photo-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+}
+
+/* Media should shrink if the meta grows, rather than pushing off-screen */
+.photo-modal-media {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Image should never exceed available space */
+.photo-modal-media img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Meta becomes a scrollable bottom section on small screens */
+.photo-modal-meta {
+  flex: 0 0 auto;
+  max-height: 40dvh;
+  overflow: auto;
+  padding: 1rem;
+}
+
+/* Make the title row wrap nicely on mobile */
+.photo-modal-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+/* Small screen tuning */
+@media (max-width: 600px) {
+  .photo-modal-backdrop {
+    padding: 0.75rem;
+  }
+
+  .photo-modal {
+    max-height: calc(100dvh - 1.5rem);
+    border-radius: 16px;
+  }
+
+  .photo-modal-meta {
+    max-height: 45dvh;
+    padding: 0.9rem;
+  }
+
+  .photo-modal-title {
+    font-size: 1.25rem;
+  }
+}
