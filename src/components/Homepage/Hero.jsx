@@ -16,7 +16,7 @@ export default function Hero() {
         </p>
 
         <div className="hero-cta">
-          <a className="btn primary" href="#selected-work">
+          <a className="btn primary" href="#/projects/barad-du-r-eye-tracker">
             Selected work
           </a>
           <a className="btn primary" href="#/about-me">
