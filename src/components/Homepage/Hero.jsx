@@ -19,7 +19,7 @@ export default function Hero() {
           <a className="btn primary" href="#selected-work">
             Selected work
           </a>
-          <a className="btn primary" href="#about">
+          <a className="btn primary" href="#/about-me">
             About me
           </a>
           <a className="btn primary" href="#/contact">
