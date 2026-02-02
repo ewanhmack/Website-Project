@@ -1,5 +1,5 @@
 .aboutme {
-  padding-top: 80px;
+  padding-top: 40px;
 }
 
 .aboutme-container {
@@ -10,7 +10,7 @@
 }
 
 .aboutme-section {
-  padding: clamp(48px, 8vw, 88px) 0;
+  padding: clamp(48px, 8vw, 22px) 0;
 }
 
 .aboutme-section-alt {
