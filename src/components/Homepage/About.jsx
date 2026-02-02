@@ -42,7 +42,7 @@ export default function AboutSection() {
         </p>
       </header>
 
-      <div className="grid two">
+      <div className="grid two" style={{ paddingBottom: '40px' }}>
         <div className="panel">
           <h3 className="card-title">Toolkit</h3>
           <ul className="list muted" style={{ listStyle: "none", paddingLeft: 0 }}>
