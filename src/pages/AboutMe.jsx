@@ -104,10 +104,6 @@ export default function AboutMe() {
               <div className="aboutme-photo-frame" aria-hidden="true">
                 <img src="./headshot.webp" alt="Me" />
               </div>
-              <div className="aboutme-photo-caption">
-                Replace this with a headshot, or keep a favourite photo as a
-                vibe piece.
-              </div>
             </div>
           </div>
         </div>
