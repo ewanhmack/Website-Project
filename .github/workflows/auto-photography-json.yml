@@ -1,22 +1,25 @@
-name: Auto-generate photography.json
+name: Process photos (EXIF -> WebP -> photography.json)
 
 on:
   push:
+    branches-ignore:
+      - "automation/photos"
     paths:
-      - "public/images/photos/**/*.webp"
-      - "scripts/generate_photography_json.py"
+      - "public/images/photos/**/*"
+      - "scripts/process_photos.py"
       - ".github/workflows/auto-photography-json.yml"
   workflow_dispatch:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: auto-photography-json
   cancel-in-progress: true
 
 jobs:
-  generate:
+  process:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,18 +37,19 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libimage-exiftool-perl
 
-      - name: Generate photography.json
-        run: python scripts/generate_photography_json.py
+      - name: Process photos
+        run: python scripts/process_photos.py
 
-      - name: Commit changes
-        run: |
-          if git diff --quiet -- public/data/photography.json; then
-            echo "No changes to public/data/photography.json"
-            exit 0
-          fi
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: process photos (webp + photography.json)"
+          title: "chore: process photos (webp + photography.json)"
+          body-path: ".github/photography-pr-body.md"
+          branch: "automation/photos"
+          delete-branch: true
+          add-paths: |
+            public/images/photos
+            public/data/photography.json
+            .github/photography-pr-body.md
 
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/data/photography.json
-          git commit -m "chore: update photography.json"
-          git push
