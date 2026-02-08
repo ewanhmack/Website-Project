@@ -243,5 +243,38 @@
 			{ "label": "Live Demo", "href": "https://ewanhmack.github.io/Website-Project/#/ColorPicker" },
 			{ "label": "GitHub Repo", "href": "https://github.com/ewanhmack/ColorPicker" }
 		]
+	},
+	{
+	"header": "Explain This UI",
+	"description": "An interactive UI critique and annotation tool",
+	"longDescription": "Explain This UI is a web-based tool for analysing and critiquing user interface designs. Users can upload a screenshot, place draggable pins, and write structured feedback from different perspectives such as UX, development, and accessibility. The tool supports zooming, panning, colour-coded annotations, severity levels, and exporting critique data.",
+	"media": [
+		{
+		"src": "explain-this/explain-this-ui.png",
+		"caption": "Explain This UI workspace",
+		"blurb": "The main workspace showing an uploaded UI screenshot with interactive annotation pins"
+		},
+		{
+		"src": "explain-this/explain-this-pins.png",
+		"caption": "Pin placement and interaction",
+		"blurb": "Pins placed on the UI to highlight issues, each colour-coded by category and perspective"
+		},
+		{
+		"src": "explain-this/pin-details.png",
+		"caption": "Pin details panel",
+		"blurb": "Editing a pin with notes, category, perspective, severity, and custom colour selection"
+		}
+	],
+	"tech": ["TypeScript", "React", "Vite", "UX", "Accessibility"],
+	"links": [
+		{
+		"label": "Live Demo",
+		"href": "https://ewanhmack.github.io/Website-Project/#/ExplainThisUI"
+		},
+		{
+		"label": "GitHub Repo",
+		"href": "https://github.com/ewanhmack/Explain-This-UI"
+		}
+	]
 	}
 ]
