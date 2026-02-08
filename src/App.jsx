@@ -13,6 +13,7 @@ import "./pages/PageStyles.css";
 import Electric from "./pages/Electric";
 import ColorPicker from "./pages/ColorPicker";
 import AboutMe from "./pages/AboutMe";
+import ExplainThisUIPage from "./pages/ExplainThisUI";
 
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/electric" element={<Electric />} />
             <Route path="/ColorPicker" element={<ColorPicker />} />
+            <Route path="/ExplainThisUI" element={<ExplainThisUIPage />} />
             <Route path="/about-me" element={<AboutMe />} />
           </Routes>
         </main>
