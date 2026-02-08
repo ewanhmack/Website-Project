@@ -1769,6 +1769,116 @@
         "createdDateTime": "2025:12:20 12:04:56",
         "lensModel": "E 55-210mm F4.5-6.3 OSS"
       }
+    },
+    {
+      "header": "DSC01881.webp",
+      "image": "DSC01881.webp",
+      "metadata": {
+        "shutterSpeed": "0.001",
+        "aperture": "f/5.6",
+        "iso": "6400",
+        "createdDateTime": "2026:02:08 09:58:49",
+        "lensModel": "E 50mm F1.8 OSS"
+      }
+    },
+    {
+      "header": "DSC01886.webp",
+      "image": "DSC01886.webp",
+      "metadata": {
+        "shutterSpeed": "0.001",
+        "aperture": "f/5.6",
+        "iso": "6400",
+        "createdDateTime": "2026:02:08 10:02:12",
+        "lensModel": "E 50mm F1.8 OSS"
+      }
+    },
+    {
+      "header": "DSC01887.webp",
+      "image": "DSC01887.webp",
+      "metadata": {
+        "shutterSpeed": "0.001",
+        "aperture": "f/5.6",
+        "iso": "6400",
+        "createdDateTime": "2026:02:08 10:02:39",
+        "lensModel": "E 50mm F1.8 OSS"
+      }
+    },
+    {
+      "header": "DSC01892.webp",
+      "image": "DSC01892.webp",
+      "metadata": {
+        "shutterSpeed": "0.00625",
+        "aperture": "f/5.6",
+        "iso": "400",
+        "createdDateTime": "2026:02:08 10:07:24",
+        "lensModel": "E 50mm F1.8 OSS"
+      }
+    },
+    {
+      "header": "DSC01899.webp",
+      "image": "DSC01899.webp",
+      "metadata": {
+        "shutterSpeed": "0.01",
+        "aperture": "f/5.6",
+        "iso": "400",
+        "createdDateTime": "2026:02:08 10:09:45",
+        "lensModel": "E 50mm F1.8 OSS"
+      }
+    },
+    {
+      "header": "DSC01900.webp",
+      "image": "DSC01900.webp",
+      "metadata": {
+        "shutterSpeed": "0.01",
+        "aperture": "f/5.6",
+        "iso": "400",
+        "createdDateTime": "2026:02:08 10:10:42",
+        "lensModel": "E 50mm F1.8 OSS"
+      }
+    },
+    {
+      "header": "DSC01901.webp",
+      "image": "DSC01901.webp",
+      "metadata": {
+        "shutterSpeed": "0.01",
+        "aperture": "f/5.6",
+        "iso": "400",
+        "createdDateTime": "2026:02:08 10:10:56",
+        "lensModel": "E 50mm F1.8 OSS"
+      }
+    },
+    {
+      "header": "DSC01902.webp",
+      "image": "DSC01902.webp",
+      "metadata": {
+        "shutterSpeed": "0.01",
+        "aperture": "f/5.6",
+        "iso": "400",
+        "createdDateTime": "2026:02:08 10:11:47",
+        "lensModel": "E 50mm F1.8 OSS"
+      }
+    },
+    {
+      "header": "DSC01916.webp",
+      "image": "DSC01916.webp",
+      "metadata": {
+        "shutterSpeed": "0.01",
+        "aperture": "f/5.6",
+        "iso": "400",
+        "createdDateTime": "2026:02:08 10:17:20",
+        "lensModel": "E 50mm F1.8 OSS"
+      }
+    },
+    {
+      "header": "DSC01943.webp",
+      "image": "DSC01943.webp",
+      "metadata": {
+        "shutterSpeed": "0.0125",
+        "aperture": "f/5.6",
+        "iso": "2000",
+        "createdDateTime": "2026:02:08 10:36:31",
+        "lensModel": "E 50mm F1.8 OSS"
+      }
     }
   ],
   "Landscapes": [
@@ -2362,6 +2472,17 @@
       "header": "IMG-20250610-WA0000.webp",
       "image": "IMG-20250610-WA0000.webp",
       "metadata": {}
+    },
+    {
+      "header": "DSC01897.webp",
+      "image": "DSC01897.webp",
+      "metadata": {
+        "shutterSpeed": "0.01",
+        "aperture": "f/5.6",
+        "iso": "400",
+        "createdDateTime": "2026:02:08 10:09:41",
+        "lensModel": "E 50mm F1.8 OSS"
+      }
     }
   ]
 }
