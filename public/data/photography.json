@@ -1879,6 +1879,145 @@
         "createdDateTime": "2026:02:08 10:36:31",
         "lensModel": "E 50mm F1.8 OSS"
       }
+    },
+    {
+      "header": "DSC01916 (1).webp",
+      "image": "DSC01916 (1).webp",
+      "metadata": {
+        "shutterSpeed": "0.01",
+        "aperture": "f/5.6",
+        "iso": "400",
+        "createdDateTime": "2026:02:08 09:17:20",
+        "lensModel": "E 50mm F1.8 OSS"
+      }
+    },
+    {
+      "header": "DSC01970.webp",
+      "image": "DSC01970.webp",
+      "metadata": {
+        "shutterSpeed": "0.003125",
+        "aperture": "f/5.6",
+        "iso": "6400",
+        "createdDateTime": "2026:02:12 15:48:44",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC01976.webp",
+      "image": "DSC01976.webp",
+      "metadata": {
+        "shutterSpeed": "0.003125",
+        "aperture": "f/5.6",
+        "iso": "6400",
+        "createdDateTime": "2026:02:12 15:49:56",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC01986.webp",
+      "image": "DSC01986.webp",
+      "metadata": {
+        "shutterSpeed": "0.003125",
+        "aperture": "f/5.6",
+        "iso": "6400",
+        "createdDateTime": "2026:02:12 15:55:51",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC01987.webp",
+      "image": "DSC01987.webp",
+      "metadata": {
+        "shutterSpeed": "0.003125",
+        "aperture": "f/5.6",
+        "iso": "6400",
+        "createdDateTime": "2026:02:12 15:56:58",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC01990.webp",
+      "image": "DSC01990.webp",
+      "metadata": {
+        "shutterSpeed": "0.005",
+        "aperture": "f/5.6",
+        "iso": "6400",
+        "createdDateTime": "2026:02:12 15:58:49",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC02037.webp",
+      "image": "DSC02037.webp",
+      "metadata": {
+        "shutterSpeed": "0.00125",
+        "aperture": "f/5.6",
+        "iso": "6400",
+        "createdDateTime": "2026:02:13 15:52:59",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC02065.webp",
+      "image": "DSC02065.webp",
+      "metadata": {
+        "shutterSpeed": "0.00125",
+        "aperture": "f/6.3",
+        "iso": "6400",
+        "createdDateTime": "2026:02:13 15:56:26",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC02082.webp",
+      "image": "DSC02082.webp",
+      "metadata": {
+        "shutterSpeed": "0.0025",
+        "aperture": "f/5.6",
+        "iso": "200",
+        "createdDateTime": "2026:02:13 16:07:30",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC02225.webp",
+      "image": "DSC02225.webp",
+      "metadata": {
+        "shutterSpeed": "0.0025",
+        "aperture": "f/6.3",
+        "iso": "5000",
+        "createdDateTime": "2026:02:15 12:45:11",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC02236.webp",
+      "image": "DSC02236.webp",
+      "metadata": {
+        "shutterSpeed": "0.0025",
+        "aperture": "f/6.3",
+        "iso": "5000",
+        "createdDateTime": "2026:02:15 12:45:14",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC02298.webp",
+      "image": "DSC02298.webp",
+      "metadata": {
+        "shutterSpeed": "0.0025",
+        "aperture": "f/6.3",
+        "iso": "3200",
+        "createdDateTime": "2026:02:15 12:46:52",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "file_0000000085b07246bc320379f070630b.webp",
+      "image": "file_0000000085b07246bc320379f070630b.webp",
+      "metadata": {
+        "createdDateTime": "2026:02:12 20:45:59"
+      }
     }
   ],
   "Landscapes": [
@@ -2482,6 +2621,61 @@
         "iso": "400",
         "createdDateTime": "2026:02:08 10:09:41",
         "lensModel": "E 50mm F1.8 OSS"
+      }
+    },
+    {
+      "header": "DSC02053.webp",
+      "image": "DSC02053.webp",
+      "metadata": {
+        "shutterSpeed": "0.00125",
+        "aperture": "f/6.3",
+        "iso": "6400",
+        "createdDateTime": "2026:02:13 15:54:36",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC02261.webp",
+      "image": "DSC02261.webp",
+      "metadata": {
+        "shutterSpeed": "0.003125",
+        "aperture": "f/6.3",
+        "iso": "4000",
+        "createdDateTime": "2026:02:15 12:45:46",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC02354.webp",
+      "image": "DSC02354.webp",
+      "metadata": {
+        "shutterSpeed": "0.004",
+        "aperture": "f/14",
+        "iso": "6400",
+        "createdDateTime": "2026:02:15 12:47:30",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC02393.webp",
+      "image": "DSC02393.webp",
+      "metadata": {
+        "shutterSpeed": "0.0025",
+        "aperture": "f/6.3",
+        "iso": "640",
+        "createdDateTime": "2026:02:15 13:02:00",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
+      }
+    },
+    {
+      "header": "DSC02467.webp",
+      "image": "DSC02467.webp",
+      "metadata": {
+        "shutterSpeed": "0.005",
+        "aperture": "f/6.3",
+        "iso": "6400",
+        "createdDateTime": "2026:02:15 13:30:04",
+        "lensModel": "E 55-210mm F4.5-6.3 OSS"
       }
     }
   ]
