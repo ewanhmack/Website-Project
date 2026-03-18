@@ -12,6 +12,7 @@ function Navbar() {
           <NavLink to="/programming" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Programming</NavLink>
           <NavLink to="/photography" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Photography</NavLink>
           <NavLink to="/contact" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Contact</NavLink>
+          <NavLink to="/music" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Music</NavLink>
         </div>
       </div>
     </nav>

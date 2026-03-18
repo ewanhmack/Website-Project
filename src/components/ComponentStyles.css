@@ -556,3 +556,80 @@ html::-webkit-scrollbar {
 .hero-cta {
   flex-wrap: wrap;
 }
+
+/* -----------------------------
+   Music
+----------------------------- */
+
+.recently-played-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recently-played-row {
+  display: grid;
+  grid-template-columns: 24px 40px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s ease;
+}
+
+.recently-played-row:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.recently-played-row:hover {
+  background: color-mix(in srgb, var(--brand) 6%, transparent);
+}
+
+.recently-played-index {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: right;
+}
+
+.recently-played-art {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.recently-played-body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.recently-played-track {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recently-played-track:hover {
+  color: var(--brand);
+  text-decoration: underline;
+}
+
+.recently-played-artist {
+  font-size: 0.85rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recently-played-time {
+  font-size: 0.82rem;
+  color: var(--muted);
+  white-space: nowrap;
+  padding-right: 1.25rem;
+}
