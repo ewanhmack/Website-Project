@@ -14,7 +14,7 @@ import Electric from "./pages/Electric";
 import ColorPicker from "./pages/ColorPicker";
 import AboutMe from "./pages/AboutMe";
 import ExplainThisUIPage from "./pages/ExplainThisUI";
-
+import Music from "./pages/Music";
 
 export default function App() {
   return (
@@ -32,6 +32,7 @@ export default function App() {
             <Route path="/ColorPicker" element={<ColorPicker />} />
             <Route path="/ExplainThisUI" element={<ExplainThisUIPage />} />
             <Route path="/about-me" element={<AboutMe />} />
+            <Route path="/music" element={<Music />} />
           </Routes>
         </main>
         <SiteFooter />
