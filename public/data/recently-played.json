@@ -1,5 +1,21 @@
 [
   {
+    "track": "Lover Girl",
+    "artist": "Laufey",
+    "album": "A Matter of Time",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b2738f68f6e65c1cfd36bb21561c",
+    "url": "https://open.spotify.com/track/4nwjvcUjV7cexhwA40Bh5i",
+    "played_at": "2026-03-18T22:22:01.614Z"
+  },
+  {
+    "track": "I Will Follow You into the Dark",
+    "artist": "Death Cab for Cutie",
+    "album": "Plans",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b273977f49e4a7170bdd03fb429b",
+    "url": "https://open.spotify.com/track/2ndWbjiiNBEOrlfToKlABE",
+    "played_at": "2026-03-18T22:19:16.355Z"
+  },
+  {
     "track": "Valentine",
     "artist": "Laufey",
     "album": "Everything I Know About Love",
@@ -382,21 +398,5 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b273204f41d52743c6a9efd62985",
     "url": "https://open.spotify.com/track/7Jh1bpe76CNTCgdgAdBw4Z",
     "played_at": "2026-03-18T13:53:37.492Z"
-  },
-  {
-    "track": "Evergreen",
-    "artist": "Richy Mitch & The Coal Miners",
-    "album": "RMCM",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b2731cc17bae5ee17cce117e198a",
-    "url": "https://open.spotify.com/track/6me7F0aaZjwDo6RJ5MrfBD",
-    "played_at": "2026-03-18T13:47:27.952Z"
-  },
-  {
-    "track": "Starman - 2012 Remaster",
-    "artist": "David Bowie",
-    "album": "The Rise and Fall of Ziggy Stardust and the Spiders from Mars (2012 Remaster)",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273c41f4e1133b0e6c5fcf58680",
-    "url": "https://open.spotify.com/track/0pQskrTITgmCMyr85tb9qq",
-    "played_at": "2026-03-18T13:46:02.834Z"
   }
 ]
