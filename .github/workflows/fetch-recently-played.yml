@@ -46,3 +46,9 @@ jobs:
           git add public/data/recently-played.json
           git diff --cached --quiet || git commit -m "chore: update recently played"
           git push
+
+      - name: Trigger deploy
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          gh workflow run "Deploy GitHub Pages" --ref main
