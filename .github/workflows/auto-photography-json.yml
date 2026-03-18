@@ -48,6 +48,7 @@ jobs:
           body-path: ".github/photography-pr-body.md"
           branch: "automation/photos"
           delete-branch: true
+          labels: "Automated"
           add-paths: |
             public/images/photos
             public/data/photography.json
