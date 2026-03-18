@@ -1,5 +1,29 @@
 [
   {
+    "track": "Valentine",
+    "artist": "Laufey",
+    "album": "Everything I Know About Love",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b27348341e864d4b4881f56f01b4",
+    "url": "https://open.spotify.com/track/6cx5CvFhqN19efStehJqoW",
+    "played_at": "2026-03-18T22:16:06.604Z"
+  },
+  {
+    "track": "Yellow",
+    "artist": "Coldplay",
+    "album": "Parachutes",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b2739164bafe9aaa168d93f4816a",
+    "url": "https://open.spotify.com/track/3AJwUDP919kvQ9QcozQPxg",
+    "played_at": "2026-03-18T22:13:16.928Z"
+  },
+  {
+    "track": "Fade Into You",
+    "artist": "Mazzy Star",
+    "album": "So Tonight That I Might See",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b27389a392107ebd79818022b3ea",
+    "url": "https://open.spotify.com/track/1LzNfuep1bnAUR9skqdHCK",
+    "played_at": "2026-03-18T22:08:49.749Z"
+  },
+  {
     "track": "\uff65\uff0d\uff65\uff65 \uff65 \uff0d \uff65\uff65 \uff0d \uff0d\uff0d\uff65 \uff0d\uff0d\uff0d",
     "artist": "\uff65 \uff65\uff0d\uff65 \uff65\uff0d \uff65\uff65\uff65 \uff65 \uff0d\uff65\uff65",
     "album": "\uff65\uff0d\uff65\uff65 \uff65 \uff0d \uff65\uff65 \uff0d \uff0d\uff0d\uff65 \uff0d\uff0d\uff0d",
@@ -374,29 +398,5 @@
     "album_art": "https://i.scdn.co/image/ab67616d0000b273c41f4e1133b0e6c5fcf58680",
     "url": "https://open.spotify.com/track/0pQskrTITgmCMyr85tb9qq",
     "played_at": "2026-03-18T13:46:02.834Z"
-  },
-  {
-    "track": "Starman - 2012 Remaster",
-    "artist": "David Bowie",
-    "album": "The Rise and Fall of Ziggy Stardust and the Spiders from Mars (2012 Remaster)",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273c41f4e1133b0e6c5fcf58680",
-    "url": "https://open.spotify.com/track/0pQskrTITgmCMyr85tb9qq",
-    "played_at": "2026-03-18T13:45:34.739Z"
-  },
-  {
-    "track": "blue",
-    "artist": "yung kai",
-    "album": "blue",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273373c63a4666fb7193febc167",
-    "url": "https://open.spotify.com/track/3be9ACTxtcL6Zm4vJRUiPG",
-    "played_at": "2026-03-18T13:42:04.944Z"
-  },
-  {
-    "track": "blue",
-    "artist": "yung kai",
-    "album": "blue",
-    "album_art": "https://i.scdn.co/image/ab67616d0000b273373c63a4666fb7193febc167",
-    "url": "https://open.spotify.com/track/3be9ACTxtcL6Zm4vJRUiPG",
-    "played_at": "2026-03-18T13:39:26.378Z"
   }
 ]
