@@ -49,6 +49,10 @@
   animation-delay: 140ms;
 }
 
+.contact-grid .contact-card:nth-of-type(4) {
+  animation-delay: 190ms;
+}
+
 /* Panels after cards */
 .contact-form.panel,
 .cv-panel {
