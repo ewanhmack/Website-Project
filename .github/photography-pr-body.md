@@ -1,8 +1,5 @@
 Automated photo processing
 Changes in this PR:
-### Conversions
-- `DSC02901.JPG` → `DSC02901.webp` (deleted source)
-
 ### photography.json entries updated/added for
 - `DSC01881.webp`
 - `DSC01886.webp`
@@ -12,5 +9,4 @@ Changes in this PR:
 - `DSC01900.webp`
 - `DSC01901.webp`
 - `DSC01902.webp`
-- `DSC02901.webp`
 
