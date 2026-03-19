@@ -53,6 +53,7 @@ export default function RecentlyPlayed() {
 
   return (
     <>
+      <h2 className="music-stats-heading" style={{ paddingBottom: "0.5em" }}>Music History</h2>
       <ul className="recently-played-list" ref={listRef}>
         {pageTracks.map((track, i) => (
           <li key={track.played_at} className="recently-played-row">
