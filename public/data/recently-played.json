@@ -1,5 +1,53 @@
 [
   {
+    "track": "From Eden",
+    "artist": "Hozier",
+    "album": "Hozier",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b2737a9bf5f82e32d33d4503fe7b",
+    "url": "https://open.spotify.com/track/0bkW98npv8EsWQ2fXFzK56",
+    "played_at": "2026-03-19T07:42:48.310Z"
+  },
+  {
+    "track": "To Be Alone",
+    "artist": "Hozier",
+    "album": "Hozier",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b2737a9bf5f82e32d33d4503fe7b",
+    "url": "https://open.spotify.com/track/0fEKxq1mghyT0b867l4Jaf",
+    "played_at": "2026-03-19T07:37:48.433Z"
+  },
+  {
+    "track": "Someone New",
+    "artist": "Hozier",
+    "album": "Hozier",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b2737a9bf5f82e32d33d4503fe7b",
+    "url": "https://open.spotify.com/track/22sS7JkzeVeq4vOPCB6Fbj",
+    "played_at": "2026-03-19T07:32:19.516Z"
+  },
+  {
+    "track": "Jackie And Wilson",
+    "artist": "Hozier",
+    "album": "Hozier",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b2737a9bf5f82e32d33d4503fe7b",
+    "url": "https://open.spotify.com/track/5xo1Gj4WTssjQgQ0w03cf2",
+    "played_at": "2026-03-19T07:28:49.091Z"
+  },
+  {
+    "track": "Angel Of Small Death & The Codeine Scene",
+    "artist": "Hozier",
+    "album": "Hozier",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b2737a9bf5f82e32d33d4503fe7b",
+    "url": "https://open.spotify.com/track/1SCXzqKZdif5b33POmzwI4",
+    "played_at": "2026-03-19T07:25:18.600Z"
+  },
+  {
+    "track": "Take Me To Church",
+    "artist": "Hozier",
+    "album": "Hozier",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b2737a9bf5f82e32d33d4503fe7b",
+    "url": "https://open.spotify.com/track/3dYD57lRAUcMHufyqn9GcI",
+    "played_at": "2026-03-19T07:21:18.501Z"
+  },
+  {
     "track": "Epilogue",
     "artist": "Wunderhorse",
     "album": "Cub",
