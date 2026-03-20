@@ -33,11 +33,6 @@ export default function RecentlyPlayed() {
       .catch(() => setError("Couldn't load recently played tracks."));
   }, []);
 
-  useEffect(() => {
-    if (listRef.current) {
-      listRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }, [page]);
 
   if (error) {
     return <p className="muted">{error}</p>;
@@ -53,7 +48,7 @@ export default function RecentlyPlayed() {
 
   return (
     <>
-      <h2 className="music-stats-heading" style={{ paddingBottom: "0.5em" }}>Music History</h2>
+      <h2 className="music-stats-heading" style={{ paddingBottom: "0.5em", paddingLeft: "1.1em", paddingRight: "1.1em" }}>Music History</h2>
       <ul className="recently-played-list" ref={listRef}>
         {pageTracks.map((track, i) => (
           <li key={track.played_at} className="recently-played-row">
@@ -91,9 +86,19 @@ export default function RecentlyPlayed() {
           >
             ←
           </button>
-          <span className="pagination-label">
-            Page {page} of {totalPages}
-          </span>
+
+          {Array.from({ length: 5 }, (_, i) => Math.max(1, page - 2) + i)
+            .filter((p) => p >= 1 && p <= totalPages)
+            .map((p) => (
+              <button
+                key={p}
+                className={`pagination-btn ${p === page ? 'pagination-btn--active' : ''}`}
+                onClick={() => setPage(p)}
+              >
+                {p}
+              </button>
+            ))}
+
           <button
             className="pagination-btn"
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}

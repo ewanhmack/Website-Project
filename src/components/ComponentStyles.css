@@ -561,10 +561,16 @@ html::-webkit-scrollbar {
    Music
 ----------------------------- */
 
+.music-hero {
+  padding-left: 1.1em
+}
+
 .recently-played-list {
   list-style: none;
   padding: 0;
   margin: 0;
+  padding-left: 1.1em;
+  padding-right: 1.1em;
 }
 
 .recently-played-row {
@@ -669,6 +675,8 @@ html::-webkit-scrollbar {
 
 .music-stats {
   margin-bottom: 40px;
+  padding-left: 1.1em;
+  padding-right: 1.1em;
 }
 
 .music-stats-header {
@@ -681,6 +689,7 @@ html::-webkit-scrollbar {
 .music-stats-heading {
   margin: 0;
   font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  
 }
 
 .period-toggle {
@@ -770,4 +779,10 @@ html::-webkit-scrollbar {
   font-size: 0.82rem;
   color: var(--muted);
   white-space: nowrap;
+}
+
+.pagination-btn--active {
+  background-color: var(--brand);
+  color: var(--brand-ink);
+  border-color: var(--brand);
 }
