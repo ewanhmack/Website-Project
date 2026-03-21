@@ -9,7 +9,7 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useOSMGraph } from "./useOSMGraph";
-import { usePathfinder } from "./usePathfinder";
+import { usePathfinder, formatDuration } from "./usePathfinder";
 import "./MapExplorer.css";
 
 const BELFAST_CENTER = [54.5973, -5.9301];
@@ -33,12 +33,18 @@ function ClickHandler({ onClick }) {
 function MapInvalidator() {
   const map = useMap();
   useEffect(() => {
-    map.invalidateSize();
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+      map.setView(BELFAST_CENTER, INITIAL_ZOOM);
+    }, 100);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [map]);
   return null;
 }
 
-function StatusBar({ loading, error, graph, startNode, endNode, running, finalPath }) {
+function StatusBar({ loading, error, graph, startNode, endNode, running, tripStats }) {
   if (loading) {
     return (
       <div className="mxp-status mxp-status--loading">
@@ -60,20 +66,7 @@ function StatusBar({ loading, error, graph, startNode, endNode, running, finalPa
     return null;
   }
 
-  if (running) {
-    return (
-      <div className="mxp-status mxp-status--running">
-        <span className="mxp-spinner" />
-        Running A* search…
-      </div>
-    );
-  }
-
-  if (finalPath.length > 0) {
-    return null;
-  }
-
-  if (startNode && !endNode) {
+  if (startNode && !endNode && !running && !tripStats) {
     return (
       <div className="mxp-status mxp-status--info">
         Start set. Click a destination on the map.
@@ -81,34 +74,68 @@ function StatusBar({ loading, error, graph, startNode, endNode, running, finalPa
     );
   }
 
-  return (
-    <div className="mxp-status mxp-status--info">
-      Click anywhere on the road network to set a start point.
-    </div>
-  );
-}
-
-function TripStats({ tripStats, formatDuration, finalPath }) {
-  if (!tripStats || finalPath.length === 0) {
-    return null;
+  if (!startNode && !running && !tripStats) {
+    return (
+      <div className="mxp-status mxp-status--info">
+        Click anywhere on the road network to set a start point.
+      </div>
+    );
   }
 
+  return null;
+}
+
+function TripStats({ tripStats, finalPath }) {
+  const isExact = tripStats?.exact ?? false;
+  const hasData = tripStats !== null;
+
   return (
-    <div className="mxp-trip-stats">
+    <div className={`mxp-trip-stats ${isExact ? "mxp-trip-stats--exact" : "mxp-trip-stats--live"}`}>
       <div className="mxp-trip-stat">
-        <span className="mxp-trip-label">Distance</span>
-        <span className="mxp-trip-value">{tripStats.distanceKm.toFixed(1)} km</span>
+        <span className="mxp-trip-label">
+          {isExact ? "Distance" : "Explored Dist."}
+        </span>
+        <span className="mxp-trip-value">
+          {hasData ? (
+            <>{tripStats.distanceMiles.toFixed(1)}<span className="mxp-trip-unit"> mi</span></>
+          ) : (
+            <span className="mxp-trip-empty">—</span>
+          )}
+        </span>
       </div>
       <div className="mxp-trip-divider" />
       <div className="mxp-trip-stat">
-        <span className="mxp-trip-label">Est. Drive Time</span>
-        <span className="mxp-trip-value">{formatDuration(tripStats.durationMins)}</span>
+        <span className="mxp-trip-label">
+          {isExact ? "Est. Drive Time" : "Explored Time"}
+        </span>
+        <span className="mxp-trip-value">
+          {hasData ? formatDuration(tripStats.durationMins) : <span className="mxp-trip-empty">—</span>}
+        </span>
       </div>
       <div className="mxp-trip-divider" />
       <div className="mxp-trip-stat">
-        <span className="mxp-trip-label">Waypoints</span>
-        <span className="mxp-trip-value">{finalPath.length}</span>
+        <span className="mxp-trip-label">
+          {isExact ? "Waypoints" : "Explored"}
+        </span>
+        <span className="mxp-trip-value">
+          {hasData ? (
+            isExact ? finalPath.length : tripStats.explored
+          ) : (
+            <span className="mxp-trip-empty">—</span>
+          )}
+        </span>
       </div>
+      {hasData && !isExact && (
+        <div className="mxp-trip-badge">
+          <span className="mxp-spinner mxp-spinner--small" />
+          searching
+        </div>
+      )}
+      {isExact && (
+        <div className="mxp-trip-badge mxp-trip-badge--done">
+          ✓ route found
+        </div>
+      )}
     </div>
   );
 }
@@ -122,7 +149,6 @@ export default function MapExplorer() {
     frontierPoints,
     finalPath,
     tripStats,
-    formatDuration,
     running,
     handleMapClick,
     reset,
@@ -175,13 +201,7 @@ export default function MapExplorer() {
         startNode={startNode}
         endNode={endNode}
         running={running}
-        finalPath={finalPath}
-      />
-
-      <TripStats
         tripStats={tripStats}
-        formatDuration={formatDuration}
-        finalPath={finalPath}
       />
 
       <div className="mxp-map-wrap">
@@ -240,6 +260,10 @@ export default function MapExplorer() {
             />
           )}
         </MapContainer>
+
+        <div className="mxp-stats-overlay">
+          <TripStats tripStats={tripStats} finalPath={finalPath} />
+        </div>
       </div>
     </div>
   );

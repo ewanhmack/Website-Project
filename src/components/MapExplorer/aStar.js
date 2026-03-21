@@ -65,7 +65,12 @@ export function aStar(graph, startId, endId) {
         frontierCoords.push([n.lat, n.lng]);
       }
     }
-    frames.push({ explored: [current.lat, current.lng], frontier: frontierCoords });
+
+    frames.push({
+      nodeId: currentId,
+      explored: [current.lat, current.lng],
+      frontier: frontierCoords,
+    });
 
     for (const { id: neighbourId, dist } of current.neighbours) {
       const tentativeG = (gScore.get(currentId) ?? Infinity) + dist;

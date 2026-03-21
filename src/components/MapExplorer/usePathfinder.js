@@ -4,18 +4,19 @@ import { aStar } from "./aStar";
 const FRAME_INTERVAL_MS = 18;
 const FRAMES_PER_TICK = 8;
 
-const SPEED_MS = {
-  motorway: 100 / 3.6,
-  trunk: 80 / 3.6,
-  primary: 60 / 3.6,
-  secondary: 50 / 3.6,
+const SPEED_MPH = {
+  motorway: 70,
+  trunk: 60,
+  primary: 45,
+  secondary: 35,
 };
 
-const DEFAULT_SPEED_MS = 60 / 3.6;
+const DEFAULT_SPEED_MPH = 45;
+const MILES_PER_METRE = 0.000621371;
 
 function computeTripStats(graph, pathNodeIds) {
   let totalDistM = 0;
-  let totalTimeS = 0;
+  let totalTimeH = 0;
 
   for (let i = 0; i < pathNodeIds.length - 1; i++) {
     const fromNode = graph.get(pathNodeIds[i]);
@@ -29,18 +30,54 @@ function computeTripStats(graph, pathNodeIds) {
       continue;
     }
 
-    const speed = SPEED_MS[edge.highway] ?? DEFAULT_SPEED_MS;
+    const speedMph = SPEED_MPH[edge.highway] ?? DEFAULT_SPEED_MPH;
+    const distMiles = edge.dist * MILES_PER_METRE;
     totalDistM += edge.dist;
-    totalTimeS += edge.dist / speed;
+    totalTimeH += distMiles / speedMph;
   }
 
   return {
-    distanceKm: totalDistM / 1000,
-    durationMins: totalTimeS / 60,
+    distanceMiles: totalDistM * MILES_PER_METRE,
+    durationMins: totalTimeH * 60,
+    exact: true,
   };
 }
 
-function formatDuration(mins) {
+function computeRunningStats(graph, exploredNodeIds) {
+  if (exploredNodeIds.length === 0) {
+    return null;
+  }
+
+  let totalDistM = 0;
+  let totalTimeH = 0;
+
+  for (let i = 0; i < exploredNodeIds.length - 1; i++) {
+    const fromNode = graph.get(exploredNodeIds[i]);
+    if (!fromNode) {
+      continue;
+    }
+
+    const toId = exploredNodeIds[i + 1];
+    const edge = fromNode.neighbours.find((n) => n.id === toId);
+    if (!edge) {
+      continue;
+    }
+
+    const speedMph = SPEED_MPH[edge.highway] ?? DEFAULT_SPEED_MPH;
+    const distMiles = edge.dist * MILES_PER_METRE;
+    totalDistM += edge.dist;
+    totalTimeH += distMiles / speedMph;
+  }
+
+  return {
+    distanceMiles: totalDistM * MILES_PER_METRE,
+    durationMins: totalTimeH * 60,
+    explored: exploredNodeIds.length,
+    exact: false,
+  };
+}
+
+export function formatDuration(mins) {
   if (mins < 1) {
     return "< 1 min";
   }
@@ -62,6 +99,7 @@ export function usePathfinder(graph) {
   const [running, setRunning] = useState(false);
 
   const animRef = useRef(null);
+  const exploredNodeIdsRef = useRef([]);
 
   const findNearestNode = useCallback(
     (latlng) => {
@@ -105,6 +143,7 @@ export function usePathfinder(graph) {
         setFrontierPoints([]);
         setFinalPath([]);
         setTripStats(null);
+        exploredNodeIdsRef.current = [];
       } else if (!endId) {
         setEndId(id);
         runAStar(startId, id);
@@ -115,6 +154,7 @@ export function usePathfinder(graph) {
         setFrontierPoints([]);
         setFinalPath([]);
         setTripStats(null);
+        exploredNodeIdsRef.current = [];
       }
     },
     [running, startId, endId, findNearestNode, graph]
@@ -122,7 +162,7 @@ export function usePathfinder(graph) {
 
   function runAStar(sId, eId) {
     if (animRef.current) {
-      cancelAnimationFrame(animRef.current);
+      clearTimeout(animRef.current);
     }
 
     setExploredPoints([]);
@@ -130,21 +170,24 @@ export function usePathfinder(graph) {
     setFinalPath([]);
     setTripStats(null);
     setRunning(true);
+    exploredNodeIdsRef.current = [];
 
     const { frames, path, pathNodeIds } = aStar(graph, sId, eId);
 
     let frameIndex = 0;
-    const explored = [];
+    const exploredCoords = [];
 
     function tick() {
       const end = Math.min(frameIndex + FRAMES_PER_TICK, frames.length);
 
       for (let i = frameIndex; i < end; i++) {
-        explored.push(frames[i].explored);
+        exploredCoords.push(frames[i].explored);
+        exploredNodeIdsRef.current.push(frames[i].nodeId);
       }
 
       frameIndex = end;
-      setExploredPoints([...explored]);
+      setExploredPoints([...exploredCoords]);
+      setTripStats(computeRunningStats(graph, exploredNodeIdsRef.current));
 
       if (frameIndex < frames.length) {
         setFrontierPoints(frames[frameIndex]?.frontier ?? []);
@@ -156,7 +199,6 @@ export function usePathfinder(graph) {
         setRunning(false);
       }
     }
-
     animRef.current = setTimeout(tick, FRAME_INTERVAL_MS);
   }
 
@@ -171,6 +213,7 @@ export function usePathfinder(graph) {
     setFinalPath([]);
     setTripStats(null);
     setRunning(false);
+    exploredNodeIdsRef.current = [];
   }, []);
 
   const startNode = startId ? graph?.get(startId) : null;
@@ -183,7 +226,6 @@ export function usePathfinder(graph) {
     frontierPoints,
     finalPath,
     tripStats,
-    formatDuration,
     running,
     handleMapClick,
     reset,

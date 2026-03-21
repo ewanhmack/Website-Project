@@ -113,6 +113,13 @@
   border-radius: 50%;
   animation: mxp-spin 0.7s linear infinite;
   flex-shrink: 0;
+  display: inline-block;
+}
+
+.mxp-spinner--small {
+  width: 8px;
+  height: 8px;
+  border-width: 1.5px;
 }
 
 @keyframes mxp-spin {
@@ -134,13 +141,22 @@
   background: #0b0f14;
 }
 
+/* Trip stats panel */
 .mxp-trip-stats {
   display: flex;
   align-items: center;
   gap: 0;
   padding: 10px 24px;
-  background: #0d160f;
   border-bottom: 1px solid #1e2733;
+  transition: background 0.4s ease;
+}
+
+.mxp-trip-stats--live {
+  background: #0d1117;
+}
+
+.mxp-trip-stats--exact {
+  background: #0d160f;
 }
 
 .mxp-trip-stat {
@@ -156,14 +172,30 @@
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: #4a5568;
+  transition: color 0.3s ease;
+}
+
+.mxp-trip-stats--exact .mxp-trip-label {
+  color: #2d6a4f;
 }
 
 .mxp-trip-value {
   font-family: 'Space Mono', monospace;
   font-size: 16px;
   font-weight: 700;
-  color: #34d399;
   letter-spacing: -0.02em;
+  transition: color 0.4s ease;
+  color: #f59e0b;
+}
+
+.mxp-trip-stats--exact .mxp-trip-value {
+  color: #34d399;
+}
+
+.mxp-trip-unit {
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.6;
 }
 
 .mxp-trip-divider {
@@ -171,4 +203,26 @@
   height: 32px;
   background: #1e2733;
   margin: 0 20px 0 0;
+}
+
+.mxp-trip-badge {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f59e0b;
+  opacity: 0.7;
+}
+
+.mxp-trip-badge--done {
+  color: #34d399;
+  opacity: 1;
+}
+
+.mxp-trip-empty {
+  color: #2d3748;
 }
