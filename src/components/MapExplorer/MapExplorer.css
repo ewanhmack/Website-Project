@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+.mxp-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #0b0f14;
+  color: #e2e8f0;
+  font-family: 'DM Sans', sans-serif;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #1e2733;
+}
+
+.mxp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #0d1117;
+  border-bottom: 1px solid #1e2733;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mxp-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mxp-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: #4a5568;
+  text-transform: uppercase;
+}
+
+.mxp-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: #f8fafc;
+  letter-spacing: -0.02em;
+}
+
+.mxp-legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.mxp-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #94a3b8;
+  font-family: 'Space Mono', monospace;
+}
+
+.mxp-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.mxp-reset-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 5px 14px;
+  border-radius: 4px;
+  border: 1px solid #2d3748;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+}
+
+.mxp-reset-btn:hover {
+  background: #1e2733;
+  color: #e2e8f0;
+  border-color: #4a5568;
+}
+
+.mxp-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  font-size: 13px;
+  font-family: 'Space Mono', monospace;
+  border-bottom: 1px solid #1e2733;
+}
+
+.mxp-status--loading { color: #94a3b8; background: #0d1117; }
+.mxp-status--error   { color: #fc8181; background: #1a0f0f; }
+.mxp-status--running { color: #f59e0b; background: #0d1117; }
+.mxp-status--done    { color: #34d399; background: #0d160f; }
+.mxp-status--info    { color: #60a5fa; background: #0d1117; }
+
+.mxp-spinner {
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: mxp-spin 0.7s linear infinite;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.mxp-spinner--small {
+  width: 8px;
+  height: 8px;
+  border-width: 1.5px;
+}
+
+@keyframes mxp-spin {
+  to { transform: rotate(360deg); }
+}
+
+.mxp-map-wrap {
+  flex: 1;
+  position: relative;
+}
+
+.mxp-map {
+  width: 100%;
+  height: 100%;
+  min-height: 1000px;
+}
+
+.mxp-map .leaflet-container {
+  background: #0b0f14;
+}
+
+/* Trip stats panel */
+.mxp-trip-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 24px;
+  border-bottom: 1px solid #1e2733;
+  transition: background 0.4s ease;
+}
+
+.mxp-trip-stats--live {
+  background: #0d1117;
+}
+
+.mxp-trip-stats--exact {
+  background: #0d160f;
+}
+
+.mxp-trip-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 20px 0 0;
+}
+
+.mxp-trip-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #4a5568;
+  transition: color 0.3s ease;
+}
+
+.mxp-trip-stats--exact .mxp-trip-label {
+  color: #2d6a4f;
+}
+
+.mxp-trip-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  transition: color 0.4s ease;
+  color: #f59e0b;
+}
+
+.mxp-trip-stats--exact .mxp-trip-value {
+  color: #34d399;
+}
+
+.mxp-trip-unit {
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+.mxp-trip-divider {
+  width: 1px;
+  height: 32px;
+  background: #1e2733;
+  margin: 0 20px 0 0;
+}
+
+.mxp-trip-badge {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f59e0b;
+  opacity: 0.7;
+}
+
+.mxp-trip-badge--done {
+  color: #34d399;
+  opacity: 1;
+}
+
+.mxp-trip-empty {
+  color: #2d3748;
+}
