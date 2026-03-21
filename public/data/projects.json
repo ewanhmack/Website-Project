@@ -283,19 +283,19 @@
 	"longDescription": "NI Pathfinder fetches live road data from the OpenStreetMap Overpass API and constructs a weighted graph of Northern Ireland's motorway, trunk, and primary road network. Users click two points on the map to set a start and destination, then watch A* search animate in real time — exploring nodes, tracking the frontier, and drawing the final shortest path. Built with React, react-leaflet, and a hand-rolled A* implementation.",
 	"media": [
 		{
-		"src": "ni-pathfinder/pathfinder-overview.png",
-		"caption": "NI Pathfinder overview",
-		"blurb": "The full Northern Ireland road network loaded from OpenStreetMap, displayed on a dark CARTO base map"
+		"src": "MapExplorer/Map.png",
+		"caption": "NI road network",
+		"blurb": "Northern Ireland's motorway, trunk, primary and secondary road network loaded from OpenStreetMap on a dark CARTO base map"
 		},
 		{
-		"src": "ni-pathfinder/pathfinder-search.png",
+		"src": "MapExplorer/PathRun.mp4",
 		"caption": "A* search in progress",
-		"blurb": "The frontier and explored nodes animating outward from the start point as A* works toward the destination"
+		"blurb": "The frontier and explored nodes animating outward from the start point as A* searches toward the destination, with live distance and time stats updating in the corner"
 		},
 		{
-		"src": "ni-pathfinder/pathfinder-result.png",
-		"caption": "Shortest path result",
-		"blurb": "The final path highlighted in green between two selected points on the road network"
+		"src": "MapExplorer/SuccessPath.png",
+		"caption": "Shortest path found",
+		"blurb": "The final route highlighted in green between two selected points, with exact distance and estimated drive time snapping into the stats panel"
 		}
 	],
 	"tech": ["TypeScript", "React", "Vite", "Leaflet", "OpenStreetMap", "Algorithms"],
@@ -306,7 +306,7 @@
 		},
 		{
 		"label": "GitHub Repo",
-		"href": "https://github.com/ewanhmack/NI-Pathfinder"
+		"href": "https://github.com/ewanhmack/Website-Project/tree/main/src/components/MapExplorer"
 		}
 	]
 	}
