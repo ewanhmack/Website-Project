@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  min-height: 600px;
   background: #0b0f14;
   color: #e2e8f0;
   font-family: 'DM Sans', sans-serif;
@@ -128,9 +127,48 @@
 .mxp-map {
   width: 100%;
   height: 100%;
-  min-height: 500px;
+  min-height: 1000px;
 }
 
 .mxp-map .leaflet-container {
   background: #0b0f14;
+}
+
+.mxp-trip-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 24px;
+  background: #0d160f;
+  border-bottom: 1px solid #1e2733;
+}
+
+.mxp-trip-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 20px 0 0;
+}
+
+.mxp-trip-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #4a5568;
+}
+
+.mxp-trip-value {
+  font-family: 'Space Mono', monospace;
+  font-size: 16px;
+  font-weight: 700;
+  color: #34d399;
+  letter-spacing: -0.02em;
+}
+
+.mxp-trip-divider {
+  width: 1px;
+  height: 32px;
+  background: #1e2733;
+  margin: 0 20px 0 0;
 }

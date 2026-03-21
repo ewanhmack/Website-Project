@@ -18,7 +18,7 @@ export function aStar(graph, startId, endId) {
   const endNode = graph.get(endId);
 
   if (!startNode || !endNode) {
-    return { frames: [], path: [] };
+    return { frames: [], path: [], pathNodeIds: [] };
   }
 
   const openSet = new Map();
@@ -44,13 +44,15 @@ export function aStar(graph, startId, endId) {
 
     if (currentId === endId) {
       const path = [];
+      const pathNodeIds = [];
       let curr = endId;
       while (curr !== undefined) {
         const node = graph.get(curr);
         path.unshift([node.lat, node.lng]);
+        pathNodeIds.unshift(curr);
         curr = cameFrom.get(curr);
       }
-      return { frames, path };
+      return { frames, path, pathNodeIds };
     }
 
     openSet.delete(currentId);
@@ -77,5 +79,5 @@ export function aStar(graph, startId, endId) {
     }
   }
 
-  return { frames, path: [] };
+  return { frames, path: [], pathNodeIds: [] };
 }

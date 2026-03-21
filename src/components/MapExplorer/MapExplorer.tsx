@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import {
   MapContainer,
   TileLayer,
   CircleMarker,
   Polyline,
   useMapEvents,
+  useMap,
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useOSMGraph } from "./useOSMGraph";
@@ -26,6 +27,14 @@ function ClickHandler({ onClick }) {
       onClick(e.latlng);
     },
   });
+  return null;
+}
+
+function MapInvalidator() {
+  const map = useMap();
+  useEffect(() => {
+    map.invalidateSize();
+  }, [map]);
   return null;
 }
 
@@ -61,11 +70,7 @@ function StatusBar({ loading, error, graph, startNode, endNode, running, finalPa
   }
 
   if (finalPath.length > 0) {
-    return (
-      <div className="mxp-status mxp-status--done">
-        ✓ Path found — {finalPath.length} waypoints. Click anywhere to reset.
-      </div>
-    );
+    return null;
   }
 
   if (startNode && !endNode) {
@@ -83,6 +88,31 @@ function StatusBar({ loading, error, graph, startNode, endNode, running, finalPa
   );
 }
 
+function TripStats({ tripStats, formatDuration, finalPath }) {
+  if (!tripStats || finalPath.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="mxp-trip-stats">
+      <div className="mxp-trip-stat">
+        <span className="mxp-trip-label">Distance</span>
+        <span className="mxp-trip-value">{tripStats.distanceKm.toFixed(1)} km</span>
+      </div>
+      <div className="mxp-trip-divider" />
+      <div className="mxp-trip-stat">
+        <span className="mxp-trip-label">Est. Drive Time</span>
+        <span className="mxp-trip-value">{formatDuration(tripStats.durationMins)}</span>
+      </div>
+      <div className="mxp-trip-divider" />
+      <div className="mxp-trip-stat">
+        <span className="mxp-trip-label">Waypoints</span>
+        <span className="mxp-trip-value">{finalPath.length}</span>
+      </div>
+    </div>
+  );
+}
+
 export default function MapExplorer() {
   const { graph, loading, error, fetchGraph } = useOSMGraph();
   const {
@@ -91,6 +121,8 @@ export default function MapExplorer() {
     exploredPoints,
     frontierPoints,
     finalPath,
+    tripStats,
+    formatDuration,
     running,
     handleMapClick,
     reset,
@@ -146,6 +178,12 @@ export default function MapExplorer() {
         finalPath={finalPath}
       />
 
+      <TripStats
+        tripStats={tripStats}
+        formatDuration={formatDuration}
+        finalPath={finalPath}
+      />
+
       <div className="mxp-map-wrap">
         <MapContainer
           center={BELFAST_CENTER}
@@ -158,6 +196,7 @@ export default function MapExplorer() {
             attribution='&copy; <a href="https://carto.com/">CARTO</a>'
           />
 
+          <MapInvalidator />
           <ClickHandler onClick={handleMapClick} />
 
           {exploredPoints.map((pt, i) => (

@@ -10,6 +10,7 @@ const QUERY = `
   way["highway"="motorway"](${BBOX});
   way["highway"="trunk"](${BBOX});
   way["highway"="primary"](${BBOX});
+  way["highway"="secondary"](${BBOX});
 );
 out body;
 >;
@@ -51,6 +52,7 @@ function parseGraph(elements) {
       el.tags?.oneway === "1" ||
       el.tags?.highway === "motorway";
 
+    const highway = el.tags?.highway ?? "primary";
     const nodes = el.nodes;
 
     for (let i = 0; i < nodes.length - 1; i++) {
@@ -72,10 +74,10 @@ function parseGraph(elements) {
         graph.set(bId, { ...bCoord, neighbours: [] });
       }
 
-      graph.get(aId).neighbours.push({ id: bId, dist });
+      graph.get(aId).neighbours.push({ id: bId, dist, highway });
 
       if (!oneway) {
-        graph.get(bId).neighbours.push({ id: aId, dist });
+        graph.get(bId).neighbours.push({ id: aId, dist, highway });
       }
     }
   }
