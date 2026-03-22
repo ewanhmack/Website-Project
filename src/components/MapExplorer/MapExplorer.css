@@ -226,3 +226,141 @@
 .mxp-trip-empty {
   color: #2d3748;
 }
+
+ /* Runner Router */
+
+ .mxp-mode-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.mxp-mode-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 6px 16px;
+  border-radius: 4px;
+  border: 1px solid #2d3748;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+}
+
+.mxp-mode-btn:hover {
+  background: #1e2733;
+  color: #e2e8f0;
+  border-color: #4a5568;
+}
+
+.mxp-mode-btn--active {
+  border-color: #6366f1;
+  color: #e2e8f0;
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.mxp-planner-panel {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+  border-bottom: 1px solid #1e2733;
+  background: #0d1117;
+  flex-wrap: wrap;
+}
+
+.mxp-planner-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mxp-planner-range-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mxp-range {
+  width: 140px;
+  accentColor: #6366f1;
+}
+
+.mxp-planner-miles {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  color: #e2e8f0;
+  min-width: 40px;
+}
+
+.mxp-planner-toggle {
+  display: flex;
+  gap: 6px;
+}
+
+.mxp-planner-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 5px 12px;
+  border-radius: 4px;
+  border: 1px solid #2d3748;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-transform: uppercase;
+}
+
+.mxp-planner-btn--active {
+  border-color: #a78bfa;
+  color: #e2e8f0;
+  background: rgba(167, 139, 250, 0.12);
+}
+
+.mxp-planner-stats {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.mxp-planner-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 20px 0 0;
+}
+
+.mxp-planner-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.mxp-planner-find-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 7px 18px;
+  border-radius: 4px;
+  border: none;
+  background: #6366f1;
+  color: #fff;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: opacity 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mxp-planner-find-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.mxp-planner-find-btn:hover:not(:disabled) {
+  opacity: 0.85;
+}
