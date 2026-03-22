@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "posters": "node scripts/generate-video-posters.mjs public",
     "posters:force": "node scripts/generate-video-posters.mjs public --force",
-    "build": "npm run posters && vite build"
+    "build": "npm run posters && vite build",
+    "start ": "npm run dev"
   },
   "dependencies": {
     "exifr": "^7.1.3",
