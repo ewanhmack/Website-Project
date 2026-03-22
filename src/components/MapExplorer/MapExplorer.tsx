@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -10,9 +10,10 @@ import {
 import "leaflet/dist/leaflet.css";
 import { useOSMGraph } from "./useOSMGraph";
 import { usePathfinder, formatDuration } from "./usePathfinder";
+import { useRoutePlanner, RoutePlannerPanel } from "./RoutePlanner";
 import "./MapExplorer.css";
 
-const BELFAST_CENTER = [54.5973, -5.9301];
+const BELFAST_CENTER: [number, number] = [54.5973, -5.9301];
 const INITIAL_ZOOM = 8;
 
 const EXPLORED_COLOR = "#f59e0b";
@@ -22,18 +23,7 @@ const START_COLOR = "#60a5fa";
 const END_COLOR = "#f472b6";
 const ROUTE_COLOR = "#a78bfa";
 
-const ORS_API_KEY = import.meta.env.VITE_ORS_API_KEY;
-const MILES_TO_METERS = 1609.344;
-
-function metersToMiles(m) {
-  return (m / MILES_TO_METERS).toFixed(2);
-}
-
-function metersToFeet(m) {
-  return Math.round(m * 3.28084);
-}
-
-function ClickHandler({ onClick }) {
+function ClickHandler({ onClick }: { onClick: (latlng: { lat: number; lng: number }) => void }) {
   useMapEvents({
     click(e) {
       onClick(e.latlng);
@@ -185,91 +175,6 @@ function TripStats({ tripStats, finalPath }) {
   );
 }
 
-function RoutePlannerPanel({ routeState, onFindRoute, onReset, miles, setMiles, isLoop, setIsLoop }) {
-  return (
-    <div className="mxp-planner-panel">
-      <div className="mxp-planner-field">
-        <span className="mxp-trip-label">Distance</span>
-        <div className="mxp-planner-range-row">
-          <input
-            type="range"
-            min={1}
-            max={26}
-            step={0.5}
-            value={miles}
-            onChange={(e) => setMiles(parseFloat(e.target.value))}
-            className="mxp-range"
-          />
-          <span className="mxp-planner-miles">{miles} mi</span>
-        </div>
-      </div>
-
-      <div className="mxp-planner-field">
-        <span className="mxp-trip-label">Route type</span>
-        <div className="mxp-planner-toggle">
-          <button
-            className={`mxp-planner-btn${isLoop ? " mxp-planner-btn--active" : ""}`}
-            onClick={() => setIsLoop(true)}
-          >
-            Loop
-          </button>
-          <button
-            className={`mxp-planner-btn${!isLoop ? " mxp-planner-btn--active" : ""}`}
-            onClick={() => setIsLoop(false)}
-          >
-            One way
-          </button>
-        </div>
-      </div>
-
-      {routeState.route && (
-        <div className="mxp-planner-stats">
-          <div className="mxp-planner-stat">
-            <span className="mxp-trip-value">
-              {metersToMiles(routeState.route.distance)}
-              <span className="mxp-trip-unit"> mi</span>
-            </span>
-            <span className="mxp-trip-label">Distance</span>
-          </div>
-          <div className="mxp-trip-divider" />
-          <div className="mxp-planner-stat">
-            <span className="mxp-trip-value">
-              {routeState.route.ascentFt ?? "—"}
-              <span className="mxp-trip-unit"> ft</span>
-            </span>
-            <span className="mxp-trip-label">Gain</span>
-          </div>
-          <div className="mxp-trip-divider" />
-          <div className="mxp-planner-stat">
-            <span className="mxp-trip-value">
-              {routeState.route.descentFt ?? "—"}
-              <span className="mxp-trip-unit"> ft</span>
-            </span>
-            <span className="mxp-trip-label">Loss</span>
-          </div>
-        </div>
-      )}
-
-      <div className="mxp-planner-actions">
-        <button
-          className="mxp-planner-find-btn"
-          onClick={onFindRoute}
-          disabled={!routeState.start || routeState.loading}
-        >
-          {routeState.loading ? (
-            <><span className="mxp-spinner mxp-spinner--small" /> Finding…</>
-          ) : "Find Route"}
-        </button>
-        {(routeState.start || routeState.route) && (
-          <button className="mxp-reset-btn" onClick={onReset}>
-            Reset
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
 export default function MapExplorer() {
   const { graph, loading, error, fetchGraph } = useOSMGraph();
   const {
@@ -284,114 +189,30 @@ export default function MapExplorer() {
     reset: resetPathfinder,
   } = usePathfinder(graph);
 
+  const {
+    miles,
+    setMiles,
+    isLoop,
+    setIsLoop,
+    routeState,
+    handlePlannerClick,
+    handleFindRoute,
+    resetRoute,
+  } = useRoutePlanner();
+
   const [mode, setMode] = useState("pathfinder");
-  const [miles, setMiles] = useState(5);
-  const [isLoop, setIsLoop] = useState(true);
-  const [routeState, setRouteState] = useState({
-    start: null,
-    route: null,
-    path: [],
-    loading: false,
-    error: null,
-  });
 
   useEffect(() => {
     fetchGraph();
   }, [fetchGraph]);
 
-  function handleModeSwitch(newMode) {
+  function handleModeSwitch(newMode: string) {
     setMode(newMode);
     resetPathfinder();
-    setRouteState({ start: null, route: null, path: [], loading: false, error: null });
+    resetRoute();
   }
 
-  function handlePlannerClick(latlng) {
-    if (routeState.loading) { return; }
-    setRouteState((prev) => ({
-      ...prev,
-      start: latlng,
-      route: null,
-      path: [],
-      error: null,
-    }));
-  }
-
-  async function handleFindRoute() {
-    if (!routeState.start) { return; }
-    setRouteState((prev) => ({ ...prev, loading: true, error: null, route: null, path: [] }));
-
-    try {
-      const meters = miles * MILES_TO_METERS;
-      const { lat, lng } = routeState.start;
-
-      let geojson;
-
-      if (isLoop) {
-        const res = await fetch(
-          "https://api.openrouteservice.org/v2/directions/foot-walking/geojson",
-          {
-            method: "POST",
-            headers: {
-              Authorization: ORS_API_KEY,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              coordinates: [[lng, lat]],
-              options: { round_trip: { length: meters / 2, points: 3, seed: 1 } },
-              elevation: true,
-            }),
-          }
-        );
-        geojson = await res.json();
-      } else {
-        const angle = Math.random() * 2 * Math.PI;
-        const latOffset = (meters / 2 / 111320) * Math.cos(angle);
-        const lngOffset =
-          (meters / 2 / (111320 * Math.cos((lat * Math.PI) / 180))) * Math.sin(angle);
-        const endLat = lat + latOffset;
-        const endLng = lng + lngOffset;
-
-        const res = await fetch(
-          "https://api.openrouteservice.org/v2/directions/foot-walking/geojson",
-          {
-            method: "POST",
-            headers: {
-              Authorization: ORS_API_KEY,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              coordinates: [[lng, lat], [endLng, endLat]],
-              elevation: true,
-            }),
-          }
-        );
-        geojson = await res.json();
-      }
-
-      if (geojson.error) {
-        throw new Error(geojson.error.message || "Route error");
-      }
-
-      const feature = geojson.features[0];
-      const summary = feature.properties.summary;
-      const coords = feature.geometry.coordinates.map(([lng, lat]) => [lat, lng]);
-
-      setRouteState((prev) => ({
-        ...prev,
-        loading: false,
-        path: coords,
-        route: {
-          distance: summary.distance,
-          ascentFt: feature.properties.ascent != null ? metersToFeet(feature.properties.ascent) : null,
-          descentFt: feature.properties.descent != null ? metersToFeet(feature.properties.descent) : null,
-        },
-      }));
-    } catch (err) {
-      setRouteState((prev) => ({ ...prev, loading: false, error: err.message }));
-    }
-  }
-
-  function handleMapClickDispatch(latlng) {
+  function handleMapClickDispatch(latlng: { lat: number; lng: number }) {
     if (mode === "pathfinder") {
       handleMapClick(latlng);
     } else {
@@ -473,7 +294,7 @@ export default function MapExplorer() {
         <RoutePlannerPanel
           routeState={routeState}
           onFindRoute={handleFindRoute}
-          onReset={() => setRouteState({ start: null, route: null, path: [], loading: false, error: null })}
+          onReset={resetRoute}
           miles={miles}
           setMiles={setMiles}
           isLoop={isLoop}
