@@ -58,4 +58,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          gh workflow run "Deploy GitHub Pages" --ref main
+          HOUR=$(date -u +%H)
+          if [ "$HOUR" -ge 8 ] && [ "$HOUR" -lt 24 ]; then
+            gh workflow run "Deploy GitHub Pages" --ref main
+          else
+            echo "Outside daytime hours, skipping deploy"
+          fi
