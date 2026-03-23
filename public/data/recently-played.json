@@ -1,5 +1,37 @@
 [
   {
+    "track": "Cool About It",
+    "artist": "boygenius, Julien Baker, Phoebe Bridgers, Lucy Dacus",
+    "album": "the record",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b27343fc02bcfa7cd4e6bb66aa22",
+    "url": "https://open.spotify.com/track/5PJH1U5Iie893v48Fl9yaC",
+    "played_at": "2026-03-23T00:31:28.220Z"
+  },
+  {
+    "track": "If I Get High",
+    "artist": "Nothing But Thieves",
+    "album": "Nothing But Thieves (Deluxe)",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b2739eedbac74aec7609be574941",
+    "url": "https://open.spotify.com/track/3O2pB9JHreUZ9F83qSNmu8",
+    "played_at": "2026-03-23T00:28:28.611Z"
+  },
+  {
+    "track": "Wasteland, Baby!",
+    "artist": "Hozier",
+    "album": "Wasteland, Baby!",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b273299e8e9983e2b0455e5e8505",
+    "url": "https://open.spotify.com/track/1IbgYIuVwJsibCcT5GFYHy",
+    "played_at": "2026-03-23T00:25:01.875Z"
+  },
+  {
+    "track": "Cherry Wine - Live",
+    "artist": "Hozier",
+    "album": "Hozier",
+    "album_art": "https://i.scdn.co/image/ab67616d0000b2737a9bf5f82e32d33d4503fe7b",
+    "url": "https://open.spotify.com/track/4Q66chx9WzqWcLItXoZ5r4",
+    "played_at": "2026-03-23T00:20:35.354Z"
+  },
+  {
     "track": "Foreigner's God",
     "artist": "Hozier",
     "album": "Hozier",
