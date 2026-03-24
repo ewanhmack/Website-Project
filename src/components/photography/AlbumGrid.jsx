@@ -2,12 +2,19 @@ import React from "react";
 import { IMG_BASE } from "../../utils/photos";
 
 export default function AlbumGrid({ items, loadedMap, markLoaded, onSelectPhoto }) {
+  const sortedItems = [...items].sort((a, b) => {
+    const aLoaded = !!loadedMap[`${a.image}-${items.indexOf(a)}`];
+    const bLoaded = !!loadedMap[`${b.image}-${items.indexOf(b)}`];
+    return Number(bLoaded) - Number(aLoaded);
+  });
+
   return (
     <section className="album-grid stylised full-bleed" aria-label="Album (all photos)">
-      {items.map((photo, index) => {
-        const id = `${photo.image}-${index}`;
+      {sortedItems.map((photo, index) => {
+        const originalIndex = items.indexOf(photo);
+        const id = `${photo.image}-${originalIndex}`;
         const isLoaded = !!loadedMap[id];
-        const isFirst = index === 0;
+        const isFirst = originalIndex === 0;
 
         return (
           <figure className={`album-item ${isLoaded ? "is-loaded" : ""}`} key={id}>

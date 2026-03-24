@@ -38,12 +38,12 @@ export default function Highlights() {
       href: "#/projects/3d-photography-game",
     },
     {
-      imageSource: "images/projects/music/Website%20Home.jpg",
-      imageAlt: "Music website homepage featuring highlighted albums",
-      title: "Music Website",
-      description: "Browse albums, rate & review, and see rankings.",
-      chips: ["PHP", "JavaScript", "MySQL"],
-      href: "#/projects/music-website",
+      imageSource: "images/projects/MapExplorer/Map.png",
+      imageAlt: "NI Pathfinder road network visualisation on a dark map",
+      title: "NI Pathfinder",
+      description: "Interactive A* pathfinding visualiser on Northern Ireland's real road network.",
+      chips: ["TypeScript", "React", "Python"],
+      href: "#/projects/ni-pathfinder",
     },
     {
       imageSource: "images/projects/BaradDurApi.png",
