@@ -1,0 +1,290 @@
+.aph-page {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 24px 80px;
+}
+
+.aph-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.aph-back {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.aph-back:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+/* ── Upload zone ── */
+.aph-dropzone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  margin-bottom: 20px;
+  background: var(--panel);
+}
+
+.aph-dropzone:hover,
+.aph-dropzone--active {
+  border-color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 5%, var(--panel));
+}
+
+.aph-dropzone-icon {
+  font-size: 2rem;
+}
+
+.aph-dropzone-text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.aph-dropzone-sub {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ── Upload progress ── */
+.aph-progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.aph-progress-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+}
+
+.aph-progress-name {
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 60%;
+}
+
+.aph-progress-status--converting,
+.aph-progress-status--uploading {
+  color: var(--muted);
+}
+
+.aph-progress-status--done {
+  color: #4ade80;
+}
+
+.aph-progress-status--error {
+  color: #e05555;
+}
+
+/* ── Tabs ── */
+.aph-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.aph-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.aph-tab:hover {
+  border-color: var(--brand);
+  color: var(--text);
+}
+
+.aph-tab--active {
+  border-color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+  color: var(--text);
+}
+
+.aph-tab-count {
+  background: var(--border);
+  color: var(--muted);
+  font-size: 0.75rem;
+  padding: 1px 7px;
+  border-radius: 20px;
+}
+
+.aph-tab--active .aph-tab-count {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+
+/* ── Photo grid ── */
+.aph-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.aph-photo-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.aph-photo-img-wrap {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.aph-photo-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.2s;
+}
+
+.aph-photo-card:hover .aph-photo-img-wrap img {
+  transform: scale(1.04);
+}
+
+.aph-photo-footer {
+  padding: 8px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.aph-photo-name {
+  font-size: 0.75rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.aph-delete-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #e05555;
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.aph-delete-btn:hover {
+  background: #e05555;
+  color: #fff;
+  border-color: #e05555;
+}
+
+.aph-delete-confirm {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.aph-delete-confirm button {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  border: 1px solid var(--border);
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+
+.aph-delete-confirm button.ghost {
+  background: transparent;
+  color: var(--text);
+}
+
+.aph-loading {
+  padding: 40px 0;
+  color: var(--muted);
+}
+
+.aph-search-bar {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.aph-search-bar input {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 36px 10px 14px;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+
+.aph-search-bar input:focus {
+  outline: var(--focus);
+  border-color: var(--brand);
+}
+
+.aph-search-clear {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.aph-search-clear:hover {
+  color: var(--text);
+}

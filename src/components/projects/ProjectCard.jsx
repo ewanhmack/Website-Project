@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { MEDIA_BASE, firstImage, getMediaArray } from "../../utils/projects";
+import { firstImage, getMediaArray, resolveMediaSrc } from "../../utils/projects";
 import { slugify, mediaTypeFromSrc, youtubeIdFrom } from "../../utils/projectsExtras";
 
 function derivePosterFromVideoSrc(src) {
@@ -52,7 +52,7 @@ export default function ProjectCard({ project }) {
         <div className="project-media">
           {preview ? (
             <img
-              src={/^https?:\/\//i.test(preview) ? preview : MEDIA_BASE + preview}
+              src={resolveMediaSrc(preview)}
               alt={project.header}
               loading="lazy"
               decoding="async"

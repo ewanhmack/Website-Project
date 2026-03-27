@@ -7,10 +7,12 @@ import React, {
   useCallback,
 } from "react";
 import { createPortal } from "react-dom";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
 import ViewToggle from "../components/photography/ViewToggle";
 import Carousel from "../components/photography/Carousel";
 import AlbumGrid from "../components/photography/AlbumGrid";
-import { shuffle, IMG_BASE } from "../utils/photos";
+import { shuffle, getPhotoUrl } from "../utils/photos";
 import "./photography.css";
 import "./PageStyles.css";
 
@@ -88,10 +90,9 @@ function PhotoModal({ photo, onClose }) {
     return null;
   }
 
-  const imageSource = `${IMG_BASE}${photo.image}`;
+  const imageSource = getPhotoUrl(photo);
   const title = photo.header || "Photo";
   const category = photo.category || "";
-
   const metadata = photo.metadata || {};
 
   const details = [
@@ -169,7 +170,7 @@ function PhotoModal({ photo, onClose }) {
 }
 
 export default function Photography() {
-  const [data, setData] = useState({ Portraits: [], Landscapes: [] });
+  const [data, setData] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
   const [view, setView] = useState("carousel");
@@ -178,35 +179,43 @@ export default function Photography() {
   useEffect(() => {
     let alive = true;
 
-    fetch("data/photography.json")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
+    const fetchPhotos = async () => {
+      try {
+        const categoriesSnapshot = await getDocs(collection(db, "photography"));
+        const result = {};
+
+        for (const categoryDoc of categoriesSnapshot.docs) {
+          const category = categoryDoc.id;
+          const photosSnapshot = await getDocs(
+            collection(db, "photography", category, "photos")
+          );
+
+          result[category] = photosSnapshot.docs
+            .map((doc) => ({ id: doc.id, ...doc.data() }))
+            .sort((a, b) => a.order - b.order);
         }
 
-        return response.json();
-      })
-      .then((json) => {
         if (!alive) {
           return;
         }
 
-        setData(json || { Portraits: [], Landscapes: [] });
-      })
-      .catch((fetchError) => {
+        setData(result);
+      } catch (fetchError) {
         if (!alive) {
           return;
         }
 
         setError(fetchError.message || "Failed to load");
-      })
-      .finally(() => {
+      } finally {
         if (!alive) {
           return;
         }
 
         setLoaded(true);
-      });
+      }
+    };
+
+    fetchPhotos();
 
     return () => {
       alive = false;
@@ -231,7 +240,6 @@ export default function Photography() {
     setSelectedPhoto(null);
   }, []);
 
-  // ==== transition stage sizing (limit scroll) ====
   const carouselRef = useRef(null);
   const gridRef = useRef(null);
   const [stageH, setStageH] = useState("auto");
@@ -260,7 +268,6 @@ export default function Photography() {
     };
   }, [measureActive]);
 
-  // progressive grid load → re-measure
   const [loadedMap, setLoadedMap] = useState({});
 
   const markLoaded = useCallback(
@@ -304,51 +311,36 @@ export default function Photography() {
 
       {loaded && error ? (
         <div className="error-banner" role="alert">
-          Couldn’t load photos ({error}). Check{" "}
-          <code>public/data/photography.json</code>.
+          Couldn't load photos ({error}). Check Firestore connection.
         </div>
       ) : null}
 
       {loaded && !error ? (
         <div className="view-stage" style={{ height: stageH }}>
-          {/* CAROUSEL PANEL */}
           <div
             ref={carouselRef}
             className={`view-panel ${view === "carousel" ? "is-active" : ""}`}
-            aria-hidden={view !== "carousel"}
-          >
+            aria-hidden={view !== "carousel"}>
             <div className="stack">
-              <Carousel
-                title="Portraits"
-                items={data.Portraits || []}
-                perView={3}
-                perViewSm={1}
-                variant="portrait"
-                onMediaLoad={onCarouselMediaLoad}
-                onSelectPhoto={(photo) =>
-                  openPhoto({ ...photo, category: "Portraits" })
-                }
-              />
-
-              <Carousel
-                title="Landscapes"
-                items={data.Landscapes || []}
-                perView={1}
-                variant="landscape"
-                onMediaLoad={onCarouselMediaLoad}
-                onSelectPhoto={(photo) =>
-                  openPhoto({ ...photo, category: "Landscapes" })
-                }
-              />
+              {Object.entries(data).map(([category, items]) => (
+                <Carousel
+                  key={category}
+                  title={category}
+                  items={items}
+                  perView={category === "Portraits" ? 3 : 1}
+                  perViewSm={1}
+                  variant={category === "Portraits" ? "portrait" : "landscape"}
+                  onMediaLoad={onCarouselMediaLoad}
+                  onSelectPhoto={(photo) => openPhoto({ ...photo, category })}
+                />
+              ))}
             </div>
           </div>
 
-          {/* GRID PANEL */}
           <div
             ref={gridRef}
             className={`view-panel ${view === "grid" ? "is-active" : ""}`}
-            aria-hidden={view !== "grid"}
-          >
+            aria-hidden={view !== "grid"}>
             <AlbumGrid
               items={flat}
               loadedMap={loadedMap}

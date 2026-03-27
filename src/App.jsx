@@ -7,15 +7,20 @@ import ProjectDetail from "./components/projects/ProjectDetail";
 import Photography from "./pages/Photography";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
-import "./App.css";
-import "./components/ComponentStyles.css";
-import "./pages/PageStyles.css";
 import Electric from "./pages/Electric";
 import ColorPicker from "./pages/ColorPicker";
 import AboutMe from "./pages/AboutMe";
 import ExplainThisUIPage from "./pages/ExplainThisUI";
 import Music from "./pages/Music";
 import Maps from "./pages/Maps";
+import AdminLogin from "./components/admin/AdminLogin";
+import Admin from "./pages/Admin";
+import ProtectedRoute from "./components/ProtectedRoute";
+import "./App.css";
+import "./components/ComponentStyles.css";
+import "./pages/PageStyles.css";
+import AdminProjects from "./components/admin/AdminProjects";
+import AdminPhotos from "./components/admin/AdminPhotos";
 
 export default function App() {
   return (
@@ -35,6 +40,31 @@ export default function App() {
             <Route path="/about-me" element={<AboutMe />} />
             <Route path="/music" element={<Music />} />
             <Route path="/MapExplorer" element={<Maps />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <Admin />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/projects"
+              element={
+                <ProtectedRoute>
+                  <AdminProjects />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/photos"
+              element={
+                <ProtectedRoute>
+                  <AdminPhotos />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </main>
         <SiteFooter />
