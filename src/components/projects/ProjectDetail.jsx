@@ -133,7 +133,7 @@ export default function ProjectDetail() {
     return (
       <div className="container pad-y">
         <p>Project not found.</p>
-        <Link to="/programming" className="ghost">
+        <Link to="/projects" className="ghost">
           ← Back to Projects
         </Link>
       </div>
@@ -148,7 +148,7 @@ export default function ProjectDetail() {
     <article className="project-detail">
       <div className="container">
         <nav className="breadcrumb">
-          <Link to="/programming">Projects</Link>
+          <Link to="/projects">Projects</Link>
           <span>/</span>
           <span aria-current="page">{project.header}</span>
         </nav>

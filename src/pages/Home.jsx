@@ -34,7 +34,7 @@ export default function Home() {
               <a className="btn primary" href="#/photography">
                 View photography
               </a>
-              <a className="btn primary" href="#/programming">
+              <a className="btn primary" href="#/projects">
                 View all projects
               </a>
               <a className="btn primary" href="#/contact">

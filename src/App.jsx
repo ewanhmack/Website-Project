@@ -31,7 +31,7 @@ export default function App() {
         <main className="page-offset">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/programming" element={<Programming />} />
+            <Route path="/projects" element={<Programming />} />
             <Route path="/projects/:slug" element={<ProjectDetail />} />
             <Route path="/photography" element={<Photography />} />
             <Route path="/contact" element={<Contact />} />

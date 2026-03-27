@@ -91,7 +91,11 @@ export default function ProjectForm({ initial, onSave, onCancel, saving }) {
       </div>
 
       <LinksEditor links={form.links} onChange={(val) => set("links", val)} />
-      <MediaEditor media={form.media} onChange={(val) => set("media", val)} />
+      <MediaEditor
+        media={form.media}
+        onChange={(val) => set("media", val)}
+        projectHeader={form.header}
+      />
 
       <div className="ap-form-actions">
         <button onClick={handleSave} disabled={saving}>
