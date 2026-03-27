@@ -1,4 +1,5 @@
 import React from "react";
+import { resolveMediaSrc } from "../../utils/projects";
 
 export default function Hero() {
   return (
@@ -53,7 +54,7 @@ export default function Hero() {
 
           <div className="hero-feature-media" aria-hidden="true">
             <img
-              src="images/projects/photography/HighresScreenshot00007.png"
+              src={resolveMediaSrc("photography/HighresScreenshot00007.png")}
               alt=""
               loading="lazy"
               decoding="async"

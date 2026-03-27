@@ -1,4 +1,5 @@
 import React from "react";
+import { resolveMediaSrc } from "../../utils/projects";
 
 function HighlightCard({ imageSource, imageAlt, title, description, chips, href }) {
   return (
@@ -30,7 +31,7 @@ function HighlightCard({ imageSource, imageAlt, title, description, chips, href 
 export default function Highlights() {
   const highlightItems = [
     {
-      imageSource: "images/projects/photography/HighresScreenshot00007.png",
+      imageSource: resolveMediaSrc("photography/HighresScreenshot00007.png"),
       imageAlt: "Photography Game — desert biome at dusk",
       title: "Photography Game (UE5)",
       description: "First-person photography with save-to-disk screenshots.",
@@ -38,7 +39,7 @@ export default function Highlights() {
       href: "#/projects/3d-photography-game",
     },
     {
-      imageSource: "images/projects/MapExplorer/Map.png",
+      imageSource: resolveMediaSrc("MapExplorer/Map.png"),
       imageAlt: "NI Pathfinder road network visualisation on a dark map",
       title: "NI Pathfinder",
       description: "Interactive A* pathfinding visualiser on Northern Ireland's real road network.",
@@ -46,7 +47,7 @@ export default function Highlights() {
       href: "#/projects/ni-pathfinder",
     },
     {
-      imageSource: "images/projects/BaradDurApi.png",
+      imageSource: resolveMediaSrc("BaradDurApi.png"),
       imageAlt: "Barad-Dur API Software",
       title: "Barad-Dur Eye Tracker",
       description:
