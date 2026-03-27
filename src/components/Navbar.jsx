@@ -12,7 +12,7 @@ function Navbar() {
         <a href="#/" className="brand">Ewan MacKerracher</a>
         <div className="navbar-links">
           <NavLink to="/" end className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Home</NavLink>
-          <NavLink to="/programming" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Programming</NavLink>
+          <NavLink to="/projects" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Programming</NavLink>
           <NavLink to="/photography" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Photography</NavLink>
           <NavLink to="/contact" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Contact</NavLink>
           <NavLink to="/music" className={({ isActive }) => isActive ? "navbar-link active" : "navbar-link"}>Music</NavLink>
