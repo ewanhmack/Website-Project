@@ -1,32 +1,42 @@
 import React, { useEffect, useState } from "react";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { db } from "../firebase";
 import RecentlyPlayed from "../components/Music/RecentlyPlayed";
 import MusicStats from "../components/Music/MusicStats";
 
 export default function Music() {
   const [tracks, setTracks] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("/Website-Project/data/recently-played.json")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch");
-        }
-        return res.json();
-      })
-      .then(setTracks)
-      .catch(() => setError("Couldn't load recently played tracks."));
+    const fetchTracks = async () => {
+      try {
+        const q = query(
+          collection(db, "music", "recently-played", "tracks"),
+          orderBy("played_at", "desc")
+        );
+        const snapshot = await getDocs(q);
+        setTracks(snapshot.docs.map((d) => d.data()));
+      } catch (err) {
+        setError("Couldn't load recently played tracks.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTracks();
   }, []);
 
   return (
     <div className="page-container music">
       <div className="music-hero">
         <h2>Recently Played</h2>
-        <p className="muted">Updated every 30 minutes via Spotify.</p>
+        <p className="muted">Updated every 5 minutes via Spotify.</p>
       </div>
-      {error && <p className="muted">{error}</p>}
-      {!error && <MusicStats tracks={tracks} />}
-      {!error && <RecentlyPlayed tracks={tracks} />}
+      {error ? <p className="muted">{error}</p> : null}
+      {!loading && !error ? <MusicStats tracks={tracks} /> : null}
+      <RecentlyPlayed />
     </div>
   );
 }

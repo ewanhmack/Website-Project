@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { db } from "../../firebase";
 
 const PAGE_SIZE = 25;
 
@@ -15,36 +17,48 @@ function timeAgo(dateString) {
   }
   return `${Math.floor(diff / 86400)} days ago`;
 }
+
 export default function RecentlyPlayed() {
   const [tracks, setTracks] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const listRef = useRef(null);
 
   useEffect(() => {
-    fetch("/Website-Project/data/recently-played.json")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch");
-        }
-        return res.json();
-      })
-      .then(setTracks)
-      .catch(() => setError("Couldn't load recently played tracks."));
+    const fetchTracks = async () => {
+      try {
+        const q = query(
+          collection(db, "music", "recently-played", "tracks"),
+          orderBy("played_at", "desc")
+        );
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map((d) => d.data());
+        setTracks(data);
+      } catch (err) {
+        setError("Couldn't load recently played tracks.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTracks();
   }, []);
 
+  if (loading) {
+    return <p className="muted">Loading...</p>;
+  }
 
   if (error) {
     return <p className="muted">{error}</p>;
   }
 
   if (!tracks.length) {
-    return <p className="muted">Loading...</p>;
+    return <p className="muted">No tracks yet.</p>;
   }
 
   const totalPages = Math.ceil(tracks.length / PAGE_SIZE);
   const pageTracks = tracks.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-
 
   return (
     <>
@@ -77,7 +91,7 @@ export default function RecentlyPlayed() {
           </li>
         ))}
       </ul>
-      {totalPages > 1 && (
+      {totalPages > 1 ? (
         <div className="recently-played-pagination">
           <button
             className="pagination-btn"
@@ -86,19 +100,17 @@ export default function RecentlyPlayed() {
           >
             ←
           </button>
-
           {Array.from({ length: 5 }, (_, i) => Math.max(1, page - 2) + i)
             .filter((p) => p >= 1 && p <= totalPages)
             .map((p) => (
               <button
                 key={p}
-                className={`pagination-btn ${p === page ? 'pagination-btn--active' : ''}`}
+                className={`pagination-btn ${p === page ? "pagination-btn--active" : ""}`}
                 onClick={() => setPage(p)}
               >
                 {p}
               </button>
             ))}
-
           <button
             className="pagination-btn"
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
@@ -107,7 +119,7 @@ export default function RecentlyPlayed() {
             →
           </button>
         </div>
-      )}
+      ) : null}
     </>
   );
 }
