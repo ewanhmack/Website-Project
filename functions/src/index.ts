@@ -4,10 +4,7 @@ import { onSchedule } from "firebase-functions/v2/scheduler";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
-import { ExifTool } from "exiftool-vendored";
 import * as path from "path";
-import * as os from "os";
-import * as fs from "fs";
 import * as https from "https";
 
 setGlobalOptions({ maxInstances: 10 });
@@ -20,10 +17,6 @@ function getOrientation(width: number, height: number): string {
     return "Portraits";
   }
   return "Landscapes";
-}
-
-function stripTrailingZeros(value: number): string {
-  return parseFloat(value.toFixed(10)).toString();
 }
 
 async function writeFunctionStatus(
@@ -188,7 +181,7 @@ export const fetchRecentlyPlayed = onSchedule(
 );
 
 export const onPhotoUploaded = onObjectFinalized(
-  { timeoutSeconds: 120, memory: "512MiB", region: "europe-west2" },
+  { timeoutSeconds: 60, memory: "256MiB", region: "europe-west2" },
   async (event) => {
     try {
       const filePath = event.data.name;
@@ -205,48 +198,20 @@ export const onPhotoUploaded = onObjectFinalized(
       }
 
       const bucket = getStorage().bucket(event.data.bucket);
-      const tempPath = path.join(os.tmpdir(), fileName);
+      const file = bucket.file(filePath);
+      const [fileMetadata] = await file.getMetadata();
+      const custom = fileMetadata.metadata ?? {};
 
-      await bucket.file(filePath).download({ destination: tempPath });
+      const metadata: Record<string, string> = {};
 
-      const exiftool = new ExifTool();
-      let metadata: Record<string, string> = {};
-      let width = 0;
-      let height = 0;
+      if (custom.shutterSpeed) { metadata.shutterSpeed = String(custom.shutterSpeed); }
+      if (custom.aperture) { metadata.aperture = String(custom.aperture); }
+      if (custom.iso) { metadata.iso = String(custom.iso); }
+      if (custom.createdDateTime) { metadata.createdDateTime = String(custom.createdDateTime); }
+      if (custom.lensModel) { metadata.lensModel = String(custom.lensModel); }
 
-      try {
-        const tags = await exiftool.read(tempPath);
-
-        width = tags.ImageWidth ?? 0;
-        height = tags.ImageHeight ?? 0;
-
-        if (tags.ExposureTime !== undefined) {
-          metadata.shutterSpeed = stripTrailingZeros(Number(tags.ExposureTime));
-        }
-
-        if (tags.FNumber !== undefined) {
-          metadata.aperture = `f/${stripTrailingZeros(Number(tags.FNumber))}`;
-        }
-
-        if (tags.ISO !== undefined) {
-          metadata.iso = String(tags.ISO);
-        }
-
-        if (tags.DateTimeOriginal !== undefined) {
-          metadata.createdDateTime = String(tags.DateTimeOriginal);
-        }
-
-        if (tags.LensModel !== undefined) {
-          metadata.lensModel = String(tags.LensModel);
-        }
-      } finally {
-        await exiftool.end();
-        try {
-          fs.unlinkSync(tempPath);
-        } catch {
-          // ignore cleanup error
-        }
-      }
+      const width = parseInt(String(custom.imageWidth ?? "0"), 10);
+      const height = parseInt(String(custom.imageHeight ?? "0"), 10);
 
       const category = getOrientation(width, height);
       const categoryRef = db.collection("photography").doc(category);
@@ -263,7 +228,6 @@ export const onPhotoUploaded = onObjectFinalized(
         ? 0
         : (existingPhotos.docs[0].data().order ?? 0) + 1;
 
-      const file = bucket.file(filePath);
       const [url] = await file.getSignedUrl({
         action: "read",
         expires: "01-01-2100",

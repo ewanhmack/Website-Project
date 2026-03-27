@@ -1,7 +1,8 @@
 import React, { useState, useRef, useCallback } from "react";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
-import { ref, uploadBytes, deleteObject } from "firebase/storage";
+import { ref, uploadBytes, deleteObject, getMetadata } from "firebase/storage";
 import { db, storage } from "../../firebase";
+import exifr from "exifr";
 import "./AdminPhotos.css";
 
 function convertToWebP(file) {
@@ -164,11 +165,52 @@ export default function AdminPhotos() {
 
     for (const file of files) {
       try {
-        const { file: webpFile } = await convertToWebP(file);
+        const [{ file: webpFile, width, height }, exif] = await Promise.all([
+          convertToWebP(file),
+          exifr.parse(file, {
+            pick: ["ExposureTime", "FNumber", "ISO", "DateTimeOriginal", "LensModel", "ImageWidth", "ImageHeight"],
+          }).catch(() => ({})),
+        ]);
+
         updateItem(file.name, { status: "uploading" });
 
         const storageRef = ref(storage, `images/photos/${webpFile.name}`);
-        await uploadBytes(storageRef, webpFile);
+
+        try {
+          await getMetadata(storageRef);
+          updateItem(file.name, { status: "done" });
+          continue;
+        } catch {
+          // file doesn't exist, proceed
+        }
+
+        const customMetadata = {};
+
+        if (exif?.ExposureTime !== undefined) {
+          customMetadata.shutterSpeed = String(parseFloat(Number(exif.ExposureTime).toFixed(10)));
+        }
+        if (exif?.FNumber !== undefined) {
+          customMetadata.aperture = `f/${parseFloat(Number(exif.FNumber).toFixed(10))}`;
+        }
+        if (exif?.ISO !== undefined) {
+          customMetadata.iso = String(exif.ISO);
+        }
+        if (exif?.DateTimeOriginal !== undefined) {
+          customMetadata.createdDateTime = new Date(exif.DateTimeOriginal).toISOString();
+        }
+        if (exif?.LensModel !== undefined) {
+          customMetadata.lensModel = String(exif.LensModel);
+        }
+
+        customMetadata.imageWidth = exif?.ImageWidth
+          ? String(exif.ImageWidth)
+          : String(width ?? 0);
+
+        customMetadata.imageHeight = exif?.ImageHeight
+          ? String(exif.ImageHeight)
+          : String(height ?? 0);
+
+        await uploadBytes(storageRef, webpFile, { customMetadata });
 
         updateItem(file.name, { status: "done" });
       } catch (err) {
