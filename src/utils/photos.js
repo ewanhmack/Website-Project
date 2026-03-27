@@ -1,6 +1,12 @@
 export const IMG_BASE = "images/photos/";
 
-// Fisher–Yates shuffle
+export function getPhotoUrl(photo) {
+  if (photo.storageUrl) {
+    return photo.storageUrl;
+  }
+  return `${IMG_BASE}${photo.image}`;
+}
+
 export function shuffle(a) {
   const arr = a.slice();
   for (let i = arr.length - 1; i > 0; i--) {

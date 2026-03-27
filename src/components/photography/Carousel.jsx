@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { IMG_BASE, shuffle } from "../../utils/photos";
+import { shuffle, getPhotoUrl } from "../../utils/photos";
 
 function useMatchMedia(query) {
   const [matches, setMatches] = useState(() =>
@@ -175,7 +175,7 @@ export default function Carousel({
                           aria-label={`Open ${item.header || "photo"}`}
                         >
                           <img
-                            src={`${IMG_BASE}${item.image}`}
+                            src={getPhotoUrl(item)}
                             alt={item.header || "Photo"}
                             loading={isFirst ? "eager" : "lazy"}
                             fetchPriority={isFirst ? "high" : "low"}

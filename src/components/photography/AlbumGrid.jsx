@@ -1,5 +1,5 @@
 import React from "react";
-import { IMG_BASE } from "../../utils/photos";
+import { IMG_BASE, getPhotoUrl } from "../../utils/photos";
 
 export default function AlbumGrid({ items, loadedMap, markLoaded, onSelectPhoto }) {
   const sortedItems = [...items].sort((a, b) => {
@@ -27,7 +27,7 @@ export default function AlbumGrid({ items, loadedMap, markLoaded, onSelectPhoto 
               aria-label={`Open ${photo.header || "photo"}`}
             >
               <img
-                src={`${IMG_BASE}${photo.image}`}
+                src={getPhotoUrl(photo)}
                 alt={photo.header || "Photo"}
                 loading={isFirst ? "eager" : "lazy"}
                 fetchPriority={isFirst ? "high" : "auto"}
