@@ -26,3 +26,5 @@ dist-ssr
 .env
 .env.*serviceAccount.json
 serviceAccount.json
+# Seed scripts
+seed-scripts/
