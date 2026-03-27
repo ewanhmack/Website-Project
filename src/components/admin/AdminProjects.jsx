@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { collection, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useProjects } from "../../utils/useProjects.js";
@@ -7,7 +6,6 @@ import ProjectForm from "./ProjectForm";
 import "./AdminProjects.css";
 
 export default function AdminProjects() {
-  const navigate = useNavigate();
   const { projects, loading, error } = useProjects();
   const [mode, setMode] = useState(null);
   const [editTarget, setEditTarget] = useState(null);
@@ -64,7 +62,6 @@ export default function AdminProjects() {
           <button onClick={() => { setMode("add"); setEditTarget(null); }}>
             + Add Project
           </button>
-          <button className="ghost" onClick={() => navigate("/admin")}>← Back</button>
         </div>
       </div>
 

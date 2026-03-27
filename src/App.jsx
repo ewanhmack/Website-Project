@@ -15,12 +15,13 @@ import Music from "./pages/Music";
 import Maps from "./pages/Maps";
 import AdminLogin from "./components/admin/AdminLogin";
 import Admin from "./pages/Admin";
+import AdminProjects from "./components/admin/AdminProjects";
+import AdminPhotos from "./components/admin/AdminPhotos";
+import AdminLayout from "./components/admin/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
 import "./components/ComponentStyles.css";
 import "./pages/PageStyles.css";
-import AdminProjects from "./components/admin/AdminProjects";
-import AdminPhotos from "./components/admin/AdminPhotos";
 
 export default function App() {
   return (
@@ -45,26 +46,14 @@ export default function App() {
               path="/admin"
               element={
                 <ProtectedRoute>
-                  <Admin />
+                  <AdminLayout />
                 </ProtectedRoute>
               }
-            />
-            <Route
-              path="/admin/projects"
-              element={
-                <ProtectedRoute>
-                  <AdminProjects />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/photos"
-              element={
-                <ProtectedRoute>
-                  <AdminPhotos />
-                </ProtectedRoute>
-              }
-            />
+            >
+              <Route index element={<Admin />} />
+              <Route path="projects" element={<AdminProjects />} />
+              <Route path="photos" element={<AdminPhotos />} />
+            </Route>
           </Routes>
         </main>
         <SiteFooter />
