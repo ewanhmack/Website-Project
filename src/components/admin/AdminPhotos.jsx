@@ -1,5 +1,4 @@
 import React, { useState, useRef, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes, deleteObject } from "firebase/storage";
 import { db, storage } from "../../firebase";
@@ -112,7 +111,6 @@ function UploadProgress({ items }) {
 }
 
 export default function AdminPhotos() {
-  const navigate = useNavigate();
   const [uploadItems, setUploadItems] = useState([]);
   const [photos, setPhotos] = useState({});
   const [loadingPhotos, setLoadingPhotos] = useState(true);
@@ -206,7 +204,6 @@ export default function AdminPhotos() {
     <div className="aph-page">
       <div className="aph-page-header">
         <h1>Manage Photos</h1>
-        <button className="ghost aph-back" onClick={() => navigate("/admin")}>← Back</button>
       </div>
 
       <UploadZone onFiles={handleFiles} />
