@@ -1,58 +1,37 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import "../pages/projects.css";
 import ProjectsGrid from "../components/projects/ProjectsGrid";
 import SkeletonGrid from "../components/projects/SkeletonGrid";
-
-const DATA_URL = `${import.meta.env.BASE_URL}data/projects.json`;
+import { useProjects } from "../utils/useProjects";
 
 export default function Programming() {
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { projects, loading, error } = useProjects();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const q = searchParams.get("q") ?? "";
 
-  useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    fetch(DATA_URL)
-      .then(r => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-        return r.json();
-      })
-      .then(data => {
-        if (!cancelled) {
-          setProjects(Array.isArray(data) ? data : []);
-          setLoading(false);
-        }
-      })
-      .catch(err => {
-        if (!cancelled) {
-          setError(err.message || "Failed to load projects.");
-          setLoading(false);
-        }
-      });
-    return () => (cancelled = true);
-  }, []);
-
   const filtered = useMemo(() => {
-    let list = projects;
-    if (q) {
-      const query = q.toLowerCase();
-      list = list.filter(p =>
-        [p.header, p.description, p.longDescription]
-          .filter(Boolean)
-          .some(txt => String(txt).toLowerCase().includes(query))
-      );
+    if (!q) {
+      return projects;
     }
-    return list;
+
+    const queryLower = q.toLowerCase();
+
+    return projects.filter((p) =>
+      [p.header, p.description, p.longDescription]
+        .filter(Boolean)
+        .some((txt) => String(txt).toLowerCase().includes(queryLower))
+    );
   }, [projects, q]);
 
   const setParam = (key, val) => {
     const next = new URLSearchParams(searchParams);
-    if (val) next.set(key, val); else next.delete(key);
+    if (val) {
+      next.set(key, val);
+    } else {
+      next.delete(key);
+    }
     setSearchParams(next, { replace: true });
   };
 
@@ -68,25 +47,27 @@ export default function Programming() {
             <input
               type="search"
               value={q}
-              onChange={e => setParam("q", e.target.value)}
+              onChange={(e) => setParam("q", e.target.value)}
               placeholder="Search projects…"
               aria-label="Search projects"
             />
-            {q && (
+            {q ? (
               <button className="ghost" onClick={() => setParam("q", "")} aria-label="Clear search">×</button>
-            )}
+            ) : null}
           </div>
         </div>
       </header>
 
-      {loading && <SkeletonGrid count={9} />}
-      {error && (
+      {loading ? <SkeletonGrid count={9} /> : null}
+
+      {error ? (
         <div className="error container" role="alert">
-          <strong>Couldn’t load projects.</strong>
+          <strong>Couldn't load projects.</strong>
           <div className="subtle">{error}</div>
         </div>
-      )}
-      {!loading && !error && (
+      ) : null}
+
+      {!loading && !error ? (
         <section className="container">
           {filtered.length === 0 ? (
             <div className="empty-state">
@@ -97,7 +78,7 @@ export default function Programming() {
             <ProjectsGrid projects={filtered} />
           )}
         </section>
-      )}
+      ) : null}
 
       <footer className="projects-footer container">
         <Link to="/" className="ghost">← Back home</Link>

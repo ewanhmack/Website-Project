@@ -1,74 +1,21 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { MEDIA_BASE, firstImage, getMediaArray } from "../../utils/projects";
+import { firstImage, getMediaArray, resolveMediaSrc } from "../../utils/projects";
 import {
   slugify,
   mediaTypeFromSrc,
   youtubeIdFrom,
   mediaThumbUrl,
-  isAbsoluteUrl,
 } from "../../utils/projectsExtras";
+import { useProjects } from "../../utils/useProjects";
 import "../../pages/projects.css";
-
-const DATA_URL = `${import.meta.env.BASE_URL}data/projects.json`;
-
-function stripQueryAndHash(value) {
-  if (!value) {
-    return "";
-  }
-
-  return value.split("?")[0].split("#")[0];
-}
-
-function joinBaseUrl(baseUrl, relativePath) {
-  const base = baseUrl || "/";
-  const baseTrimmed = base.endsWith("/") ? base.slice(0, -1) : base;
-  const pathTrimmed = relativePath.startsWith("/") ? relativePath : `/${relativePath}`;
-  return `${baseTrimmed}${pathTrimmed}`;
-}
-
-function toPublicUrl(value) {
-  if (!value) {
-    return "";
-  }
-
-  if (isAbsoluteUrl(value)) {
-    return value;
-  }
-
-  const baseUrl = import.meta.env.BASE_URL || "/";
-  const cleaned = stripQueryAndHash(value).replace(/^\/+/, "");
-  return joinBaseUrl(baseUrl, cleaned);
-}
-
-function resolveProjectMediaSrc(rawSrc) {
-  if (!rawSrc) {
-    return "";
-  }
-
-  if (isAbsoluteUrl(rawSrc)) {
-    return rawSrc;
-  }
-
-  const cleaned = stripQueryAndHash(rawSrc).replace(/^\/+/, "");
-
-  if (cleaned.startsWith(MEDIA_BASE)) {
-    return toPublicUrl(cleaned);
-  }
-
-  if (cleaned.startsWith("images/")) {
-    return toPublicUrl(cleaned);
-  }
-
-  return toPublicUrl(`${MEDIA_BASE}${cleaned}`);
-}
 
 function derivePosterFromVideoSrc(videoSrc) {
   if (!videoSrc) {
     return "";
   }
 
-  const cleaned = stripQueryAndHash(videoSrc);
+  const cleaned = videoSrc.split("?")[0].split("#")[0];
   const lower = cleaned.toLowerCase();
 
   if (!lower.endsWith(".mp4")) {
@@ -88,116 +35,55 @@ function resolveThumbForMediaItem(mediaItem) {
     if (videoId) {
       return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
     }
-
     return "";
   }
 
   if (mediaItem.type === "video") {
     const posterSrc = derivePosterFromVideoSrc(mediaItem.src || "");
     if (posterSrc) {
-      return resolveProjectMediaSrc(posterSrc);
+      return resolveMediaSrc(posterSrc);
     }
-
     return "";
   }
 
-  const thumbCandidate = mediaThumbUrl(mediaItem, MEDIA_BASE);
-
-  if (!thumbCandidate) {
-    return "";
-  }
-
-  if (isAbsoluteUrl(thumbCandidate)) {
-    return thumbCandidate;
-  }
-
-  return resolveProjectMediaSrc(thumbCandidate);
+  return mediaThumbUrl(mediaItem);
 }
 
 function resolveRelatedPreview(project) {
   const imageCandidate = firstImage(project);
 
   if (imageCandidate) {
-    return resolveProjectMediaSrc(imageCandidate);
+    return resolveMediaSrc(imageCandidate);
   }
 
   const mediaArray = getMediaArray(project) || [];
 
-  const firstVideo = mediaArray.find((mediaItem) => {
-    const src = mediaItem?.src || "";
-    const type = mediaTypeFromSrc(src);
-    if (type === "video") {
-      return true;
-    }
-    return false;
-  });
-
-  if (firstVideo && firstVideo.src) {
+  const firstVideo = mediaArray.find((m) => mediaTypeFromSrc(m?.src || "") === "video");
+  if (firstVideo?.src) {
     const posterSrc = derivePosterFromVideoSrc(firstVideo.src);
     if (posterSrc) {
-      return resolveProjectMediaSrc(posterSrc);
+      return resolveMediaSrc(posterSrc);
     }
   }
 
-  const firstYoutube = mediaArray.find((mediaItem) => {
-    const src = mediaItem?.src || "";
-    const type = mediaTypeFromSrc(src);
-    if (type === "youtube") {
-      return true;
-    }
-    return false;
-  });
-
-  if (firstYoutube && firstYoutube.src) {
+  const firstYoutube = mediaArray.find((m) => mediaTypeFromSrc(m?.src || "") === "youtube");
+  if (firstYoutube?.src) {
     const videoId = youtubeIdFrom(firstYoutube.src);
     if (videoId) {
       return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
     }
   }
 
-  return toPublicUrl("no-image.png");
+  return "";
 }
 
 export default function ProjectDetail() {
   const { slug } = useParams();
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { projects, loading, error } = useProjects();
   const [index, setIndex] = useState(0);
 
-  useEffect(() => {
-    let cancelled = false;
-
-    fetch(DATA_URL)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-
-        return response.json();
-      })
-      .then((data) => {
-        if (!cancelled) {
-          setProjects(Array.isArray(data) ? data : []);
-          setLoading(false);
-        }
-      })
-      .catch((fetchError) => {
-        if (!cancelled) {
-          setError(fetchError.message || "Failed to load project");
-          setLoading(false);
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   const project = useMemo(() => {
-    return projects.find((candidateProject) => {
-      return slugify(candidateProject.header) === slug;
-    });
+    return projects.find((p) => slugify(p.header) === slug);
   }, [projects, slug]);
 
   const media = useMemo(() => {
@@ -213,7 +99,7 @@ export default function ProjectDetail() {
         const id = youtubeIdFrom(resolvedSrc);
         resolvedSrc = `https://www.youtube.com/embed/${id}`;
       } else {
-        resolvedSrc = resolveProjectMediaSrc(resolvedSrc);
+        resolvedSrc = resolveMediaSrc(resolvedSrc);
       }
 
       const resolvedThumb = resolveThumbForMediaItem({ ...mediaItem, type });
@@ -258,6 +144,7 @@ export default function ProjectDetail() {
   const canNext = index < media.length - 1;
 
   return (
+
     <article className="project-detail">
       <div className="container">
         <nav className="breadcrumb">
@@ -269,7 +156,7 @@ export default function ProjectDetail() {
         <header className="detail-header">
           <h1>{project.header}</h1>
 
-          {project.description && <p className="lead">{project.description}</p>}
+          {project.description ? <p className="lead">{project.description}</p> : null}
 
           {project.tech?.length ? (
             <div className="chips">
@@ -288,10 +175,7 @@ export default function ProjectDetail() {
           <div className="container">
             <div className="media-viewer">
               {media[index].type === "image" ? (
-                <img
-                  src={media[index]._resolvedSrc}
-                  alt={media[index].caption || project.header}
-                />
+                <img src={media[index]._resolvedSrc} alt={media[index].caption || project.header} />
               ) : null}
 
               {media[index].type === "video" ? (
@@ -304,12 +188,7 @@ export default function ProjectDetail() {
                   title={media[index].caption || project.header}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
-                  style={{
-                    width: "100%",
-                    aspectRatio: "16 / 9",
-                    border: 0,
-                    display: "block",
-                  }}
+                  style={{ width: "100%", aspectRatio: "16 / 9", border: 0, display: "block" }}
                 />
               ) : null}
 
@@ -317,26 +196,15 @@ export default function ProjectDetail() {
                 <div className="viewer-arrows">
                   <button
                     className="circle"
-                    onClick={() => {
-                      if (canPrev) {
-                        setIndex((currentIndex) => Math.max(0, currentIndex - 1));
-                      }
-                    }}
+                    onClick={() => { if (canPrev) { setIndex((i) => Math.max(0, i - 1)); } }}
                     disabled={!canPrev}
                     aria-label="Previous media"
                   >
                     ‹
                   </button>
-
                   <button
                     className="circle"
-                    onClick={() => {
-                      if (canNext) {
-                        setIndex((currentIndex) =>
-                          Math.min(media.length - 1, currentIndex + 1)
-                        );
-                      }
-                    }}
+                    onClick={() => { if (canNext) { setIndex((i) => Math.min(media.length - 1, i + 1)); } }}
                     disabled={!canNext}
                     aria-label="Next media"
                   >
@@ -352,9 +220,7 @@ export default function ProjectDetail() {
                   <button
                     key={`${mediaItem.src}-${mediaIndex}`}
                     className={mediaIndex === index ? "thumb active" : "thumb"}
-                    onClick={() => {
-                      setIndex(mediaIndex);
-                    }}
+                    onClick={() => { setIndex(mediaIndex); }}
                     aria-label={`Show ${mediaItem.caption || `media ${mediaIndex + 1}`}`}
                   >
                     <img src={mediaItem._resolvedThumb} alt="" />
@@ -396,31 +262,25 @@ export default function ProjectDetail() {
 
       <section className="container related">
         <h2>More projects</h2>
-
         <div className="related-grid">
           {projects
-            .filter((candidateProject) => candidateProject !== project)
+            .filter((p) => p !== project)
             .slice(0, 3)
-            .map((candidateProject) => {
-              const relatedPreviewSrc = resolveRelatedPreview(candidateProject);
-
-              return (
-                <Link
-                  key={candidateProject.header}
-                  to={`/projects/${slugify(candidateProject.header)}`}
-                  className="related-card"
-                >
-                  <div className="thumb-wrap">
-                    <img src={relatedPreviewSrc} alt="" />
-                  </div>
-
-                  <div className="meta">
-                    <h3>{candidateProject.header}</h3>
-                    <p>{candidateProject.description}</p>
-                  </div>
-                </Link>
-              );
-            })}
+            .map((p) => (
+              <Link
+                key={p.header}
+                to={`/projects/${slugify(p.header)}`}
+                className="related-card"
+              >
+                <div className="thumb-wrap">
+                  <img src={resolveRelatedPreview(p)} alt="" />
+                </div>
+                <div className="meta">
+                  <h3>{p.header}</h3>
+                  <p>{p.description}</p>
+                </div>
+              </Link>
+            ))}
         </div>
       </section>
     </article>
