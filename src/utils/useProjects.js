@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../firebase";
 
 export function useProjects() {
@@ -8,23 +8,42 @@ export function useProjects() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const q = query(collection(db, "projects"), orderBy("order"));
+    let cancelled = false;
 
-    const unsubscribe = onSnapshot(
-      q,
-      (snapshot) => {
-        const data = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
-        setProjects(data);
-        setLoading(false);
-      },
-      (err) => {
-        setError(err.message || "Failed to load projects");
-        setLoading(false);
+    const fetch = async () => {
+      try {
+        const cacheKey = "projects_cache";
+        const cached = sessionStorage.getItem(cacheKey);
+
+        if (cached) {
+          setProjects(JSON.parse(cached));
+          setLoading(false);
+          return;
+        }
+
+        const q = query(collection(db, "projects"), orderBy("order"));
+        const snapshot = await getDocs(q);
+        const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+
+        if (!cancelled) {
+          sessionStorage.setItem(cacheKey, JSON.stringify(data));
+          setProjects(data);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message || "Failed to load projects");
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
-    );
+    };
+
+    fetch();
 
     return () => {
-      unsubscribe();
+      cancelled = true;
     };
   }, []);
 

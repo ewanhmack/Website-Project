@@ -176,51 +176,59 @@ export default function Photography() {
   const [view, setView] = useState("carousel");
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
-  useEffect(() => {
-    let alive = true;
+useEffect(() => {
+  let alive = true;
 
-    const fetchPhotos = async () => {
-      try {
-        const categoriesSnapshot = await getDocs(collection(db, "photography"));
-        const result = {};
+  const fetchPhotos = async () => {
+    try {
+      const cacheKey = "photography_cache";
+      const cached = sessionStorage.getItem(cacheKey);
 
-        for (const categoryDoc of categoriesSnapshot.docs) {
-          const category = categoryDoc.id;
-          const photosSnapshot = await getDocs(
-            collection(db, "photography", category, "photos")
-          );
-
-          result[category] = photosSnapshot.docs
-            .map((doc) => ({ id: doc.id, ...doc.data() }))
-            .sort((a, b) => a.order - b.order);
-        }
-
-        if (!alive) {
-          return;
-        }
-
-        setData(result);
-      } catch (fetchError) {
-        if (!alive) {
-          return;
-        }
-
-        setError(fetchError.message || "Failed to load");
-      } finally {
-        if (!alive) {
-          return;
-        }
-
+      if (cached) {
+        setData(JSON.parse(cached));
         setLoaded(true);
+        return;
       }
-    };
 
-    fetchPhotos();
+      const categoriesSnapshot = await getDocs(collection(db, "photography"));
+      const result = {};
 
-    return () => {
-      alive = false;
-    };
-  }, []);
+      for (const categoryDoc of categoriesSnapshot.docs) {
+        const category = categoryDoc.id;
+        const photosSnapshot = await getDocs(
+          collection(db, "photography", category, "photos")
+        );
+
+        result[category] = photosSnapshot.docs
+          .map((doc) => ({ id: doc.id, ...doc.data() }))
+          .sort((a, b) => a.order - b.order);
+      }
+
+      if (!alive) {
+        return;
+      }
+
+      sessionStorage.setItem(cacheKey, JSON.stringify(result));
+      setData(result);
+    } catch (fetchError) {
+      if (!alive) {
+        return;
+      }
+      setError(fetchError.message || "Failed to load");
+    } finally {
+      if (!alive) {
+        return;
+      }
+      setLoaded(true);
+    }
+  };
+
+  fetchPhotos();
+
+  return () => {
+    alive = false;
+  };
+}, []);
 
   const flat = useMemo(() => {
     const out = [];
