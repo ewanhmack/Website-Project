@@ -7,7 +7,14 @@ import React, {
   useCallback,
 } from "react";
 import { createPortal } from "react-dom";
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  limit,
+  startAfter,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import ViewToggle from "../components/photography/ViewToggle";
 import Carousel from "../components/photography/Carousel";
@@ -15,6 +22,9 @@ import AlbumGrid from "../components/photography/AlbumGrid";
 import { shuffle, getPhotoUrl } from "../utils/photos";
 import "./photography.css";
 import "./PageStyles.css";
+
+const CAROUSEL_PAGE_SIZE = 10;
+const GRID_PAGE_SIZE = 20;
 
 function formatShutterSpeed(value) {
   if (value === undefined || value === null) {
@@ -169,84 +179,199 @@ function PhotoModal({ photo, onClose }) {
   );
 }
 
+function useIntersectionObserver(callback, options = {}) {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        callback();
+      }
+    }, options);
+
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [callback, options]);
+
+  return ref;
+}
+
 export default function Photography() {
-  const [data, setData] = useState({});
+  const [carouselData, setCarouselData] = useState({});
+  const [carouselCursors, setCarouselCursors] = useState({});
+  const [carouselHasMore, setCarouselHasMore] = useState({});
+
+  const [gridPhotos, setGridPhotos] = useState([]);
+  const [gridCursor, setGridCursor] = useState(null);
+  const [gridHasMore, setGridHasMore] = useState(true);
+  const [gridLoading, setGridLoading] = useState(false);
+
+  const [categories, setCategories] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
   const [view, setView] = useState("carousel");
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
-useEffect(() => {
-  let alive = true;
-
-  const fetchPhotos = async () => {
-    try {
-      const cacheKey = "photography_cache";
-      const cached = sessionStorage.getItem(cacheKey);
-
-      if (cached) {
-        setData(JSON.parse(cached));
-        setLoaded(true);
-        return;
-      }
-
-      const categoriesSnapshot = await getDocs(collection(db, "photography"));
-      const result = {};
-
-      for (const categoryDoc of categoriesSnapshot.docs) {
-        const category = categoryDoc.id;
-        const photosSnapshot = await getDocs(
-          collection(db, "photography", category, "photos")
+  const fetchCarouselPage = useCallback(async (category, cursor = null) => {
+    const q = cursor
+      ? query(
+          collection(db, "photography", category, "photos"),
+          orderBy("order"),
+          startAfter(cursor),
+          limit(CAROUSEL_PAGE_SIZE)
+        )
+      : query(
+          collection(db, "photography", category, "photos"),
+          orderBy("order"),
+          limit(CAROUSEL_PAGE_SIZE)
         );
 
-        result[category] = photosSnapshot.docs
-          .map((doc) => ({ id: doc.id, ...doc.data() }))
-          .sort((a, b) => a.order - b.order);
-      }
+    const snap = await getDocs(q);
+    const photos = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    const lastDoc = snap.docs[snap.docs.length - 1] ?? null;
+    const hasMore = snap.docs.length === CAROUSEL_PAGE_SIZE;
 
-      if (!alive) {
-        return;
-      }
+    return { photos, lastDoc, hasMore };
+  }, []);
 
-      sessionStorage.setItem(cacheKey, JSON.stringify(result));
-      setData(result);
-    } catch (fetchError) {
-      if (!alive) {
-        return;
-      }
-      setError(fetchError.message || "Failed to load");
-    } finally {
-      if (!alive) {
-        return;
-      }
-      setLoaded(true);
+  const fetchGridPage = useCallback(async (cursor = null) => {
+    if (categories.length === 0) {
+      return;
     }
-  };
 
-  fetchPhotos();
+    setGridLoading(true);
 
-  return () => {
-    alive = false;
-  };
-}, []);
+    try {
+      const perCategory = Math.ceil(GRID_PAGE_SIZE / categories.length);
+      const newPhotos = [];
+      const newCursors = { ...(cursor ?? {}) };
 
-  const flat = useMemo(() => {
-    const out = [];
+      for (const category of categories) {
+        const catCursor = cursor?.[category] ?? null;
+        const q = catCursor
+          ? query(
+              collection(db, "photography", category, "photos"),
+              orderBy("order"),
+              startAfter(catCursor),
+              limit(perCategory)
+            )
+          : query(
+              collection(db, "photography", category, "photos"),
+              orderBy("order"),
+              limit(perCategory)
+            );
 
-    Object.entries(data || {}).forEach(([category, items]) => {
-      (items || []).forEach((item) => out.push({ ...item, category }));
-    });
+        const snap = await getDocs(q);
+        const photos = snap.docs.map((d) => ({ id: d.id, category, ...d.data() }));
+        newPhotos.push(...photos);
 
-    return shuffle(out);
-  }, [data]);
+        if (snap.docs.length > 0) {
+          newCursors[category] = snap.docs[snap.docs.length - 1];
+        }
+      }
 
-  const openPhoto = useCallback((photo) => {
-    setSelectedPhoto(photo);
+      const shuffled = shuffle(newPhotos);
+      setGridPhotos((prev) => [...prev, ...shuffled]);
+      setGridCursor(newCursors);
+      setGridHasMore(newPhotos.length >= GRID_PAGE_SIZE);
+    } finally {
+      setGridLoading(false);
+    }
+  }, [categories]);
+
+  useEffect(() => {
+    let alive = true;
+
+    const init = async () => {
+      try {
+        const categoriesSnapshot = await getDocs(collection(db, "photography"));
+        const cats = categoriesSnapshot.docs.map((d) => d.id);
+
+        if (!alive) {
+          return;
+        }
+
+        setCategories(cats);
+
+        const initialCarousel = {};
+        const initialCursors = {};
+        const initialHasMore = {};
+
+        for (const category of cats) {
+          const { photos, lastDoc, hasMore } = await fetchCarouselPage(category);
+          initialCarousel[category] = photos;
+          initialCursors[category] = lastDoc;
+          initialHasMore[category] = hasMore;
+        }
+
+        if (!alive) {
+          return;
+        }
+
+        setCarouselData(initialCarousel);
+        setCarouselCursors(initialCursors);
+        setCarouselHasMore(initialHasMore);
+        setLoaded(true);
+      } catch (err) {
+        if (!alive) {
+          return;
+        }
+        setError(err.message || "Failed to load");
+        setLoaded(true);
+      }
+    };
+
+    init();
+
+    return () => {
+      alive = false;
+    };
   }, []);
 
-  const closePhoto = useCallback(() => {
-    setSelectedPhoto(null);
-  }, []);
+  const gridFetchedRef = useRef(false);
+
+  useEffect(() => {
+    if (categories.length > 0 && view === "grid" && !gridFetchedRef.current) {
+      gridFetchedRef.current = true;
+      fetchGridPage(null);
+    }
+  }, [view, categories, fetchGridPage]);
+
+  const loadMoreCarousel = useCallback(async (category) => {
+    if (!carouselHasMore[category]) {
+      return;
+    }
+
+    const cursor = carouselCursors[category];
+    const { photos, lastDoc, hasMore } = await fetchCarouselPage(category, cursor);
+
+    setCarouselData((prev) => ({
+      ...prev,
+      [category]: [...(prev[category] || []), ...photos],
+    }));
+    setCarouselCursors((prev) => ({ ...prev, [category]: lastDoc }));
+    setCarouselHasMore((prev) => ({ ...prev, [category]: hasMore }));
+  }, [carouselCursors, carouselHasMore, fetchCarouselPage]);
+
+  const loadMoreGrid = useCallback(() => {
+    if (!gridHasMore || gridLoading) {
+      return;
+    }
+    fetchGridPage(gridCursor);
+  }, [gridHasMore, gridLoading, gridCursor, fetchGridPage]);
+
+  const gridSentinelRef = useIntersectionObserver(loadMoreGrid, { rootMargin: "200px" });
+
+  const openPhoto = useCallback((photo) => setSelectedPhoto(photo), []);
+  const closePhoto = useCallback(() => setSelectedPhoto(null), []);
 
   const carouselRef = useRef(null);
   const gridRef = useRef(null);
@@ -254,7 +379,6 @@ useEffect(() => {
 
   const measureActive = useCallback(() => {
     const element = view === "carousel" ? carouselRef.current : gridRef.current;
-
     if (element) {
       setStageH(element.offsetHeight + "px");
     }
@@ -268,30 +392,21 @@ useEffect(() => {
 
   useEffect(() => {
     const onResize = () => requestAnimationFrame(measureActive);
-
     window.addEventListener("resize", onResize);
-
-    return () => {
-      window.removeEventListener("resize", onResize);
-    };
+    return () => window.removeEventListener("resize", onResize);
   }, [measureActive]);
 
   const [loadedMap, setLoadedMap] = useState({});
 
-  const markLoaded = useCallback(
-    (id) => {
-      setLoadedMap((prev) => {
-        if (prev[id]) {
-          return prev;
-        }
-
-        return { ...prev, [id]: true };
-      });
-
-      requestAnimationFrame(measureActive);
-    },
-    [measureActive]
-  );
+  const markLoaded = useCallback((id) => {
+    setLoadedMap((prev) => {
+      if (prev[id]) {
+        return prev;
+      }
+      return { ...prev, [id]: true };
+    });
+    requestAnimationFrame(measureActive);
+  }, [measureActive]);
 
   const onCarouselMediaLoad = useCallback(() => {
     requestAnimationFrame(measureActive);
@@ -328,9 +443,10 @@ useEffect(() => {
           <div
             ref={carouselRef}
             className={`view-panel ${view === "carousel" ? "is-active" : ""}`}
-            aria-hidden={view !== "carousel"}>
+            aria-hidden={view !== "carousel"}
+          >
             <div className="stack">
-              {Object.entries(data).map(([category, items]) => (
+              {Object.entries(carouselData).map(([category, items]) => (
                 <Carousel
                   key={category}
                   title={category}
@@ -340,6 +456,7 @@ useEffect(() => {
                   variant={category === "Portraits" ? "portrait" : "landscape"}
                   onMediaLoad={onCarouselMediaLoad}
                   onSelectPhoto={(photo) => openPhoto({ ...photo, category })}
+                  onLoadMore={carouselHasMore[category] ? () => loadMoreCarousel(category) : null}
                 />
               ))}
             </div>
@@ -348,13 +465,22 @@ useEffect(() => {
           <div
             ref={gridRef}
             className={`view-panel ${view === "grid" ? "is-active" : ""}`}
-            aria-hidden={view !== "grid"}>
+            aria-hidden={view !== "grid"}
+          >
             <AlbumGrid
-              items={flat}
+              items={gridPhotos}
               loadedMap={loadedMap}
               markLoaded={markLoaded}
               onSelectPhoto={openPhoto}
             />
+            {gridLoading ? (
+              <div className="muted" style={{ textAlign: "center", padding: 16 }}>
+                Loading more…
+              </div>
+            ) : null}
+            {gridHasMore ? (
+              <div ref={gridSentinelRef} style={{ height: 1 }} />
+            ) : null}
           </div>
         </div>
       ) : null}

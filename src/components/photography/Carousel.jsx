@@ -36,6 +36,7 @@ export default function Carousel({
   variant,
   onMediaLoad,
   onSelectPhoto,
+  onLoadMore,
 }) {
   const isSmall = useMatchMedia("(max-width: 700px)");
   const effectivePerView = isSmall && perViewSm ? perViewSm : perView;
@@ -58,10 +59,21 @@ export default function Carousel({
 
   const [activeIndex, setActiveIndex] = useState(0);
   const total = slides.length;
+  const loadMoreCalledRef = useRef(false);
 
   const go = (nextIndex) => {
-    setActiveIndex((prev) => (nextIndex + total) % total);
+    const wrapped = (nextIndex + total) % total;
+    setActiveIndex(wrapped);
+
+    if (wrapped === total - 1 && onLoadMore && !loadMoreCalledRef.current) {
+      loadMoreCalledRef.current = true;
+      onLoadMore();
+    }
   };
+
+  useEffect(() => {
+    loadMoreCalledRef.current = false;
+  }, [total]);
 
   const prev = () => {
     go(activeIndex - 1);
