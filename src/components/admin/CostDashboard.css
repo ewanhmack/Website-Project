@@ -1,0 +1,229 @@
+.cd-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.cd-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cd-header h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── Totals row ── */
+.cd-totals-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.cd-total-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cd-total-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.cd-total-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--brand);
+  line-height: 1.1;
+}
+
+.cd-total-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* ── Chart card ── */
+.cd-chart-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cd-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cd-card-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.cd-period-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.cd-period-btn {
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.cd-period-btn:hover {
+  border-color: var(--brand);
+  color: var(--text);
+}
+
+.cd-period-btn--active {
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.cd-chart-empty {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ── Metrics card ── */
+.cd-metrics-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cd-metric-row {
+  display: grid;
+  grid-template-columns: 200px 1fr 80px;
+  align-items: center;
+  gap: 16px;
+}
+
+.cd-metric-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cd-metric-label {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.cd-metric-count {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.cd-metric-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cd-metric-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.cd-metric-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.3s ease;
+}
+
+.cd-metric-fill--warn {
+  background: #e05555 !important;
+}
+
+.cd-metric-free {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.cd-metric-cost {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: right;
+}
+
+/* ── Disclaimer ── */
+.cd-disclaimer {
+  font-size: 0.78rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.cd-loading {
+  padding: 24px 0;
+  font-size: 0.9rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .cd-totals-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .cd-totals-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cd-metric-row {
+    grid-template-columns: 1fr 60px;
+    grid-template-rows: auto auto;
+  }
+
+  .cd-metric-bar-wrap {
+    grid-column: 1 / -1;
+  }
+
+  .cd-period-tabs {
+    flex-wrap: wrap;
+  }
+}

@@ -2,7 +2,7 @@ import { setGlobalOptions } from "firebase-functions";
 import { onObjectFinalized, onObjectDeleted } from "firebase-functions/v2/storage";
 import { onSchedule } from "firebase-functions/v2/scheduler";
 import { initializeApp } from "firebase-admin/app";
-import { getFirestore } from "firebase-admin/firestore";
+import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
 import * as path from "path";
 import * as https from "https";
@@ -45,6 +45,42 @@ async function writeFunctionStatus(
   });
 }
 
+async function trackUsage(
+  metric: string,
+  count: number = 1
+): Promise<void> {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const week = `W${String(Math.ceil(now.getDate() / 7)).padStart(2, "0")}`;
+
+  const monthKey = `${year}-${month}`;
+  const dayKey = `${year}-${month}-${day}`;
+  const weekKey = `${year}-${month}-${week}`;
+  const yearKey = `${year}`;
+
+  const usageRef = db.collection("_meta").doc("usage");
+
+  await Promise.all([
+    usageRef.collection("months").doc(monthKey).set(
+      { [metric]: FieldValue.increment(count), lastUpdated: now.toISOString() },
+      { merge: true }
+    ),
+    usageRef.collection("days").doc(dayKey).set(
+      { [metric]: FieldValue.increment(count), lastUpdated: now.toISOString() },
+      { merge: true }
+    ),
+    usageRef.collection("weeks").doc(weekKey).set(
+      { [metric]: FieldValue.increment(count), lastUpdated: now.toISOString() },
+      { merge: true }
+    ),
+    usageRef.collection("years").doc(yearKey).set(
+      { [metric]: FieldValue.increment(count), lastUpdated: now.toISOString() },
+      { merge: true }
+    ),
+  ]);
+}
 function httpPost(url: string, headers: Record<string, string>, body: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const urlObj = new URL(url);
@@ -156,6 +192,7 @@ export const fetchRecentlyPlayed = onSchedule(
       if (tracks.length === 0) {
         console.log("No tracks returned from Spotify.");
         await writeFunctionStatus("fetchRecentlyPlayed", "ok");
+        await trackUsage("functionInvocations");
         return;
       }
 
@@ -173,6 +210,9 @@ export const fetchRecentlyPlayed = onSchedule(
 
       console.log(`Added ${added} new tracks.`);
       await writeFunctionStatus("fetchRecentlyPlayed", "ok");
+      await trackUsage("functionInvocations");
+      await trackUsage("firestoreReads", tracks.length);
+      await trackUsage("firestoreWrites", added);
     } catch (err: any) {
       await writeFunctionStatus("fetchRecentlyPlayed", "error", err?.message ?? "Unknown error");
       throw err;
@@ -244,6 +284,10 @@ export const onPhotoUploaded = onObjectFinalized(
 
       console.log(`Added ${fileName} to ${category}`);
       await writeFunctionStatus("onPhotoUploaded", "ok");
+      await trackUsage("functionInvocations");
+      await trackUsage("storageReads");
+      await trackUsage("firestoreReads", 2);
+      await trackUsage("firestoreWrites", 2);
     } catch (err: any) {
       await writeFunctionStatus("onPhotoUploaded", "error", err?.message ?? "Unknown error");
       throw err;
@@ -264,6 +308,7 @@ export const onPhotoDeleted = onObjectDeleted(
       const fileName = path.basename(filePath);
       const categories = await db.collection("photography").get();
 
+      let deleted = 0;
       for (const categoryDoc of categories.docs) {
         const photos = await categoryDoc.ref
           .collection("photos")
@@ -272,11 +317,15 @@ export const onPhotoDeleted = onObjectDeleted(
 
         for (const photoDoc of photos.docs) {
           await photoDoc.ref.delete();
+          deleted++;
           console.log(`Deleted Firestore doc for ${fileName} from ${categoryDoc.id}`);
         }
       }
 
       await writeFunctionStatus("onPhotoDeleted", "ok");
+      await trackUsage("functionInvocations");
+      await trackUsage("firestoreReads", categories.size);
+      await trackUsage("firestoreWrites", deleted);
     } catch (err: any) {
       await writeFunctionStatus("onPhotoDeleted", "error", err?.message ?? "Unknown error");
       throw err;
