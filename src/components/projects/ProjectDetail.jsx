@@ -6,24 +6,10 @@ import {
   mediaTypeFromSrc,
   youtubeIdFrom,
   mediaThumbUrl,
+  derivePosterFromVideoSrc,
 } from "../../utils/projectsExtras";
 import { useProjects } from "../../utils/useProjects";
 import "../css/projects.css";
-
-function derivePosterFromVideoSrc(videoSrc) {
-  if (!videoSrc) {
-    return "";
-  }
-
-  const cleaned = videoSrc.split("?")[0].split("#")[0];
-  const lower = cleaned.toLowerCase();
-
-  if (!lower.endsWith(".mp4")) {
-    return "";
-  }
-
-  return `${cleaned.slice(0, cleaned.length - 4)}-poster.webp`;
-}
 
 function resolveThumbForMediaItem(mediaItem) {
   if (!mediaItem) {
@@ -144,7 +130,6 @@ export default function ProjectDetail() {
   const canNext = index < media.length - 1;
 
   return (
-
     <article className="project-detail">
       <div className="container">
         <nav className="breadcrumb">

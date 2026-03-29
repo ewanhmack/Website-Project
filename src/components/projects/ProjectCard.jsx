@@ -1,23 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { firstImage, getMediaArray, resolveMediaSrc } from "../../utils/projects";
-import { slugify, mediaTypeFromSrc, youtubeIdFrom } from "../../utils/projectsExtras";
-
-function derivePosterFromVideoSrc(src) {
-  if (!src) {
-    return null;
-  }
-
-  const cleanSrc = src.split("?")[0].split("#")[0];
-  const lower = cleanSrc.toLowerCase();
-
-  if (!lower.endsWith(".mp4")) {
-    return null;
-  }
-
-  const withoutExt = cleanSrc.slice(0, cleanSrc.length - 4);
-  return `${withoutExt}-poster.webp`;
-}
+import { slugify, mediaTypeFromSrc, youtubeIdFrom, derivePosterFromVideoSrc } from "../../utils/projectsExtras";
 
 export default function ProjectCard({ project }) {
   const slug = slugify(project.header);

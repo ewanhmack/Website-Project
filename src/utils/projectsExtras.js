@@ -77,3 +77,17 @@ export function mediaThumbUrl(m) {
 
   return resolveMediaSrc(m?.src || "");
 }
+
+export function derivePosterFromVideoSrc(src = "") {
+  if (!src) {
+    return null;
+  }
+
+  const cleanSrc = src.split("?")[0].split("#")[0];
+
+  if (!cleanSrc.toLowerCase().endsWith(".mp4")) {
+    return null;
+  }
+
+  return `${cleanSrc.slice(0, cleanSrc.length - 4)}-poster.webp`;
+}
