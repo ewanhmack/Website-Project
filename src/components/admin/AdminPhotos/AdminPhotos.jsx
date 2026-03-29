@@ -1,9 +1,11 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes, deleteObject, getMetadata } from "firebase/storage";
-import { db, storage } from "../../firebase";
+import { db, storage } from "../../../firebase";
 import exifr from "exifr";
-import "./AdminPhotos.css";
+import UploadZone from "./UploadZone";
+import UploadProgress from "./UploadProgress";
+import "../../css/AdminPhotos.css";
 
 function convertToWebP(file) {
   return new Promise((resolve, reject) => {
@@ -41,74 +43,6 @@ function convertToWebP(file) {
 
     img.src = url;
   });
-}
-
-function UploadZone({ onFiles }) {
-  const [dragging, setDragging] = useState(false);
-  const inputRef = useRef(null);
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setDragging(false);
-    const files = Array.from(e.dataTransfer.files).filter((f) =>
-      f.type.startsWith("image/")
-    );
-    if (files.length > 0) {
-      onFiles(files);
-    }
-  };
-
-  return (
-    <div
-      className={`aph-dropzone ${dragging ? "aph-dropzone--active" : ""}`}
-      onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-      onDragLeave={() => setDragging(false)}
-      onDrop={handleDrop}
-      onClick={() => inputRef.current?.click()}
-    >
-      <span className="aph-dropzone-icon">📷</span>
-      <span className="aph-dropzone-text">Drop photos here or click to select</span>
-      <span className="aph-dropzone-sub">JPG, PNG, WebP — converted to WebP on upload</span>
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        multiple
-        style={{ display: "none" }}
-        onChange={(e) => {
-          const files = Array.from(e.target.files).filter((f) =>
-            f.type.startsWith("image/")
-          );
-          if (files.length > 0) {
-            onFiles(files);
-          }
-          e.target.value = "";
-        }}
-      />
-    </div>
-  );
-}
-
-function UploadProgress({ items }) {
-  if (items.length === 0) {
-    return null;
-  }
-
-  return (
-    <div className="aph-progress-list">
-      {items.map((item) => (
-        <div key={item.name} className="aph-progress-item">
-          <span className="aph-progress-name">{item.name}</span>
-          <span className={`aph-progress-status aph-progress-status--${item.status}`}>
-            {item.status === "converting" ? "Converting…" : null}
-            {item.status === "uploading" ? "Uploading…" : null}
-            {item.status === "done" ? "✓ Done" : null}
-            {item.status === "error" ? `✕ ${item.error}` : null}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
 }
 
 export default function AdminPhotos() {

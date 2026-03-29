@@ -11,7 +11,7 @@ import "leaflet/dist/leaflet.css";
 import { useOSMGraph } from "./useOSMGraph";
 import { usePathfinder, formatDuration } from "./usePathfinder";
 import { useRoutePlanner, RoutePlannerPanel } from "./RoutePlanner";
-import "./MapExplorer.css";
+import "../css/MapExplorer.css";
 
 const BELFAST_CENTER: [number, number] = [54.5973, -5.9301];
 const INITIAL_ZOOM = 8;

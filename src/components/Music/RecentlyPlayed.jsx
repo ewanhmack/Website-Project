@@ -1,8 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { db } from "../../firebase";
-
-const PAGE_SIZE = 25;
+import React, { useRef, useEffect } from "react";
 
 function timeAgo(dateString) {
   const diff = Math.floor((Date.now() - new Date(dateString)) / 1000);
@@ -18,32 +14,35 @@ function timeAgo(dateString) {
   return `${Math.floor(diff / 86400)} days ago`;
 }
 
-export default function RecentlyPlayed() {
-  const [tracks, setTracks] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
+export default function RecentlyPlayed({ tracks, loading, loadingMore, error, hasMore, hasLoadedMore, onLoadMore, onInfiniteLoad }) {
   const listRef = useRef(null);
+  const sentinelRef = useRef(null);
 
   useEffect(() => {
-    const fetchTracks = async () => {
-      try {
-        const q = query(
-          collection(db, "music", "recently-played", "tracks"),
-          orderBy("played_at", "desc")
-        );
-        const snapshot = await getDocs(q);
-        const data = snapshot.docs.map((d) => d.data());
-        setTracks(data);
-      } catch (err) {
-        setError("Couldn't load recently played tracks.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (!hasLoadedMore || !hasMore) {
+      return;
+    }
 
-    fetchTracks();
-  }, []);
+    const sentinel = sentinelRef.current;
+    if (!sentinel) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !loadingMore) {
+          onInfiniteLoad();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(sentinel);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasLoadedMore, hasMore, loadingMore, onInfiniteLoad]);
 
   if (loading) {
     return <p className="muted">Loading...</p>;
@@ -57,18 +56,13 @@ export default function RecentlyPlayed() {
     return <p className="muted">No tracks yet.</p>;
   }
 
-  const totalPages = Math.ceil(tracks.length / PAGE_SIZE);
-  const pageTracks = tracks.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-
   return (
     <>
       <h2 className="music-stats-heading" style={{ paddingBottom: "0.5em", paddingLeft: "1.1em", paddingRight: "1.1em" }}>Music History</h2>
       <ul className="recently-played-list" ref={listRef}>
-        {pageTracks.map((track, i) => (
+        {tracks.map((track, i) => (
           <li key={track.played_at} className="recently-played-row">
-            <span className="recently-played-index">
-              {(page - 1) * PAGE_SIZE + i + 1}
-            </span>
+            <span className="recently-played-index">{i + 1}</span>
             <img
               src={track.album_art}
               alt={track.album}
@@ -91,34 +85,25 @@ export default function RecentlyPlayed() {
           </li>
         ))}
       </ul>
-      {totalPages > 1 ? (
-        <div className="recently-played-pagination">
+
+      {!hasLoadedMore && hasMore ? (
+        <div style={{ textAlign: "center", padding: "16px" }}>
           <button
             className="pagination-btn"
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
+            onClick={onLoadMore}
+            disabled={loadingMore}
           >
-            ←
-          </button>
-          {Array.from({ length: 5 }, (_, i) => Math.max(1, page - 2) + i)
-            .filter((p) => p >= 1 && p <= totalPages)
-            .map((p) => (
-              <button
-                key={p}
-                className={`pagination-btn ${p === page ? "pagination-btn--active" : ""}`}
-                onClick={() => setPage(p)}
-              >
-                {p}
-              </button>
-            ))}
-          <button
-            className="pagination-btn"
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={page === totalPages}
-          >
-            →
+            {loadingMore ? "Loading…" : "Load more"}
           </button>
         </div>
+      ) : null}
+
+      {hasLoadedMore && hasMore ? (
+        <div ref={sentinelRef} style={{ height: 1 }} />
+      ) : null}
+
+      {hasLoadedMore && loadingMore ? (
+        <p className="muted" style={{ textAlign: "center", padding: "16px" }}>Loading…</p>
       ) : null}
     </>
   );

@@ -20,8 +20,8 @@ import ViewToggle from "../components/photography/ViewToggle";
 import Carousel from "../components/photography/Carousel";
 import AlbumGrid from "../components/photography/AlbumGrid";
 import { shuffle, getPhotoUrl } from "../utils/photos";
-import "./photography.css";
-import "./PageStyles.css";
+import "../components/css/photography.css";
+import "../components/css/PageStyles.css";
 
 const CAROUSEL_PAGE_SIZE = 10;
 const GRID_PAGE_SIZE = 20;
@@ -220,6 +220,33 @@ export default function Photography() {
   const [view, setView] = useState("carousel");
   const [selectedPhoto, setSelectedPhoto] = useState(null);
 
+  const savedScrollY = useRef(null);
+
+  const openPhoto = useCallback((photo) => {
+    savedScrollY.current = window.scrollY;
+    setSelectedPhoto(photo);
+  }, []);
+
+  const closePhoto = useCallback(() => {
+    setSelectedPhoto(null);
+  }, []);
+
+  useEffect(() => {
+    if (selectedPhoto !== null) {
+      return;
+    }
+
+    if (savedScrollY.current === null) {
+      return;
+    }
+
+    const y = savedScrollY.current;
+    savedScrollY.current = null;
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: y, behavior: "instant" });
+    });
+  }, [selectedPhoto]);
+
   const fetchCarouselPage = useCallback(async (category, cursor = null) => {
     const q = cursor
       ? query(
@@ -369,9 +396,6 @@ export default function Photography() {
   }, [gridHasMore, gridLoading, gridCursor, fetchGridPage]);
 
   const gridSentinelRef = useIntersectionObserver(loadMoreGrid, { rootMargin: "200px" });
-
-  const openPhoto = useCallback((photo) => setSelectedPhoto(photo), []);
-  const closePhoto = useCallback(() => setSelectedPhoto(null), []);
 
   const carouselRef = useRef(null);
   const gridRef = useRef(null);

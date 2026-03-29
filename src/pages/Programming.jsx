@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import "../pages/projects.css";
+import "../components/css/projects.css";
 import ProjectsGrid from "../components/projects/ProjectsGrid";
 import SkeletonGrid from "../components/projects/SkeletonGrid";
 import { useProjects } from "../utils/useProjects";

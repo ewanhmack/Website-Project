@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { collection, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
-import { db } from "../../firebase";
-import { useProjects } from "../../utils/useProjects.js";
-import ProjectForm from "./ProjectForm";
-import "./AdminProjects.css";
+import { db } from "../../../firebase";
+import { useProjects } from "../../../utils/useProjects.js";
+import ProjectForm from "../ProjectForm/ProjectForm";
+import "../../css/AdminProjects.css";
 
 export default function AdminProjects() {
   const { projects, loading, error } = useProjects();

@@ -2,8 +2,8 @@ import React from "react";
 import ContactGrid from "../components/contact/ContactGrid";
 import QuickMessageForm from "../components/contact/QuickMessageForm";
 import CVPanel from "../components/contact/CVPanel";
-import "./contact.css";      // add if you created a separate file
-import "./PageStyles.css";   // keep your base styles
+import "../components/css/contact.css";
+import "../components/css/PageStyles.css";
 
 export default function Contact() {
   return (

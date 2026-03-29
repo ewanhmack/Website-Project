@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import './ExplainThisUI.css';
+import '../css/ExplainThisUI.css';
 import { CATEGORIES, PERSPECTIVES, SEVERITIES, STORAGE_KEY } from './constants';
 import type {
   CategoryId,

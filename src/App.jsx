@@ -15,13 +15,13 @@ import Music from "./pages/Music";
 import Maps from "./pages/Maps";
 import AdminLogin from "./components/admin/AdminLogin";
 import Admin from "./pages/Admin";
-import AdminProjects from "./components/admin/AdminProjects";
-import AdminPhotos from "./components/admin/AdminPhotos";
+import AdminProjects from "./components/admin/AdminProjects/AdminProjects";
+import AdminPhotos from "./components/admin/AdminPhotos/AdminPhotos";
 import AdminLayout from "./components/admin/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
-import "./components/ComponentStyles.css";
-import "./pages/PageStyles.css";
+import "./components/css/ComponentStyles.css";
+import "./components/css/PageStyles.css";
 
 export default function App() {
   return (
