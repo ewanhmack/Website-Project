@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
-import "../../pages/Admin.css";
+import "../css/Admin.css";
 
 export default function AdminLayout() {
   const navigate = useNavigate();

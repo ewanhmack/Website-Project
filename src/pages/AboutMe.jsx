@@ -1,5 +1,5 @@
 import React from "react";
-import "./AboutMe.css";
+import "../components/css/AboutMe.css";
 import archeryIcon from "../assets/archery.svg";
 import cameraIcon from "../assets/camera.svg";
 import roboticsIcon from "../assets/robotics.svg";

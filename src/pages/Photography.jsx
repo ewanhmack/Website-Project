@@ -20,8 +20,8 @@ import ViewToggle from "../components/photography/ViewToggle";
 import Carousel from "../components/photography/Carousel";
 import AlbumGrid from "../components/photography/AlbumGrid";
 import { shuffle, getPhotoUrl } from "../utils/photos";
-import "./photography.css";
-import "./PageStyles.css";
+import "../components/css/photography.css";
+import "../components/css/PageStyles.css";
 
 const CAROUSEL_PAGE_SIZE = 10;
 const GRID_PAGE_SIZE = 20;

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import './ElectricNetworkCanvas.css';
+import '../css/ElectricNetworkCanvas.css';
 
 export default function ElectricNetworkCanvas() {
   const canvasRef = useRef(null);

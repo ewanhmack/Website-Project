@@ -12,7 +12,7 @@ import {
   BarChart,
   Bar,
 } from "recharts";
-import "./AdminDashboard.css";
+import "../css/AdminDashboard.css";
 
 function StatusBadge({ status }) {
   if (!status) {

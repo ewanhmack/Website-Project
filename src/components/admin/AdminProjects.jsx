@@ -3,7 +3,7 @@ import { collection, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestor
 import { db } from "../../firebase";
 import { useProjects } from "../../utils/useProjects.js";
 import ProjectForm from "./ProjectForm";
-import "./AdminProjects.css";
+import "../css/AdminProjects.css";
 
 export default function AdminProjects() {
   const { projects, loading, error } = useProjects();

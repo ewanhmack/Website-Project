@@ -8,7 +8,7 @@ import {
   mediaThumbUrl,
 } from "../../utils/projectsExtras";
 import { useProjects } from "../../utils/useProjects";
-import "../../pages/projects.css";
+import "../css/projects.css";
 
 function derivePosterFromVideoSrc(videoSrc) {
   if (!videoSrc) {

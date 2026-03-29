@@ -3,7 +3,7 @@ import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes, deleteObject, getMetadata } from "firebase/storage";
 import { db, storage } from "../../firebase";
 import exifr from "exifr";
-import "./AdminPhotos.css";
+import "../css/AdminPhotos.css";
 
 function convertToWebP(file) {
   return new Promise((resolve, reject) => {

@@ -20,9 +20,8 @@ import AdminPhotos from "./components/admin/AdminPhotos";
 import AdminLayout from "./components/admin/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import "./App.css";
-import "./components/ComponentStyles.css";
-import "./pages/PageStyles.css";
-
+import "./components/css/ComponentStyles.css";
+import "./components/css/PageStyles.css";
 export default function App() {
   return (
     <Router>
