@@ -1,106 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
-import { ref, uploadBytes, getDownloadURL, getMetadata } from "firebase/storage";
-import { storage } from "../../firebase";
-import { resolveMediaSrc } from "../../utils/projects";
-import { mediaTypeFromSrc, youtubeIdFrom } from "../../utils/projectsExtras";
+import React, { useState, useEffect } from "react";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../../firebase";
+import { slugify } from "../../../utils/admin/slugify";
+import { mediaTypeFromSrc, youtubeIdFrom } from "../../../utils/projectsExtras";
+import { resolveMediaSrc } from "../../../utils/projects";
+import MediaPreview from "./MediaPreview";
+import MediaUploadButton from "./MediaUploadButton";
 
 const EMPTY_MEDIA = { src: "", caption: "", blurb: "" };
-
-function slugify(header = "") {
-  return String(header)
-    .toLowerCase()
-    .normalize("NFKD")
-    .replace(/[^\p{Letter}\p{Number}]+/gu, "-")
-    .replace(/(^-|-$)+/g, "");
-}
-
-function MediaPreview({ src }) {
-  if (!src) {
-    return <div className="ap-media-preview ap-media-preview--empty">No src</div>;
-  }
-
-  const type = mediaTypeFromSrc(src);
-
-  if (type === "youtube") {
-    const id = youtubeIdFrom(src);
-    return (
-      <div className="ap-media-preview">
-        <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="YouTube thumbnail" />
-        <span className="ap-media-badge">YouTube</span>
-      </div>
-    );
-  }
-
-  if (type === "video") {
-    return (
-      <div className="ap-media-preview">
-        <video src={resolveMediaSrc(src)} className="ap-media-preview-video" muted />
-        <span className="ap-media-badge">Video</span>
-      </div>
-    );
-  }
-
-  return (
-    <div className="ap-media-preview">
-      <img src={resolveMediaSrc(src)} alt="Media preview" />
-    </div>
-  );
-}
-
-function MediaUploadButton({ projectHeader, onUploaded, disabled }) {
-  const inputRef = useRef(null);
-  const [uploading, setUploading] = useState(false);
-
-  const handleFile = async (e) => {
-    const file = e.target.files[0];
-    if (!file) {
-      return;
-    }
-
-    e.target.value = "";
-    setUploading(true);
-
-    try {
-      const folder = slugify(projectHeader) || "misc";
-      const storagePath = `images/projects/${folder}/${file.name}`;
-      const storageRef = ref(storage, storagePath);
-
-      try {
-        await getMetadata(storageRef);
-      } catch {
-        await uploadBytes(storageRef, file);
-      }
-
-      const url = await getDownloadURL(storageRef);
-      onUploaded(`${folder}/${file.name}`, url);
-    } catch (err) {
-      console.error("Upload failed:", err);
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  return (
-    <>
-      <button
-        type="button"
-        className="ap-upload-btn"
-        onClick={() => inputRef.current?.click()}
-        disabled={disabled || uploading || !projectHeader.trim()}
-        title={!projectHeader.trim() ? "Enter a project title first" : "Upload file"}
-      >
-        {uploading ? "Uploading…" : "↑ Upload"}
-      </button>
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*,video/*"
-        style={{ display: "none" }}
-        onChange={handleFile}
-      />
-    </>
-  );
-}
 
 export default function MediaEditor({ media, onChange, projectHeader = "" }) {
   const [activeIndex, setActiveIndex] = useState(0);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import LinksEditor from "./LinksEditor";
-import MediaEditor from "./MediaEditor";
+import MediaEditor from "../MediaEditor/MediaEditor";
 
 export default function ProjectForm({ initial, onSave, onCancel, saving }) {
   const [form, setForm] = useState(

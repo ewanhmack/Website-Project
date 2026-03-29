@@ -1,18 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { collection, getDocs, doc, getDoc, query, orderBy, limit } from "firebase/firestore";
-import { db } from "../../firebase";
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-} from "recharts";
-import "../css/AdminDashboard.css";
+import { db } from "../../../firebase";
+import { CHART_COLORS, timeAgo, bucketByDay, bucketFunctionHistory } from "../../../utils/admin/dashboardHelper";
+import MiniChart from "./MiniChart";
+import FunctionRunChart from "./FunctionRunChart";
+import "../../css/AdminDashboard.css";
 
 function StatusBadge({ status }) {
   if (!status) {
@@ -22,148 +14,6 @@ function StatusBadge({ status }) {
     <span className={`ad-badge ad-badge--${status}`}>
       {status === "ok" ? "✓ OK" : "✕ Error"}
     </span>
-  );
-}
-
-function timeAgo(isoString) {
-  if (!isoString) {
-    return "Never";
-  }
-  const diff = Math.floor((Date.now() - new Date(isoString)) / 1000);
-  if (diff < 60) {
-    return `${diff}s ago`;
-  }
-  if (diff < 3600) {
-    return `${Math.floor(diff / 60)}m ago`;
-  }
-  if (diff < 86400) {
-    return `${Math.floor(diff / 3600)}h ago`;
-  }
-  return `${Math.floor(diff / 86400)}d ago`;
-}
-
-function bucketByDay(items, dateField) {
-  const counts = {};
-  for (const item of items) {
-    const date = item[dateField]?.slice(0, 10);
-    if (!date) {
-      continue;
-    }
-    counts[date] = (counts[date] || 0) + 1;
-  }
-  return Object.entries(counts)
-    .sort(([a], [b]) => a.localeCompare(b))
-    .slice(-30)
-    .map(([date, count]) => ({ date: date.slice(5), count }));
-}
-
-function bucketFunctionHistory(history) {
-  const counts = {};
-  for (const item of history) {
-    const date = item.timestamp?.slice(0, 10);
-    if (!date) {
-      continue;
-    }
-    counts[date] = (counts[date] || 0) + 1;
-  }
-  return Object.entries(counts)
-    .sort(([a], [b]) => a.localeCompare(b))
-    .slice(-14)
-    .map(([date, count]) => ({ date: date.slice(5), count }));
-}
-
-const CHART_COLORS = {
-  music: "#4f46e5",
-  photos: "#06b6d4",
-  functions: "#a78bfa",
-};
-
-function MiniChart({ data, color, dataKey = "count" }) {
-  if (!data || data.length === 0) {
-    return <div className="ad-chart-empty">No data yet</div>;
-  }
-
-  return (
-    <ResponsiveContainer width="100%" height={120}>
-      <AreaChart data={data} margin={{ top: 4, right: 4, left: -24, bottom: 0 }}>
-        <defs>
-          <linearGradient id={`grad-${color.replace("#", "")}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor={color} stopOpacity={0.3} />
-            <stop offset="95%" stopColor={color} stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-        <XAxis
-          dataKey="date"
-          tick={{ fill: "var(--muted)", fontSize: 10 }}
-          tickLine={false}
-          axisLine={false}
-          interval="preserveStartEnd"
-        />
-        <YAxis
-          tick={{ fill: "var(--muted)", fontSize: 10 }}
-          tickLine={false}
-          axisLine={false}
-          allowDecimals={false}
-        />
-        <Tooltip
-          contentStyle={{
-            background: "var(--panel)",
-            border: "1px solid var(--border)",
-            borderRadius: 8,
-            fontSize: 12,
-            color: "var(--text)",
-          }}
-          cursor={{ stroke: color, strokeWidth: 1, strokeDasharray: "4 4" }}
-        />
-        <Area
-          type="monotone"
-          dataKey={dataKey}
-          stroke={color}
-          strokeWidth={2}
-          fill={`url(#grad-${color.replace("#", "")})`}
-          dot={false}
-          activeDot={{ r: 4, fill: color }}
-        />
-      </AreaChart>
-    </ResponsiveContainer>
-  );
-}
-
-function FunctionRunChart({ data }) {
-  if (!data || data.length === 0) {
-    return <div className="ad-chart-empty">No data yet</div>;
-  }
-
-  return (
-    <ResponsiveContainer width="100%" height={120}>
-      <BarChart data={data} margin={{ top: 4, right: 4, left: -24, bottom: 0 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-        <XAxis
-          dataKey="date"
-          tick={{ fill: "var(--muted)", fontSize: 10 }}
-          tickLine={false}
-          axisLine={false}
-          interval="preserveStartEnd"
-        />
-        <YAxis
-          tick={{ fill: "var(--muted)", fontSize: 10 }}
-          tickLine={false}
-          axisLine={false}
-          allowDecimals={false}
-        />
-        <Tooltip
-          contentStyle={{
-            background: "var(--panel)",
-            border: "1px solid var(--border)",
-            borderRadius: 8,
-            fontSize: 12,
-            color: "var(--text)",
-          }}
-        />
-        <Bar dataKey="count" fill={CHART_COLORS.functions} radius={[4, 4, 0, 0]} />
-      </BarChart>
-    </ResponsiveContainer>
   );
 }
 

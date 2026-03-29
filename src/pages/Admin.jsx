@@ -1,7 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import AdminDashboard from "../components/admin/AdminDashboard";
-import CostDashboard from "../components/admin/CostDashboard";
+import AdminDashboard from "../components/admin/AdminDashboard/AdminDashboard";
+import CostDashboard from "../components/admin/CostDashboard/CostDashboard";
+
 export default function Admin() {
   const navigate = useNavigate();
 
