@@ -45,6 +45,33 @@ function convertToWebP(file) {
   });
 }
 
+const SORT_OPTIONS = [
+  { value: "newest", label: "Newest → Oldest" },
+  { value: "oldest", label: "Oldest → Newest" },
+  { value: "az",     label: "A → Z" },
+  { value: "za",     label: "Z → A" },
+];
+
+function applySortAndSearch(photos, sort, search) {
+  const filtered = photos.filter((p) =>
+    p.image.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const sorted = [...filtered];
+
+  if (sort === "newest") {
+    sorted.sort((a, b) => (b.order ?? 0) - (a.order ?? 0));
+  } else if (sort === "oldest") {
+    sorted.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  } else if (sort === "az") {
+    sorted.sort((a, b) => a.image.localeCompare(b.image));
+  } else if (sort === "za") {
+    sorted.sort((a, b) => b.image.localeCompare(a.image));
+  }
+
+  return sorted;
+}
+
 export default function AdminPhotos() {
   const [uploadItems, setUploadItems] = useState([]);
   const [photos, setPhotos] = useState({});
@@ -52,6 +79,7 @@ export default function AdminPhotos() {
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [activeCategory, setActiveCategory] = useState(null);
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("oldest");
 
   const fetchPhotos = useCallback(async () => {
     setLoadingPhotos(true);
@@ -172,9 +200,11 @@ export default function AdminPhotos() {
   };
 
   const categories = Object.keys(photos);
-
-  const activePhotos = (activeCategory ? (photos[activeCategory] || []) : [])
-    .filter((p) => p.image.toLowerCase().includes(search.toLowerCase()));
+  const activePhotos = applySortAndSearch(
+    activeCategory ? (photos[activeCategory] || []) : [],
+    sort,
+    search
+  );
 
   return (
     <div className="aph-page">
@@ -202,23 +232,38 @@ export default function AdminPhotos() {
             ))}
           </div>
 
-          <div className="aph-search-bar">
-            <input
-              type="search"
-              placeholder="Search by filename…"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              aria-label="Search photos"
-            />
-            {search ? (
-              <button
-                className="aph-search-clear"
-                onClick={() => setSearch("")}
-                aria-label="Clear search"
+          <div className="aph-toolbar">
+            <div className="aph-search-bar">
+              <input
+                type="search"
+                placeholder="Search by filename…"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                aria-label="Search photos"
+              />
+              {search ? (
+                <button
+                  className="aph-search-clear"
+                  onClick={() => setSearch("")}
+                  aria-label="Clear search"
+                >
+                  ×
+                </button>
+              ) : null}
+            </div>
+
+            <div className="aph-sort">
+              <label htmlFor="aph-sort-select">Sort</label>
+              <select
+                id="aph-sort-select"
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
               >
-                ×
-              </button>
-            ) : null}
+                {SORT_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
+            </div>
           </div>
 
           {activePhotos.length === 0 ? (
