@@ -19,6 +19,15 @@ import AdminProjects from "./components/admin/AdminProjects/AdminProjects";
 import AdminPhotos from "./components/admin/AdminPhotos/AdminPhotos";
 import AdminLayout from "./components/admin/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
+import SongShackLayout from "./components/songshack/SongShackLayout";
+import SSHome from "./pages/songshack/SSHome";
+import SSLogin from "./pages/songshack/SSLogin";
+import SSRegister from "./pages/songshack/SSRegister";
+import SSProfile from "./pages/songshack/SSProfile";
+import SSAlbum from "./pages/songshack/SSAlbum";
+import SSRanking from "./pages/songshack/SSRanking";
+import SSNewAlbum from "./pages/songshack/SSNewAlbum";
+import SSError from "./pages/songshack/SSError";
 import "./App.css";
 import "./components/css/ComponentStyles.css";
 import "./components/css/PageStyles.css";
@@ -53,6 +62,16 @@ export default function App() {
               <Route index element={<Admin />} />
               <Route path="projects" element={<AdminProjects />} />
               <Route path="photos" element={<AdminPhotos />} />
+            </Route>
+            <Route path="/songshack" element={<SongShackLayout />}>
+              <Route index element={<SSHome />} />
+              <Route path="login" element={<SSLogin />} />
+              <Route path="register" element={<SSRegister />} />
+              <Route path="album/:id" element={<SSAlbum />} />
+              <Route path="ranking" element={<SSRanking />} />
+              <Route path="new-album" element={<SSNewAlbum />} />
+              <Route path="profile" element={<SSProfile />} />
+              <Route path="error" element={<SSError />} />
             </Route>
           </Routes>
         </main>

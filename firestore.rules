@@ -31,9 +31,20 @@ service cloud.firestore {
       allow read: if request.auth != null;
       allow write: if false;
     }
-    match /_meta/{document=**} {
-      allow read: if request.auth != null;
-      allow write: if false;
+
+    match /ss_albums/{albumId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+
+      match /reviews/{reviewId} {
+        allow read: if true;
+        allow write: if request.auth != null;
+      }
     }
+
+    match /ss_users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
   }
 }
