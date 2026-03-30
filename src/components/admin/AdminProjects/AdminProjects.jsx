@@ -4,6 +4,7 @@ import { db } from "../../../firebase";
 import { useProjects } from "../../../utils/useProjects.js";
 import ProjectForm from "../ProjectForm/ProjectForm";
 import "../../css/AdminProjects.css";
+import { resolveMediaSrc } from "../../../utils/projects";
 
 export default function AdminProjects() {
   const { projects, loading, error } = useProjects();
@@ -76,49 +77,57 @@ export default function AdminProjects() {
         </div>
       ) : null}
 
-      <div className="ap-list">
-        {projects.map((project) => (
-          <div key={project.id}>
-            {mode === "edit" && editTarget?.id === project.id ? (
-              <div className="ap-card ap-card--form">
-                <h2>Edit — {project.header}</h2>
-                <ProjectForm
-                  initial={editTarget}
-                  onSave={handleEdit}
-                  onCancel={() => { setMode(null); setEditTarget(null); }}
-                  saving={saving}
-                />
+      {mode === "edit" && editTarget ? (
+        <div className="ap-card ap-card--form">
+          <h2>Edit — {editTarget.header}</h2>
+          <ProjectForm
+            initial={editTarget}
+            onSave={handleEdit}
+            onCancel={() => { setMode(null); setEditTarget(null); }}
+            saving={saving}
+          />
+        </div>
+      ) : null}
+
+      <div className="ap-grid">
+        {projects.map((project) => {
+          const thumb = project.media?.find((m) => m.src);
+          const isEditing = mode === "edit" && editTarget?.id === project.id;
+
+          return (
+            <div
+              key={project.id}
+              className={`ap-tile${isEditing ? " ap-tile--editing" : ""}`}
+            >
+              <div
+                className={`ap-tile-image${!thumb ? " ap-tile-image--empty" : ""}`}
+                onClick={() => { setEditTarget(project); setMode("edit"); }}
+              >
+                {thumb ? (
+                  <img src={resolveMediaSrc(thumb.src)} alt={project.header} />
+                ) : (
+                  <span className="ap-tile-image-placeholder">🖼</span>
+                )}
               </div>
-            ) : (
-              <div className="ap-card ap-card--row">
-                <div className="ap-card-info">
-                  <strong>{project.header}</strong>
-                  <span className="ap-tech-preview muted">
-                    {(project.tech || []).slice(0, 3).join(", ")}
-                  </span>
-                </div>
-                <div className="ap-card-actions">
-                  <button
-                    className="ghost"
-                    onClick={() => { setEditTarget(project); setMode("edit"); }}
-                  >
-                    Edit
-                  </button>
+
+              <div className="ap-tile-info">
+                <span className="ap-tile-title">{project.header}</span>
+                <div className="ap-tile-actions">
                   {deleteConfirm?.id === project.id ? (
                     <>
-                      <button onClick={() => handleDelete(project)}>Confirm Delete</button>
-                      <button className="ghost" onClick={() => setDeleteConfirm(null)}>Cancel</button>
+                      <button onClick={() => handleDelete(project)}>Confirm</button>
+                      <button onClick={() => setDeleteConfirm(null)}>Cancel</button>
                     </>
                   ) : (
-                    <button className="ghost ap-delete-btn" onClick={() => setDeleteConfirm(project)}>
+                    <button className="ap-delete-btn" onClick={() => setDeleteConfirm(project)}>
                       Delete
                     </button>
                   )}
                 </div>
               </div>
-            )}
-          </div>
-        ))}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
