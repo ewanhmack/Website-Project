@@ -15,3 +15,13 @@ export function shuffle(a) {
   }
   return arr;
 }
+
+const BUCKET = "website-project-deb45.firebasestorage.app";
+
+export function getPhotoUrlForCanvas(photo) {
+  if (photo.image) {
+    const encoded = encodeURIComponent(`images/photos/${photo.image}`);
+    return `https://firebasestorage.googleapis.com/v0/b/${BUCKET}/o/${encoded}?alt=media`;
+  }
+  return getPhotoUrl(photo);
+}

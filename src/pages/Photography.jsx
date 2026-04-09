@@ -19,6 +19,7 @@ import { db } from "../firebase";
 import ViewToggle from "../components/photography/ViewToggle";
 import Carousel from "../components/photography/Carousel";
 import AlbumGrid from "../components/photography/AlbumGrid";
+import PhotoEditor from "../components/photography/Editor/PhotoEditor";
 import { shuffle, getPhotoUrl } from "../utils/photos";
 import "../components/css/photography.css";
 import "../components/css/PageStyles.css";
@@ -65,14 +66,21 @@ function formatShutterSpeed(value) {
 }
 
 function PhotoModal({ photo, onClose }) {
+  const [mode, setMode] = useState("view");
+
   useEffect(() => {
     if (!photo) {
       return;
     }
+    setMode("view");
+  }, [photo]);
 
+  useEffect(() => {
+    if (!photo) {
+      return;
+    }
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     return () => {
       document.body.style.overflow = previousOverflow;
     };
@@ -82,19 +90,20 @@ function PhotoModal({ photo, onClose }) {
     if (!photo) {
       return;
     }
-
     const onKeyDown = (event) => {
       if (event.key === "Escape") {
-        onClose();
+        if (mode === "edit") {
+          setMode("view");
+        } else {
+          onClose();
+        }
       }
     };
-
     window.addEventListener("keydown", onKeyDown);
-
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [photo, onClose]);
+  }, [photo, onClose, mode]);
 
   if (!photo) {
     return null;
@@ -116,11 +125,9 @@ function PhotoModal({ photo, onClose }) {
     if (value === undefined || value === null) {
       return false;
     }
-
     if (typeof value === "string" && value.trim().length === 0) {
       return false;
     }
-
     return true;
   });
 
@@ -136,7 +143,7 @@ function PhotoModal({ photo, onClose }) {
         }
       }}
     >
-      <div className="photo-modal">
+      <div className={`photo-modal ${mode === "edit" ? "photo-modal--editor" : ""}`}>
         <button
           type="button"
           className="photo-modal-close"
@@ -146,33 +153,40 @@ function PhotoModal({ photo, onClose }) {
           ×
         </button>
 
-        <div className="photo-modal-media">
-          <img src={imageSource} alt={title} decoding="async" />
-        </div>
-
-        <div className="photo-modal-meta">
-          <div className="photo-modal-title-row">
-            <div className="photo-modal-title">{title}</div>
-            {category ? (
-              <div className="photo-modal-category">{category}</div>
-            ) : null}
-          </div>
-
-          {details.length > 0 ? (
-            <dl className="photo-modal-details">
-              {details.map(([label, value]) => (
-                <React.Fragment key={label}>
-                  <dt>{label}</dt>
-                  <dd>{String(value)}</dd>
-                </React.Fragment>
-              ))}
-            </dl>
-          ) : (
-            <div className="photo-modal-empty muted">
-              No metadata available for this photo.
+        {mode === "view" ? (
+          <>
+            <div className="photo-modal-media">
+              <img src={imageSource} alt={title} decoding="async" />
             </div>
-          )}
-        </div>
+            <div className="photo-modal-meta">
+              <div className="photo-modal-title-row">
+                <div className="photo-modal-title">{title}</div>
+                {category ? <div className="photo-modal-category">{category}</div> : null}
+              </div>
+              {details.length > 0 ? (
+                <dl className="photo-modal-details">
+                  {details.map(([label, value]) => (
+                    <React.Fragment key={label}>
+                      <dt>{label}</dt>
+                      <dd>{String(value)}</dd>
+                    </React.Fragment>
+                  ))}
+                </dl>
+              ) : (
+                <div className="photo-modal-empty muted">No metadata available for this photo.</div>
+              )}
+              <button
+                type="button"
+                className="photo-modal-edit-btn"
+                onClick={() => setMode("edit")}
+              >
+                Edit photo
+              </button>
+            </div>
+          </>
+        ) : (
+          <PhotoEditor photo={photo} onBack={() => setMode("view")} />
+        )}
       </div>
     </div>,
     document.body

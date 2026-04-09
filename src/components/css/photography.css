@@ -585,40 +585,43 @@
   cursor: pointer;
 }
 
+/* ==========================================
+   PHOTO MODAL
+   ========================================== */
 .photo-modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 2000;
   display: grid;
   place-items: center;
-  padding: clamp(14px, 3vw, 24px);
+  padding: 1rem;
   background: rgba(0, 0, 0, 0.66);
   backdrop-filter: blur(10px);
 }
 
 .photo-modal {
-  width: min(1040px, 100%);
-  max-height: min(88vh, 900px);
+  width: min(960px, 100%);
+  max-height: calc(100dvh - 2rem);
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 18px;
   border: 1px solid var(--border, #1f2937);
   background: color-mix(in srgb, var(--panel, #0f172a) 92%, #000 8%);
   box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   position: relative;
 }
 
 @media (min-width: 900px) {
   .photo-modal {
-    grid-template-columns: 1.4fr 0.8fr;
+    flex-direction: row;
   }
 }
 
 .photo-modal-close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 12px;
+  right: 12px;
   height: 38px;
   width: 38px;
   border-radius: 999px;
@@ -631,7 +634,7 @@
   font-size: 22px;
   line-height: 1;
   transition: transform 0.08s ease, border-color 0.2s ease, background 0.2s ease;
-  z-index: 2;
+  z-index: 5;
 }
 
 .photo-modal-close:hover {
@@ -641,34 +644,45 @@
 }
 
 .photo-modal-media {
+  flex: 1 1 auto;
+  min-height: 0;
   background: #0d1325;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .photo-modal-media img {
-  width: 100%;
-  height: 100%;
-  max-height: 88vh;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
   display: block;
 }
 
 .photo-modal-meta {
-  padding: clamp(14px, 2.2vw, 18px);
+  flex: 0 0 auto;
+  max-height: 40dvh;
+  overflow: auto;
+  padding: 1rem;
   border-top: 1px solid var(--border, #1f2937);
 }
 
 @media (min-width: 900px) {
   .photo-modal-meta {
+    max-height: none;
+    width: 280px;
+    flex-shrink: 0;
     border-top: 0;
     border-left: 1px solid var(--border, #1f2937);
   }
 }
 
 .photo-modal-title-row {
-  display: grid;
-  gap: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: baseline;
   margin-bottom: 14px;
 }
 
@@ -696,6 +710,12 @@
   }
 }
 
+@media (min-width: 900px) {
+  .photo-modal-details {
+    grid-template-columns: 1fr;
+  }
+}
+
 .photo-modal-details dt {
   font-size: 0.85rem;
   color: var(--muted, #94a3b8);
@@ -711,63 +731,24 @@
   margin-top: 8px;
 }
 
-/* Mobile-safe modal sizing */
-.photo-modal-backdrop {
-  padding: 1rem;
+.photo-modal-edit-btn {
+  margin-top: 16px;
+  width: 100%;
+  padding: 8px 0;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
 }
 
-/* Make the modal fit within the viewport and behave predictably */
-.photo-modal {
-  width: min(960px, 100%);
-  max-height: calc(100dvh - 2rem);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border-radius: 18px;
+.photo-modal-edit-btn:hover {
+  border-color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
 }
 
-/* Put the close button in a header row so it doesn't overlap media */
-.photo-modal-close {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 5;
-}
-
-/* Media should shrink if the meta grows, rather than pushing off-screen */
-.photo-modal-media {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-/* Image should never exceed available space */
-.photo-modal-media img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-/* Meta becomes a scrollable bottom section on small screens */
-.photo-modal-meta {
-  flex: 0 0 auto;
-  max-height: 40dvh;
-  overflow: auto;
-  padding: 1rem;
-}
-
-/* Make the title row wrap nicely on mobile */
-.photo-modal-title-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: baseline;
-}
-
-/* Small screen tuning */
 @media (max-width: 600px) {
   .photo-modal-backdrop {
     padding: 0.75rem;
@@ -785,5 +766,240 @@
 
   .photo-modal-title {
     font-size: 1.25rem;
+  }
+}
+
+/* ==========================================
+   PHOTO EDITOR
+   ========================================== */
+.photo-modal--editor {
+  width: min(1400px, 96vw);
+  max-height: 92vh;
+  flex-direction: row;
+}
+
+.photo-editor {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.photo-editor-canvas-wrap {
+  flex: 1;
+  background: #070d1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  min-width: 0;
+}
+
+.photo-editor-canvas {
+  max-width: 100%;
+  max-height: calc(92vh - 80px);
+  object-fit: contain;
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.photo-editor-canvas.is-ready {
+  opacity: 1;
+}
+
+.photo-editor-loading,
+.photo-editor-error {
+  position: absolute;
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  padding: 0 20px;
+}
+
+.photo-editor-error {
+  color: #f87171;
+}
+
+/* ── Editor panel ────────────────────────────────────────── */
+.photo-editor-panel {
+  width: 340px;
+  flex-shrink: 0;
+  background: var(--panel);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.photo-editor-panel-top {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 8px 0;
+  flex-shrink: 0;
+}
+
+.photo-modal--editor .photo-modal-close {
+  position: static;
+  top: auto;
+  right: auto;
+}
+
+.photo-editor-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 10px 12px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-preset-btn {
+  font-size: 11px;
+  padding: 3px 9px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.editor-preset-btn:hover {
+  color: var(--text);
+  border-color: #374151;
+}
+
+.editor-preset-btn.is-active {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--brand-ink);
+}
+
+/* ── Sliders ─────────────────────────────────────────────── */
+.photo-editor-sliders {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 12px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.editor-group {
+  margin-bottom: 8px;
+}
+
+.editor-group-title {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 6px 0 4px;
+}
+
+.editor-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+
+.editor-label {
+  font-size: 11px;
+  color: var(--muted);
+  width: 72px;
+  flex-shrink: 0;
+}
+
+.editor-row input[type="range"] {
+  flex: 1;
+  accent-color: var(--brand);
+  height: 3px;
+}
+
+.editor-val {
+  font-size: 11px;
+  color: var(--text);
+  width: 26px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── Actions ─────────────────────────────────────────────── */
+.photo-editor-actions {
+  display: flex;
+  gap: 6px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--border);
+}
+
+.editor-action-reset {
+  font-size: 12px;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px 0;
+  flex: 1;
+}
+
+.editor-action-reset:hover {
+  color: var(--text);
+}
+
+.editor-action-back {
+  font-size: 12px;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.editor-action-back:hover {
+  color: var(--text);
+  border-color: #374151;
+}
+
+.editor-action-download {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: var(--radius-md);
+  background: var(--brand);
+  color: var(--brand-ink);
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.editor-action-download:hover {
+  opacity: 0.85;
+}
+
+.editor-action-download:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .photo-modal--editor {
+    flex-direction: column;
+  }
+
+  .photo-editor {
+    flex-direction: column;
+  }
+
+  .photo-editor-panel {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .photo-editor-sliders {
+    max-height: 200px;
   }
 }
