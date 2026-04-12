@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const PERIODS = {
     day: { label: "Today", hours: 24 },
     week: { label: "This week", hours: 168 },
 };
 
-function filterByPeriod(tracks, hours) {
-    const cutoff = Date.now() - hours * 60 * 60 * 1000;
-    return tracks.filter((t) => new Date(t.played_at).getTime() > cutoff);
-}
+const FUNCTIONS_BASE_URL = "https://europe-west2-website-project-deb45.cloudfunctions.net";
 
 function topN(tracks, key, n) {
     const counts = {};
@@ -57,13 +54,38 @@ function StatList({ title, items }) {
     );
 }
 
-export default function MusicStats({ tracks }) {
+export default function MusicStats() {
     const [period, setPeriod] = useState("week");
+    const [tracks, setTracks] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    const filtered = filterByPeriod(tracks, PERIODS[period].hours);
-    const topArtists = topN(filtered, "artist", 3);
-    const topAlbums = topN(filtered, "album", 3);
-    const topTracks = topN(filtered, "track", 3);
+    useEffect(() => {
+        setLoading(true);
+        setError(null);
+
+        const since = new Date(Date.now() - PERIODS[period].hours * 60 * 60 * 1000).toISOString();
+
+        fetch(`${FUNCTIONS_BASE_URL}/getRecentlyPlayed?since=${encodeURIComponent(since)}`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error(`Request failed with status ${res.status}`);
+                }
+                return res.json();
+            })
+            .then((data) => {
+                setTracks(data.tracks ?? []);
+                setLoading(false);
+            })
+            .catch((err) => {
+                setError(err.message);
+                setLoading(false);
+            });
+    }, [period]);
+
+    const topArtists = topN(tracks, "artist", 3);
+    const topAlbums = topN(tracks, "album", 3);
+    const topTracks = topN(tracks, "track", 3);
 
     return (
         <section className="music-stats">
@@ -81,11 +103,15 @@ export default function MusicStats({ tracks }) {
                     ))}
                 </div>
             </div>
-            <div className="stat-grid">
-                <StatList title="Top Artists" items={topArtists} />
-                <StatList title="Top Albums" items={topAlbums} />
-                <StatList title="Top Tracks" items={topTracks} />
-            </div>
+            {loading && <p className="muted">Loading...</p>}
+            {error && <p className="muted">Failed to load stats.</p>}
+            {!loading && !error && (
+                <div className="stat-grid">
+                    <StatList title="Top Artists" items={topArtists} />
+                    <StatList title="Top Albums" items={topAlbums} />
+                    <StatList title="Top Tracks" items={topTracks} />
+                </div>
+            )}
         </section>
     );
 }

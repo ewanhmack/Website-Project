@@ -1,6 +1,7 @@
 import { setGlobalOptions } from "firebase-functions";
 import { onObjectFinalized, onObjectDeleted } from "firebase-functions/v2/storage";
 import { onSchedule } from "firebase-functions/v2/scheduler";
+import { onRequest } from "firebase-functions/v2/https";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
@@ -218,6 +219,34 @@ export const fetchRecentlyPlayed = onSchedule(
       throw err;
     }
   }
+);
+
+export const getRecentlyPlayed = onRequest(
+    { region: "europe-west2" },
+    async (req, res) => {
+        res.set("Access-Control-Allow-Origin", "*");
+
+        const since = req.query.since ? String(req.query.since) : null;
+
+        try {
+            let query: FirebaseFirestore.Query = db
+                .collection("music")
+                .doc("recently-played")
+                .collection("tracks")
+                .orderBy("played_at", "desc");
+
+            if (since) {
+                query = query.where("played_at", ">", since);
+            }
+
+            const snapshot = await query.get();
+            const tracks = snapshot.docs.map((doc) => doc.data());
+
+            res.json({ tracks });
+        } catch (err: any) {
+            res.status(500).json({ error: err?.message ?? "Unknown error" });
+        }
+    }
 );
 
 export const onPhotoUploaded = onObjectFinalized(
