@@ -13,13 +13,15 @@ import AboutMe from "./pages/AboutMe";
 import ExplainThisUIPage from "./pages/ExplainThisUI";
 import Music from "./pages/Music";
 import Maps from "./pages/Maps";
+import SongShackLayout from "./components/songshack/SongShackLayout";
+import LandsatLyricsPage from "./pages/Landsat";
 import AdminLogin from "./components/admin/AdminLogin";
 import Admin from "./pages/Admin";
 import AdminProjects from "./components/admin/AdminProjects/AdminProjects";
 import AdminPhotos from "./components/admin/AdminPhotos/AdminPhotos";
 import AdminLayout from "./components/admin/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
-import SongShackLayout from "./components/songshack/SongShackLayout";
+
 import SSHome from "./pages/songshack/SSHome";
 import SSLogin from "./pages/songshack/SSLogin";
 import SSRegister from "./pages/songshack/SSRegister";
@@ -28,6 +30,7 @@ import SSAlbum from "./pages/songshack/SSAlbum";
 import SSRanking from "./pages/songshack/SSRanking";
 import SSNewAlbum from "./pages/songshack/SSNewAlbum";
 import SSError from "./pages/songshack/SSError";
+
 import "./App.css";
 import "./components/css/ComponentStyles.css";
 import "./components/css/PageStyles.css";
@@ -50,6 +53,7 @@ export default function App() {
             <Route path="/about-me" element={<AboutMe />} />
             <Route path="/music" element={<Music />} />
             <Route path="/MapExplorer" element={<Maps />} />
+            <Route path="/Landsat" element={<LandsatLyricsPage />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route
               path="/admin"
