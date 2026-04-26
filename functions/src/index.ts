@@ -152,6 +152,43 @@ async function getSpotifyAccessToken(
   return parsed.access_token;
 }
 
+export const getSpotifyToken = onRequest(
+  {
+    region: "europe-west2",
+    secrets: ["SPOTIFY_CLIENT_ID", "SPOTIFY_CLIENT_SECRET"],
+  },
+  async (req, res) => {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "GET, OPTIONS");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+
+    if (req.method === "OPTIONS") {
+      res.status(204).send("");
+      return;
+    }
+
+    try {
+      const clientId = process.env.SPOTIFY_CLIENT_ID!;
+      const clientSecret = process.env.SPOTIFY_CLIENT_SECRET!;
+      const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+
+      const response = await httpPost(
+        "https://accounts.spotify.com/api/token",
+        {
+          Authorization: `Basic ${credentials}`,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        "grant_type=client_credentials"
+      );
+
+      const data = JSON.parse(response);
+      res.json({ access_token: data.access_token, expires_in: data.expires_in });
+    } catch (err: any) {
+      res.status(500).json({ error: err?.message ?? "Unknown error" });
+    }
+  }
+);
+
 async function fetchSpotifyRecentlyPlayed(accessToken: string): Promise<Record<string, string>[]> {
   const response = await httpGet(
     "https://api.spotify.com/v1/me/player/recently-played?limit=50",

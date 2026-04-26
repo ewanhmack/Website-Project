@@ -1,0 +1,348 @@
+.ll-page {
+  min-height: 100vh;
+  padding: 2rem 1.5rem 4rem;
+  box-sizing: border-box;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* ── Header / Search ── */
+
+.ll-header {
+  margin-bottom: 2rem;
+}
+
+.ll-search-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.ll-input {
+  flex: 1;
+  min-width: 200px;
+  font-size: 15px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  background: transparent;
+  color: inherit;
+}
+
+.ll-button {
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  color: inherit;
+}
+
+.ll-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ll-status {
+  font-size: 13px;
+  opacity: 0.6;
+  margin: 0.5rem 0 0;
+}
+
+/* ── Track bar ── */
+
+.ll-track-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 1rem;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  flex-wrap: wrap;
+}
+
+.ll-track-art {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.ll-track-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 120px;
+}
+
+.ll-track-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.ll-track-artist {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+.ll-track-bpm {
+  font-size: 13px;
+  opacity: 0.5;
+  white-space: nowrap;
+}
+
+.ll-spotify-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1db954;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ll-spotify-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Candidate picker ── */
+
+.ll-candidates {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ll-candidates-label {
+  font-size: 13px;
+  opacity: 0.6;
+  margin: 0 0 4px;
+}
+
+.ll-candidate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  transition: opacity 0.15s;
+}
+
+.ll-candidate:hover {
+  opacity: 0.75;
+}
+
+.ll-candidate-art {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.ll-candidate-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ll-candidate-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ll-candidate-meta {
+  font-size: 12px;
+  opacity: 0.55;
+}
+
+/* ── Stage (full-screen word) ── */
+
+.ll-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+  margin: 1.5rem 0 1rem;
+  position: relative;
+}
+
+.ll-word-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.ll-progress {
+  font-size: 12px;
+  opacity: 0.35;
+  margin-top: 1.25rem;
+}
+
+/* ── Tiles ── */
+
+.ll-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 6px;
+}
+
+.ll-tile-img-wrap {
+  width: 160px;
+  height: 160px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ll-tile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ll-tile-loading {
+  width: 100%;
+  height: 100%;
+  background: #e0e0e0;
+  animation: ll-pulse 1.2s infinite;
+}
+
+.ll-tile-error {
+  font-size: 40px;
+  font-weight: 500;
+  opacity: 0.35;
+}
+
+.ll-tile-label {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.7;
+  letter-spacing: 0.1em;
+  text-align: center;
+}
+
+/* ── Controls ── */
+
+.ll-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  justify-content: center;
+}
+
+.ll-ctrl-btn {
+  padding: 8px 16px;
+  font-size: 18px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+  line-height: 1;
+}
+
+.ll-ctrl-btn:hover {
+  opacity: 0.7;
+}
+
+.ll-play-btn {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 24px;
+  min-width: 80px;
+}
+
+.ll-bpm-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+}
+
+.ll-bpm-label {
+  font-size: 13px;
+  opacity: 0.6;
+}
+
+.ll-bpm-slider {
+  width: 100px;
+}
+
+.ll-bpm-value {
+  font-size: 13px;
+  opacity: 0.6;
+  min-width: 28px;
+}
+
+/* ── Lyrics scroll ── */
+
+.ll-lyrics-scroll {
+  font-size: 15px;
+  line-height: 1.9;
+  opacity: 0.55;
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
+}
+
+.ll-lyric-word {
+  cursor: pointer;
+  margin-right: 4px;
+  border-radius: 3px;
+  padding: 1px 2px;
+  transition: opacity 0.1s;
+}
+
+.ll-lyric-word:hover {
+  opacity: 1;
+}
+
+.ll-lyric-word.active {
+  opacity: 1;
+  font-weight: 600;
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ── Attribution ── */
+
+.ll-attribution {
+  font-size: 12px;
+  opacity: 0.4;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.ll-attr-link {
+  color: inherit;
+}
+
+/* ── Animations ── */
+
+@keyframes ll-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.8; }
+}
