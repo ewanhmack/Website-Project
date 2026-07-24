@@ -7,6 +7,44 @@ export function getPhotoUrl(photo) {
   return `${IMG_BASE}${photo.image}`;
 }
 
+export function formatShutterSpeed(value) {
+  if (value === undefined || value === null) {
+    return "";
+  }
+
+  const rawText = String(value).trim();
+
+  if (rawText.length === 0) {
+    return "";
+  }
+
+  if (rawText.includes("/")) {
+    return rawText;
+  }
+
+  const seconds = Number(rawText);
+
+  if (Number.isNaN(seconds)) {
+    return rawText;
+  }
+
+  if (seconds >= 1) {
+    return `${seconds}s`;
+  }
+
+  if (seconds <= 0) {
+    return rawText;
+  }
+
+  const denominator = Math.round(1 / seconds);
+
+  if (denominator <= 0) {
+    return rawText;
+  }
+
+  return `1/${denominator}`;
+}
+
 export function shuffle(a) {
   const arr = a.slice();
   for (let i = arr.length - 1; i > 0; i--) {
