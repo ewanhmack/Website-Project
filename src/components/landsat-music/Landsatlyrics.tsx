@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useSpotify, SpotifyTrack } from "./useSpotify";
+import Spinner from "../Spinner";
 import "../css/landsat.css";
 
 const BASE_URL = "https://science.nasa.gov/specials/your-name-in-landsat/images/";
@@ -337,7 +338,11 @@ export default function LandsatLyrics() {
           </button>
         </div>
 
-        {statusMessage && <p className="ll-status">{statusMessage}</p>}
+        {statusMessage && (
+          <p className="ll-status">
+            {isLoading && !spotifyError ? <Spinner label={statusMessage} /> : statusMessage}
+          </p>
+        )}
         {candidates.length > 0 && (
           <CandidateList candidates={candidates} onSelect={selectTrack} />
         )}

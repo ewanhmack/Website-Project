@@ -4,6 +4,7 @@ import { getAlbum, getReviews, addReview } from "../../utils/songshack/albums";
 import { getUser } from "../../utils/songshack/users";
 import { useSongShackAuth } from "../../utils/songshack/useSongShackAuth";
 import { Timestamp } from "firebase/firestore";
+import Spinner from "../../components/Spinner";
 
 function Stars({ rating, onSelect }) {
   return (
@@ -80,7 +81,11 @@ export default function SSAlbum() {
   };
 
   if (loading) {
-    return <div className="ss-loading">Loading…</div>;
+    return (
+      <div className="ss-loading">
+        <Spinner label="Loading…" />
+      </div>
+    );
   }
 
   const avgRating = reviews.length

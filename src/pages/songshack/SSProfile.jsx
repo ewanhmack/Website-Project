@@ -5,6 +5,7 @@ import { auth } from "../../firebase";
 import { useSongShackAuth } from "../../utils/songshack/useSongShackAuth";
 import { getUser, updateUser } from "../../utils/songshack/users";
 import { getAlbums } from "../../utils/songshack/albums";
+import Spinner from "../../components/Spinner";
 
 export default function SSProfile() {
   const { user, loading: authLoading } = useSongShackAuth();
@@ -60,7 +61,11 @@ export default function SSProfile() {
   };
 
   if (authLoading || !profile) {
-    return <div className="ss-loading">Loading…</div>;
+    return (
+      <div className="ss-loading">
+        <Spinner label="Loading…" />
+      </div>
+    );
   }
 
   return (

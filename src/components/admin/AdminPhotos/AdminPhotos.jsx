@@ -5,6 +5,7 @@ import { db, storage } from "../../../firebase";
 import exifr from "exifr";
 import UploadZone from "./UploadZone";
 import UploadProgress from "./UploadProgress";
+import Spinner from "../../Spinner";
 import "../../css/AdminPhotos.css";
 
 function convertToWebP(file) {
@@ -216,7 +217,9 @@ export default function AdminPhotos() {
       <UploadProgress items={uploadItems} />
 
       {loadingPhotos ? (
-        <div className="muted aph-loading">Loading photos…</div>
+        <div className="aph-loading">
+          <Spinner label="Loading photos…" />
+        </div>
       ) : (
         <>
           <div className="aph-tabs">

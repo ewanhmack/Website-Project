@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getAlbums } from "../../utils/songshack/albums";
 import { useSongShackAuth } from "../../utils/songshack/useSongShackAuth";
 import { getUser } from "../../utils/songshack/users";
+import Spinner from "../../components/Spinner";
 
 export default function SSHome() {
   const { user } = useSongShackAuth();
@@ -29,7 +30,11 @@ export default function SSHome() {
   }, [user]);
 
   if (loading) {
-    return <div className="ss-loading">Loading…</div>;
+    return (
+      <div className="ss-loading">
+        <Spinner label="Loading…" />
+      </div>
+    );
   }
 
   return (

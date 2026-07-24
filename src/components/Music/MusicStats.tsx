@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Spinner from "../Spinner";
 
 const PERIODS = {
     day: { label: "Today", hours: 24 },
@@ -103,7 +104,11 @@ export default function MusicStats() {
                     ))}
                 </div>
             </div>
-            {loading && <p className="muted">Loading...</p>}
+            {loading && (
+                <div style={{ padding: "16px 0" }}>
+                    <Spinner label="Loading stats…" />
+                </div>
+            )}
             {error && <p className="muted">Failed to load stats.</p>}
             {!loading && !error && (
                 <div className="stat-grid">

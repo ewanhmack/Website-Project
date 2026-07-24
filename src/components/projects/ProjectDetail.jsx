@@ -9,6 +9,7 @@ import {
   derivePosterFromVideoSrc,
 } from "../../utils/projectsExtras";
 import { useProjects } from "../../utils/useProjects";
+import Spinner from "../Spinner";
 import "../css/projects.css";
 
 function resolveThumbForMediaItem(mediaItem) {
@@ -104,7 +105,11 @@ export default function ProjectDetail() {
   }, [project?.header]);
 
   if (loading) {
-    return <div className="container pad-y">Loading…</div>;
+    return (
+      <div className="container pad-y">
+        <Spinner label="Loading project…" />
+      </div>
+    );
   }
 
   if (error) {

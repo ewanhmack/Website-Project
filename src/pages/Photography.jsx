@@ -17,6 +17,7 @@ import {
 import { db } from "../firebase";
 import AlbumGrid from "../components/photography/AlbumGrid";
 import PhotoEditor from "../components/photography/Editor/PhotoEditor";
+import Spinner from "../components/Spinner";
 import { shuffle, getPhotoUrl, formatShutterSpeed } from "../utils/photos";
 import "../components/css/photography.css";
 import "../components/css/PageStyles.css";
@@ -350,8 +351,8 @@ export default function Photography() {
       </header>
 
       {!loaded ? (
-        <div className="muted" style={{ marginTop: 24 }} aria-live="polite">
-          Loading photos…
+        <div style={{ marginTop: 24 }}>
+          <Spinner label="Loading photos…" />
         </div>
       ) : null}
 
@@ -392,8 +393,8 @@ export default function Photography() {
             onSelectPhoto={openPhoto}
           />
           {gridLoading ? (
-            <div className="muted" style={{ textAlign: "center", padding: 16 }}>
-              Loading more…
+            <div style={{ display: "flex", justifyContent: "center", padding: 16 }}>
+              <Spinner label="Loading more…" />
             </div>
           ) : null}
           {gridHasMore ? (

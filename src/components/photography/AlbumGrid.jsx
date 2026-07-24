@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { getPhotoUrl, formatShutterSpeed } from "../../utils/photos";
+import Spinner from "../Spinner";
 
 const BREAKPOINTS = [
   { minWidth: 1800, columns: 5 },
@@ -182,8 +183,8 @@ export default function AlbumGrid({ pages, loadedMap, markLoaded, onSelectPhoto 
   if (pages.length > 0 && !hasAnyTiles) {
     return (
       <div className="album-grid stylised full-bleed" aria-label="Album (all photos)">
-        <div className="album-grid-loading muted" aria-live="polite">
-          Loading photos…
+        <div className="album-grid-loading">
+          <Spinner label="Loading photos…" />
         </div>
       </div>
     );
