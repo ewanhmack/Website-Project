@@ -4,12 +4,12 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #0b0f14;
-  color: #e2e8f0;
+  background: var(--bg);
+  color: var(--text);
   font-family: 'DM Sans', sans-serif;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #1e2733;
+  border: 1px solid var(--border);
 }
 
 .mxp-header {
@@ -17,8 +17,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  background: #0d1117;
-  border-bottom: 1px solid #1e2733;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
   flex-wrap: wrap;
   gap: 12px;
 }
@@ -33,7 +33,7 @@
   font-family: 'Space Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.2em;
-  color: #4a5568;
+  color: var(--muted);
   text-transform: uppercase;
 }
 
@@ -42,7 +42,7 @@
   font-size: 18px;
   font-weight: 700;
   margin: 0;
-  color: #f8fafc;
+  color: var(--text);
   letter-spacing: -0.02em;
 }
 
@@ -58,7 +58,7 @@
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: #94a3b8;
+  color: var(--muted);
   font-family: 'Space Mono', monospace;
 }
 
@@ -75,18 +75,18 @@
   letter-spacing: 0.08em;
   padding: 5px 14px;
   border-radius: 4px;
-  border: 1px solid #2d3748;
+  border: 1px solid var(--border);
   background: transparent;
-  color: #94a3b8;
+  color: var(--muted);
   cursor: pointer;
   transition: all 0.15s ease;
   text-transform: uppercase;
 }
 
 .mxp-reset-btn:hover {
-  background: #1e2733;
-  color: #e2e8f0;
-  border-color: #4a5568;
+  background: var(--border);
+  color: var(--text);
+  border-color: var(--muted);
 }
 
 .mxp-status {
@@ -96,14 +96,14 @@
   padding: 10px 24px;
   font-size: 13px;
   font-family: 'Space Mono', monospace;
-  border-bottom: 1px solid #1e2733;
+  border-bottom: 1px solid var(--border);
 }
 
-.mxp-status--loading { color: #94a3b8; background: #0d1117; }
+.mxp-status--loading { color: var(--muted); background: var(--bg); }
 .mxp-status--error   { color: #fc8181; background: #1a0f0f; }
-.mxp-status--running { color: #f59e0b; background: #0d1117; }
+.mxp-status--running { color: #f59e0b; background: var(--bg); }
 .mxp-status--done    { color: #34d399; background: #0d160f; }
-.mxp-status--info    { color: #60a5fa; background: #0d1117; }
+.mxp-status--info    { color: #60a5fa; background: var(--bg); }
 
 .mxp-spinner {
   width: 12px;
@@ -138,7 +138,7 @@
 }
 
 .mxp-map .leaflet-container {
-  background: #0b0f14;
+  background: var(--bg);
 }
 
 /* Trip stats panel */
@@ -147,12 +147,12 @@
   align-items: center;
   gap: 0;
   padding: 10px 24px;
-  border-bottom: 1px solid #1e2733;
+  border-bottom: 1px solid var(--border);
   transition: background 0.4s ease;
 }
 
 .mxp-trip-stats--live {
-  background: #0d1117;
+  background: var(--bg);
 }
 
 .mxp-trip-stats--exact {
@@ -171,7 +171,7 @@
   font-size: 10px;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #4a5568;
+  color: var(--muted);
   transition: color 0.3s ease;
 }
 
@@ -201,7 +201,7 @@
 .mxp-trip-divider {
   width: 1px;
   height: 32px;
-  background: #1e2733;
+  background: var(--border);
   margin: 0 20px 0 0;
 }
 
@@ -224,7 +224,7 @@
 }
 
 .mxp-trip-empty {
-  color: #2d3748;
+  color: var(--border);
 }
 
  /* Runner Router */
@@ -240,24 +240,24 @@
   letter-spacing: 0.08em;
   padding: 6px 16px;
   border-radius: 4px;
-  border: 1px solid #2d3748;
+  border: 1px solid var(--border);
   background: transparent;
-  color: #94a3b8;
+  color: var(--muted);
   cursor: pointer;
   transition: all 0.15s ease;
   text-transform: uppercase;
 }
 
 .mxp-mode-btn:hover {
-  background: #1e2733;
-  color: #e2e8f0;
-  border-color: #4a5568;
+  background: var(--border);
+  color: var(--text);
+  border-color: var(--muted);
 }
 
 .mxp-mode-btn--active {
-  border-color: #6366f1;
-  color: #e2e8f0;
-  background: rgba(99, 102, 241, 0.12);
+  border-color: var(--brand);
+  color: var(--text);
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
 }
 
 .mxp-planner-panel {
@@ -265,8 +265,8 @@
   align-items: center;
   gap: 24px;
   padding: 12px 24px;
-  border-bottom: 1px solid #1e2733;
-  background: #0d1117;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
   flex-wrap: wrap;
 }
 
@@ -284,13 +284,13 @@
 
 .mxp-range {
   width: 140px;
-  accentColor: #6366f1;
+  accentColor: var(--brand);
 }
 
 .mxp-planner-miles {
   font-family: 'Space Mono', monospace;
   font-size: 13px;
-  color: #e2e8f0;
+  color: var(--text);
   min-width: 40px;
 }
 
@@ -305,18 +305,18 @@
   letter-spacing: 0.08em;
   padding: 5px 12px;
   border-radius: 4px;
-  border: 1px solid #2d3748;
+  border: 1px solid var(--border);
   background: transparent;
-  color: #94a3b8;
+  color: var(--muted);
   cursor: pointer;
   transition: all 0.15s ease;
   text-transform: uppercase;
 }
 
 .mxp-planner-btn--active {
-  border-color: #a78bfa;
-  color: #e2e8f0;
-  background: rgba(167, 139, 250, 0.12);
+  border-color: var(--brand);
+  color: var(--text);
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
 }
 
 .mxp-planner-stats {
@@ -346,8 +346,8 @@
   padding: 7px 18px;
   border-radius: 4px;
   border: none;
-  background: #6366f1;
-  color: #fff;
+  background: var(--brand);
+  color: var(--brand-ink);
   cursor: pointer;
   text-transform: uppercase;
   transition: opacity 0.15s ease;

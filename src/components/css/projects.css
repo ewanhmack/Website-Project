@@ -1,14 +1,13 @@
 :root {
-  --skeleton-base: #111827;
-  --skeleton-shine: #1f2937;
+  --skeleton-base: var(--panel, #151513);
+  --skeleton-shine: var(--border, #28251f);
   --modal-exit-ms: 220ms;
 
-  --border: rgba(255, 255, 255, 0.12);
-  --muted-fg: rgba(255, 255, 255, 0.7);
-  --card: rgba(255, 255, 255, 0.04);
+  --muted-fg: var(--muted, #948e84);
+  --card: var(--panel, #151513);
   --chip-bg: transparent;
-  --chip-active: #e6e6e6;
-  --media-bg: rgba(255, 255, 255, 0.03);
+  --chip-active: var(--brand, #cc785c);
+  --media-bg: var(--panel, #151513);
 }
 
 .projects-page {
@@ -215,10 +214,10 @@
 }
 
 .project-placeholder {
-  background: linear-gradient(135deg, #151c2f, #0f172a);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 12%, var(--panel)), var(--panel));
   display: grid;
   place-items: center;
-  color: #94a3b8;
+  color: var(--muted);
 }
 
 .project-placeholder-text {
@@ -230,7 +229,7 @@
   display: grid;
   place-items: center;
   height: 100%;
-  color: #94a3b8;
+  color: var(--muted);
   font-size: 0.9rem;
 }
 
@@ -244,7 +243,7 @@
   margin: 2px 0 6px;
   font-size: 1.05rem;
   line-height: 1.3;
-  color: #e5e7eb;
+  color: var(--text);
 }
 
 .project-desc {
@@ -263,8 +262,8 @@
 .tag {
   padding: 4px 8px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
-  color: #cbd5e1;
+  background: transparent;
+  color: var(--muted);
   font-size: 0.85rem;
   border: 1px solid var(--border);
 }
@@ -346,10 +345,10 @@
 .modal {
   width: min(1024px, 100%);
   max-height: 90vh;
-  background: var(--surface-1, #0b1222);
-  color: var(--text, #e5e7eb);
-  border: 1px solid rgba(148, 163, 184, 0.15);
-  border-radius: 16px;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
@@ -361,7 +360,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 14px 16px;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+  border-bottom: 1px solid var(--border);
 }
 
 .modal-title {
@@ -383,7 +382,7 @@
 
 .modal-close:hover,
 .modal-close:focus-visible {
-  background: rgba(148, 163, 184, 0.14);
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
   outline: none;
 }
 
@@ -400,8 +399,8 @@
   position: relative;
   display: grid;
   place-items: center;
-  background: #0d0f13;
-  border-radius: 12px;
+  background: var(--bg);
+  border-radius: var(--radius-md);
   overflow: hidden;
   aspect-ratio: 16 / 9;
 }
@@ -412,7 +411,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background: #0d0f13;
+  background: var(--bg);
 }
 
 .modal-arrow {
@@ -495,7 +494,7 @@
 
 .modal-project-desc {
   margin-top: 16px;
-  color: #d1d5db;
+  color: var(--text);
 }
 
 .modal-meta {
@@ -507,7 +506,7 @@
 .meta-block h5 {
   margin: 0 0 6px 0;
   font-size: 0.95rem;
-  color: #e5e7eb;
+  color: var(--text);
 }
 
 .tag-list {
@@ -773,12 +772,12 @@
 
 .thumbs::before {
   left: 0;
-  background: linear-gradient(to right, #0b0f17, transparent);
+  background: linear-gradient(to right, var(--panel), transparent);
 }
 
 .thumbs::after {
   right: 0;
-  background: linear-gradient(to left, #0b0f17, transparent);
+  background: linear-gradient(to left, var(--panel), transparent);
 }
 
 .thumb {
@@ -790,7 +789,7 @@
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-  background: #10151f;
+  background: var(--bg);
 }
 
 .thumb img {
@@ -805,8 +804,8 @@
 }
 
 .thumb.active {
-  border-color: #0af;
-  box-shadow: 0 0 10px rgba(0, 170, 255, 0.45);
+  border-color: var(--brand);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--brand) 45%, transparent);
 }
 
 .thumb-video {
@@ -816,7 +815,7 @@
   height: 100%;
   opacity: 0.85;
   font-size: 1.4rem;
-  color: #cfeaff;
+  color: var(--muted);
 }
 
 .caption {
@@ -868,9 +867,9 @@
 }
 
 .button {
-  background: #e6e6e6;
-  color: #111;
-  border-color: #e6e6e6;
+  background: var(--brand);
+  color: var(--brand-ink);
+  border-color: var(--brand);
 }
 
 .ghost {

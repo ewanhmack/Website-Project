@@ -109,7 +109,7 @@
   font-weight: 800;
   font-size: 0.92rem;
   line-height: 1;
-  color: #cbd5e1;
+  color: var(--text);
   white-space: nowrap;
   pointer-events: none;
 }
@@ -297,7 +297,7 @@
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid var(--border, #1f2937);
-  background: #0d1325;
+  background: var(--bg);
 }
 
 .tile img {
@@ -497,7 +497,7 @@
 
   .carousel--landscape .tile img {
     object-fit: contain;
-    background: #0d1325;
+    background: var(--bg);
   }
 
   .carousel-head-row {
@@ -646,7 +646,7 @@
 .photo-modal-media {
   flex: 1 1 auto;
   min-height: 0;
-  background: #0d1325;
+  background: var(--bg);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -14,7 +14,7 @@
 }
 
 .aboutme-section-alt {
-  background: #0d1528;
+  background: var(--bg);
 }
 
 .aboutme-head {
@@ -27,7 +27,7 @@
   text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 0.12em;
-  color: #8aa5ff;
+  color: var(--brand);
 }
 
 .aboutme-title {
@@ -37,7 +37,7 @@
 
 .aboutme-sub {
   margin: 0;
-  color: #94a3b8;
+  color: var(--muted);
   max-width: 70ch;
 }
 
@@ -55,8 +55,8 @@
 }
 
 .aboutme-panel {
-  background: color-mix(in srgb, #0f172a 94%, transparent);
-  border: 1px solid #1f2937;
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: clamp(14px, 2.2vw, 18px);
   box-shadow: 0 1px 2px rgba(2, 6, 23, 0.6), 0 2px 6px rgba(2, 6, 23, 0.5);
@@ -84,8 +84,8 @@
 }
 
 .aboutme-stat {
-  background: color-mix(in srgb, #0f172a 82%, transparent);
-  border: 1px solid #1f2937;
+  background: color-mix(in srgb, var(--panel) 82%, transparent);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px 14px;
 }
@@ -94,18 +94,18 @@
   font-weight: 800;
   letter-spacing: 0.2px;
   line-height: 1.1;
-  color: #e5e7eb;
+  color: var(--text);
 }
 
 .aboutme-stat-label {
   margin-top: 2px;
   font-size: 0.9rem;
-  color: #94a3b8;
+  color: var(--muted);
 }
 
 .aboutme-divider {
   height: 1px;
-  background: #1f2937;
+  background: var(--border);
   margin: 14px 0;
 }
 
@@ -114,7 +114,7 @@
   padding-left: 18px;
   display: grid;
   gap: 8px;
-  color: #94a3b8;
+  color: var(--muted);
 }
 
 .aboutme-chips {
@@ -128,16 +128,16 @@
   display: inline-block;
   font-size: 12px;
   padding: 4px 8px;
-  border: 1px solid #1f2937;
+  border: 1px solid var(--border);
   border-radius: 999px;
-  color: #94a3b8;
+  color: var(--muted);
 }
 
 .aboutme-photo-frame {
   border-radius: 14px;
   overflow: hidden;
-  border: 1px solid #1f2937;
-  background: #1b2236;
+  border: 1px solid var(--border);
+  background: var(--panel);
   aspect-ratio: 4 / 5;
 }
 
@@ -152,7 +152,7 @@
 
 .aboutme-photo-caption {
   margin-top: 10px;
-  color: #94a3b8;
+  color: var(--muted);
   font-size: 0.95rem;
 }
 
@@ -169,8 +169,8 @@
 }
 
 .aboutme-card {
-  background: #0f172a;
-  border: 1px solid #1f2937;
+  background: var(--panel);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: clamp(16px, 2.6vw, 24px);
   box-shadow: 0 1px 2px rgba(2, 6, 23, 0.6), 0 2px 6px rgba(2, 6, 23, 0.5);
@@ -178,18 +178,18 @@
 
 .aboutme-card-title {
   margin: 0 0 6px;
-  color: #e5e7eb;
+  color: var(--text);
 }
 
 .aboutme-card-body {
   margin: 0;
-  color: #94a3b8;
+  color: var(--muted);
 }
 
 .aboutme-cta {
   margin-top: clamp(18px, 2.6vw, 24px);
-  background: color-mix(in srgb, #0f172a 94%, transparent);
-  border: 1px solid #1f2937;
+  background: color-mix(in srgb, var(--panel) 94%, transparent);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: clamp(14px, 2.2vw, 18px);
   box-shadow: 0 1px 2px rgba(2, 6, 23, 0.6), 0 2px 6px rgba(2, 6, 23, 0.5);
@@ -207,11 +207,11 @@
 
 .aboutme-cta-title {
   font-weight: 800;
-  color: #e5e7eb;
+  color: var(--text);
 }
 
 .aboutme-cta-sub {
-  color: #94a3b8;
+  color: var(--muted);
   margin-top: 4px;
 }
 
@@ -245,8 +245,8 @@
   gap: 14px;
   align-items: start;
 
-  background: #0f172a;
-  border: 1px solid #1f2937;
+  background: var(--panel);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: clamp(14px, 2.2vw, 18px);
 
@@ -258,7 +258,7 @@
 
 .aboutme-hobby-card:hover {
   transform: translateY(-2px);
-  border-color: color-mix(in srgb, #4f46e5 25%, #1f2937);
+  border-color: color-mix(in srgb, var(--brand) 25%, var(--border));
 }
 
 .aboutme-hobby-icon {
@@ -279,10 +279,10 @@
 .aboutme-hobby-title {
   font-weight: 700;
   margin-bottom: 4px;
-  color: #e5e7eb;
+  color: var(--text);
 }
 
 .aboutme-hobby-body {
-  color: #94a3b8;
+  color: var(--muted);
   font-size: 0.95rem;
 }

@@ -88,7 +88,7 @@
 
 .contact-card:hover .contact-icon {
   transform: scale(1.03);
-  background: color-mix(in srgb, var(--brand, #4f46e5) 18%, #0d1528);
+  background: color-mix(in srgb, var(--brand, #cc785c) 18%, var(--bg, #0c0c0b));
   border-color: color-mix(in srgb, var(--brand, #4f46e5) 25%, var(--border, #1f2937));
 }
 
@@ -101,9 +101,9 @@
 .field input:focus,
 .field textarea:focus {
   outline: none;
-  border-color: color-mix(in srgb, var(--brand, #4f46e5) 30%, var(--border, #1f2937));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand, #4f46e5) 18%, transparent);
-  background: #0e1831;
+  border-color: color-mix(in srgb, var(--brand, #cc785c) 30%, var(--border, #28251f));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand, #cc785c) 18%, transparent);
+  background: var(--bg, #0c0c0b);
 }
 
 /* Respect reduced motion */

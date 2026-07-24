@@ -20,10 +20,10 @@ export default function Hero() {
           <a className="btn primary" href="#/projects/barad-du-r-eye-tracker">
             Selected work
           </a>
-          <a className="btn primary" href="#/about-me">
+          <a className="btn" href="#/about-me">
             About me
           </a>
-          <a className="btn primary" href="#/contact">
+          <a className="btn" href="#/contact">
             Contact
           </a>
         </div>
@@ -65,7 +65,7 @@ export default function Hero() {
             <a className="btn primary" href="#/projects">
               View projects
             </a>
-            <a className="btn primary" href="#/photography">
+            <a className="btn" href="#/photography">
               Photography
             </a>
           </div>
