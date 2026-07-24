@@ -157,6 +157,23 @@
   letter-spacing: 0.05em;
 }
 
+.ap-field-checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.ap-field-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--brand);
+}
+
 .ap-form input[type="text"],
 .ap-form input[type="email"],
 .ap-form textarea,

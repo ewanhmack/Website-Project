@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { firstImage, getMediaArray, resolveMediaSrc } from "../../utils/projects";
 import { slugify, mediaTypeFromSrc, youtubeIdFrom, derivePosterFromVideoSrc } from "../../utils/projectsExtras";
 
-export default function ProjectCard({ project }) {
+export default function ProjectCard({ project, featured = false }) {
   const slug = slugify(project.header);
 
   let preview = firstImage(project);
@@ -27,7 +27,7 @@ export default function ProjectCard({ project }) {
   }
 
   return (
-    <li className="project-card" role="listitem">
+    <li className={`project-card ${featured ? "featured" : ""}`} role="listitem">
       <Link
         to={`/projects/${slug}`}
         className="card-link"
@@ -49,6 +49,7 @@ export default function ProjectCard({ project }) {
         </div>
 
         <div className="project-body">
+          {featured ? <div className="eyebrow">Featured</div> : null}
           <h3 className="project-title">{project.header}</h3>
           {project.description ? (
             <p className="project-desc">{project.description}</p>

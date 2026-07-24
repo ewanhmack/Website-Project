@@ -4,6 +4,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
 import { addAlbum } from "../../utils/songshack/albums";
 import { useSongShackAuth } from "../../utils/songshack/useSongShackAuth";
+import Spinner from "../../components/Spinner";
 
 const EMPTY_SONG = { track: "", title: "", runtime: "" };
 
@@ -65,7 +66,11 @@ export default function SSNewAlbum() {
   };
 
   if (authLoading) {
-    return <div className="ss-loading">Loading…</div>;
+    return (
+      <div className="ss-loading">
+        <Spinner label="Loading…" />
+      </div>
+    );
   }
 
   if (!user) {

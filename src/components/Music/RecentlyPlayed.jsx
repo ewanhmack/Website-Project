@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import Spinner from "../Spinner";
 
 function timeAgo(dateString) {
   const diff = Math.floor((Date.now() - new Date(dateString)) / 1000);
@@ -45,7 +46,11 @@ export default function RecentlyPlayed({ tracks, loading, loadingMore, error, ha
   }, [hasLoadedMore, hasMore, loadingMore, onInfiniteLoad]);
 
   if (loading) {
-    return <p className="muted">Loading...</p>;
+    return (
+      <div style={{ padding: "16px 1.1em" }}>
+        <Spinner label="Loading recently played…" />
+      </div>
+    );
   }
 
   if (error) {
@@ -103,7 +108,9 @@ export default function RecentlyPlayed({ tracks, loading, loadingMore, error, ha
       ) : null}
 
       {hasLoadedMore && loadingMore ? (
-        <p className="muted" style={{ textAlign: "center", padding: "16px" }}>Loading…</p>
+        <div style={{ display: "flex", justifyContent: "center", padding: "16px" }}>
+          <Spinner label="Loading more…" />
+        </div>
       ) : null}
     </>
   );

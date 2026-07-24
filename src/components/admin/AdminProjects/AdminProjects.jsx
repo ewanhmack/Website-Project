@@ -3,6 +3,7 @@ import { collection, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestor
 import { db } from "../../../firebase";
 import { useProjects } from "../../../utils/useProjects.js";
 import ProjectForm from "../ProjectForm/ProjectForm";
+import Spinner from "../../Spinner";
 import "../../css/AdminProjects.css";
 import { resolveMediaSrc } from "../../../utils/projects";
 
@@ -48,7 +49,11 @@ export default function AdminProjects() {
   };
 
   if (loading) {
-    return <div className="muted ap-loading">Loading…</div>;
+    return (
+      <div className="ap-loading">
+        <Spinner label="Loading projects…" />
+      </div>
+    );
   }
 
   if (error) {

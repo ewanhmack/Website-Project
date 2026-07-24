@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getPhotoUrlForCanvas } from "../../../utils/photos";
+import Spinner from "../../Spinner";
 
 const PREVIEW_MAX_PX = 1200;
 
@@ -285,7 +286,9 @@ export default function PhotoEditor({ photo, onBack, onClose }) {
     <div className="photo-editor">
       <div className="photo-editor-canvas-wrap">
         {!ready && !error && (
-          <div className="photo-editor-loading">Loading image…</div>
+          <div className="photo-editor-loading">
+            <Spinner label="Loading image…" />
+          </div>
         )}
         {error && (
           <div className="photo-editor-error">

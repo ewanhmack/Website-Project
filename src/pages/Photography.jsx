@@ -3,7 +3,6 @@ import React, {
   useMemo,
   useState,
   useRef,
-  useLayoutEffect,
   useCallback,
 } from "react";
 import { createPortal } from "react-dom";
@@ -16,54 +15,14 @@ import {
   startAfter,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import ViewToggle from "../components/photography/ViewToggle";
-import Carousel from "../components/photography/Carousel";
 import AlbumGrid from "../components/photography/AlbumGrid";
 import PhotoEditor from "../components/photography/Editor/PhotoEditor";
-import { shuffle, getPhotoUrl } from "../utils/photos";
+import Spinner from "../components/Spinner";
+import { shuffle, getPhotoUrl, formatShutterSpeed } from "../utils/photos";
 import "../components/css/photography.css";
 import "../components/css/PageStyles.css";
 
-const CAROUSEL_PAGE_SIZE = 10;
 const GRID_PAGE_SIZE = 20;
-
-function formatShutterSpeed(value) {
-  if (value === undefined || value === null) {
-    return "";
-  }
-
-  const rawText = String(value).trim();
-
-  if (rawText.length === 0) {
-    return "";
-  }
-
-  if (rawText.includes("/")) {
-    return rawText;
-  }
-
-  const seconds = Number(rawText);
-
-  if (Number.isNaN(seconds)) {
-    return rawText;
-  }
-
-  if (seconds >= 1) {
-    return `${seconds}s`;
-  }
-
-  if (seconds <= 0) {
-    return rawText;
-  }
-
-  const denominator = Math.round(1 / seconds);
-
-  if (denominator <= 0) {
-    return rawText;
-  }
-
-  return `1/${denominator}`;
-}
 
 function PhotoModal({ photo, onClose }) {
   const [mode, setMode] = useState("view");
@@ -219,11 +178,7 @@ function useIntersectionObserver(callback, options = {}) {
 }
 
 export default function Photography() {
-  const [carouselData, setCarouselData] = useState({});
-  const [carouselCursors, setCarouselCursors] = useState({});
-  const [carouselHasMore, setCarouselHasMore] = useState({});
-
-  const [gridPhotos, setGridPhotos] = useState([]);
+  const [gridPages, setGridPages] = useState([]);
   const [gridCursor, setGridCursor] = useState(null);
   const [gridHasMore, setGridHasMore] = useState(true);
   const [gridLoading, setGridLoading] = useState(false);
@@ -231,8 +186,8 @@ export default function Photography() {
   const [categories, setCategories] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
-  const [view, setView] = useState("carousel");
   const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [activeCategory, setActiveCategory] = useState("all");
 
   const savedScrollY = useRef(null);
 
@@ -261,33 +216,14 @@ export default function Photography() {
     });
   }, [selectedPhoto]);
 
-  const fetchCarouselPage = useCallback(async (category, cursor = null) => {
-    const q = cursor
-      ? query(
-          collection(db, "photography", category, "photos"),
-          orderBy("order"),
-          startAfter(cursor),
-          limit(CAROUSEL_PAGE_SIZE)
-        )
-      : query(
-          collection(db, "photography", category, "photos"),
-          orderBy("order"),
-          limit(CAROUSEL_PAGE_SIZE)
-        );
-
-    const snap = await getDocs(q);
-    const photos = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-    const lastDoc = snap.docs[snap.docs.length - 1] ?? null;
-    const hasMore = snap.docs.length === CAROUSEL_PAGE_SIZE;
-
-    return { photos, lastDoc, hasMore };
-  }, []);
+  const gridFetchInFlightRef = useRef(false);
 
   const fetchGridPage = useCallback(async (cursor = null) => {
-    if (categories.length === 0) {
+    if (categories.length === 0 || gridFetchInFlightRef.current) {
       return;
     }
 
+    gridFetchInFlightRef.current = true;
     setGridLoading(true);
 
     try {
@@ -311,7 +247,7 @@ export default function Photography() {
             );
 
         const snap = await getDocs(q);
-        const photos = snap.docs.map((d) => ({ id: d.id, category, ...d.data() }));
+        const photos = snap.docs.map((d) => ({ ...d.data(), id: d.id, category }));
         newPhotos.push(...photos);
 
         if (snap.docs.length > 0) {
@@ -320,11 +256,20 @@ export default function Photography() {
       }
 
       const shuffled = shuffle(newPhotos);
-      setGridPhotos((prev) => [...prev, ...shuffled]);
+
+      setGridPages((prev) => {
+        const seen = new Set(prev.flat().map((photo) => `${photo.category}-${photo.id}`));
+        const deduped = shuffled.filter((photo) => !seen.has(`${photo.category}-${photo.id}`));
+        if (deduped.length === 0) {
+          return prev;
+        }
+        return [...prev, deduped];
+      });
       setGridCursor(newCursors);
       setGridHasMore(newPhotos.length >= GRID_PAGE_SIZE);
     } finally {
       setGridLoading(false);
+      gridFetchInFlightRef.current = false;
     }
   }, [categories]);
 
@@ -341,25 +286,6 @@ export default function Photography() {
         }
 
         setCategories(cats);
-
-        const initialCarousel = {};
-        const initialCursors = {};
-        const initialHasMore = {};
-
-        for (const category of cats) {
-          const { photos, lastDoc, hasMore } = await fetchCarouselPage(category);
-          initialCarousel[category] = photos;
-          initialCursors[category] = lastDoc;
-          initialHasMore[category] = hasMore;
-        }
-
-        if (!alive) {
-          return;
-        }
-
-        setCarouselData(initialCarousel);
-        setCarouselCursors(initialCursors);
-        setCarouselHasMore(initialHasMore);
         setLoaded(true);
       } catch (err) {
         if (!alive) {
@@ -380,27 +306,11 @@ export default function Photography() {
   const gridFetchedRef = useRef(false);
 
   useEffect(() => {
-    if (categories.length > 0 && view === "grid" && !gridFetchedRef.current) {
+    if (categories.length > 0 && !gridFetchedRef.current) {
       gridFetchedRef.current = true;
       fetchGridPage(null);
     }
-  }, [view, categories, fetchGridPage]);
-
-  const loadMoreCarousel = useCallback(async (category) => {
-    if (!carouselHasMore[category]) {
-      return;
-    }
-
-    const cursor = carouselCursors[category];
-    const { photos, lastDoc, hasMore } = await fetchCarouselPage(category, cursor);
-
-    setCarouselData((prev) => ({
-      ...prev,
-      [category]: [...(prev[category] || []), ...photos],
-    }));
-    setCarouselCursors((prev) => ({ ...prev, [category]: lastDoc }));
-    setCarouselHasMore((prev) => ({ ...prev, [category]: hasMore }));
-  }, [carouselCursors, carouselHasMore, fetchCarouselPage]);
+  }, [categories, fetchGridPage]);
 
   const loadMoreGrid = useCallback(() => {
     if (!gridHasMore || gridLoading) {
@@ -411,29 +321,6 @@ export default function Photography() {
 
   const gridSentinelRef = useIntersectionObserver(loadMoreGrid, { rootMargin: "200px" });
 
-  const carouselRef = useRef(null);
-  const gridRef = useRef(null);
-  const [stageH, setStageH] = useState("auto");
-
-  const measureActive = useCallback(() => {
-    const element = view === "carousel" ? carouselRef.current : gridRef.current;
-    if (element) {
-      setStageH(element.offsetHeight + "px");
-    }
-  }, [view]);
-
-  useLayoutEffect(() => {
-    if (loaded && !error) {
-      requestAnimationFrame(() => requestAnimationFrame(measureActive));
-    }
-  }, [view, loaded, error, measureActive]);
-
-  useEffect(() => {
-    const onResize = () => requestAnimationFrame(measureActive);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [measureActive]);
-
   const [loadedMap, setLoadedMap] = useState({});
 
   const markLoaded = useCallback((id) => {
@@ -443,12 +330,14 @@ export default function Photography() {
       }
       return { ...prev, [id]: true };
     });
-    requestAnimationFrame(measureActive);
-  }, [measureActive]);
+  }, []);
 
-  const onCarouselMediaLoad = useCallback(() => {
-    requestAnimationFrame(measureActive);
-  }, [measureActive]);
+  const filteredGridPages = useMemo(() => {
+    if (activeCategory === "all") {
+      return gridPages;
+    }
+    return gridPages.map((page) => page.filter((photo) => photo.category === activeCategory));
+  }, [gridPages, activeCategory]);
 
   return (
     <div className="page-container photography">
@@ -456,17 +345,14 @@ export default function Photography() {
         <div className="photos-header-row">
           <div>
             <h2>Photography</h2>
-            <p className="muted">
-              Browse by carousel or view the complete album grid.
-            </p>
+            <p className="muted">The complete album, browsable by category.</p>
           </div>
-          <ViewToggle view={view} setView={setView} />
         </div>
       </header>
 
       {!loaded ? (
-        <div className="muted" style={{ marginTop: 24 }} aria-live="polite">
-          Loading photos…
+        <div style={{ marginTop: 24 }}>
+          <Spinner label="Loading photos…" />
         </div>
       ) : null}
 
@@ -477,49 +363,43 @@ export default function Photography() {
       ) : null}
 
       {loaded && !error ? (
-        <div className="view-stage" style={{ height: stageH }}>
-          <div
-            ref={carouselRef}
-            className={`view-panel ${view === "carousel" ? "is-active" : ""}`}
-            aria-hidden={view !== "carousel"}
-          >
-            <div className="stack">
-              {Object.entries(carouselData).map(([category, items]) => (
-                <Carousel
+        <div>
+          {categories.length > 0 ? (
+            <div className="category-filters" role="group" aria-label="Filter by category">
+              <button
+                type="button"
+                className={`period-btn ${activeCategory === "all" ? "active" : ""}`}
+                onClick={() => setActiveCategory("all")}
+              >
+                All
+              </button>
+              {categories.map((category) => (
+                <button
                   key={category}
-                  title={category}
-                  items={items}
-                  perView={category === "Portraits" ? 3 : 1}
-                  perViewSm={1}
-                  variant={category === "Portraits" ? "portrait" : "landscape"}
-                  onMediaLoad={onCarouselMediaLoad}
-                  onSelectPhoto={(photo) => openPhoto({ ...photo, category })}
-                  onLoadMore={carouselHasMore[category] ? () => loadMoreCarousel(category) : null}
-                />
+                  type="button"
+                  className={`period-btn ${activeCategory === category ? "active" : ""}`}
+                  onClick={() => setActiveCategory(category)}
+                >
+                  {category}
+                </button>
               ))}
             </div>
-          </div>
+          ) : null}
 
-          <div
-            ref={gridRef}
-            className={`view-panel ${view === "grid" ? "is-active" : ""}`}
-            aria-hidden={view !== "grid"}
-          >
-            <AlbumGrid
-              items={gridPhotos}
-              loadedMap={loadedMap}
-              markLoaded={markLoaded}
-              onSelectPhoto={openPhoto}
-            />
-            {gridLoading ? (
-              <div className="muted" style={{ textAlign: "center", padding: 16 }}>
-                Loading more…
-              </div>
-            ) : null}
-            {gridHasMore ? (
-              <div ref={gridSentinelRef} style={{ height: 1 }} />
-            ) : null}
-          </div>
+          <AlbumGrid
+            pages={filteredGridPages}
+            loadedMap={loadedMap}
+            markLoaded={markLoaded}
+            onSelectPhoto={openPhoto}
+          />
+          {gridLoading ? (
+            <div style={{ display: "flex", justifyContent: "center", padding: 16 }}>
+              <Spinner label="Loading more…" />
+            </div>
+          ) : null}
+          {gridHasMore ? (
+            <div ref={gridSentinelRef} style={{ height: 1 }} />
+          ) : null}
         </div>
       ) : null}
 

@@ -8,6 +8,57 @@ export function slugify(header = "") {
     .replace(/(^-|-$)+/g, "");
 }
 
+const DOMAIN_HARDWARE = "Hardware & CV";
+const DOMAIN_GAME = "Game Dev";
+const DOMAIN_WEB = "Web";
+
+export const PROJECT_DOMAINS = [DOMAIN_HARDWARE, DOMAIN_WEB, DOMAIN_GAME];
+
+const HARDWARE_KEYWORDS = [
+  "opencv",
+  "computer vision",
+  "pid control",
+  "servo",
+  "motor control",
+  "raspberry pi",
+  "microcontroller",
+  "3d printing",
+  "arduino",
+];
+
+const GAME_KEYWORDS = [
+  "unreal engine",
+  "blueprints",
+  "sfml",
+  "opengl",
+  "level design",
+  "2d physics",
+  "procedural generation",
+  "day/night cycle",
+  "dynamic lighting",
+  "debug hud",
+  "3d modelling",
+  "bounding volume",
+];
+
+// Projects don't have an explicit domain field — this derives a rough one
+// from the tech tags they already have, so filtering doesn't need any new
+// data entry. Checked most-specific-first (hardware, then game) so shared
+// tags like "React" or generic "3D" terms don't get misclassified.
+export function deriveProjectDomain(project) {
+  const haystack = (project?.tech || []).join(" | ").toLowerCase();
+
+  if (HARDWARE_KEYWORDS.some((keyword) => haystack.includes(keyword))) {
+    return DOMAIN_HARDWARE;
+  }
+
+  if (GAME_KEYWORDS.some((keyword) => haystack.includes(keyword))) {
+    return DOMAIN_GAME;
+  }
+
+  return DOMAIN_WEB;
+}
+
 export function uniqueTechFromProjects(projects) {
   const set = new Set();
   for (const p of projects) {

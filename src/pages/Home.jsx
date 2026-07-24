@@ -31,13 +31,13 @@ export default function Home() {
               </p>
             </div>
             <div className="hero-cta" style={{ justifyContent: "flex-end" }}>
-              <a className="btn primary" href="#/photography">
+              <a className="btn" href="#/photography">
                 View photography
               </a>
               <a className="btn primary" href="#/projects">
                 View all projects
               </a>
-              <a className="btn primary" href="#/contact">
+              <a className="btn" href="#/contact">
                 Contact
               </a>
             </div>

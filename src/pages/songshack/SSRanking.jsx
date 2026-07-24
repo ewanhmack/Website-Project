@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAlbums, getReviews } from "../../utils/songshack/albums";
+import Spinner from "../../components/Spinner";
 
 export default function SSRanking() {
   const [ranked, setRanked] = useState([]);
@@ -29,7 +30,11 @@ export default function SSRanking() {
   }, []);
 
   if (loading) {
-    return <div className="ss-loading">Loading…</div>;
+    return (
+      <div className="ss-loading">
+        <Spinner label="Loading…" />
+      </div>
+    );
   }
 
   return (

@@ -12,6 +12,7 @@ export default function ProjectForm({ initial, onSave, onCancel, saving }) {
           tech: (initial.tech || []).join(", "),
           links: initial.links || [],
           media: initial.media || [],
+          featured: initial.featured || false,
         }
       : {
           header: "",
@@ -20,6 +21,7 @@ export default function ProjectForm({ initial, onSave, onCancel, saving }) {
           tech: "",
           links: [],
           media: [],
+          featured: false,
         }
   );
   const [formError, setFormError] = useState("");
@@ -41,6 +43,7 @@ export default function ProjectForm({ initial, onSave, onCancel, saving }) {
       tech: form.tech.split(",").map((t) => t.trim()).filter(Boolean),
       links: form.links,
       media: form.media,
+      featured: form.featured,
     });
   };
 
@@ -88,6 +91,17 @@ export default function ProjectForm({ initial, onSave, onCancel, saving }) {
           onChange={(e) => set("tech", e.target.value)}
           placeholder="React, TypeScript, Firebase"
         />
+      </div>
+
+      <div className="ap-field ap-field-checkbox">
+        <label>
+          <input
+            type="checkbox"
+            checked={form.featured}
+            onChange={(e) => set("featured", e.target.checked)}
+          />
+          {" "}Featured (shown in the highlighted section above the main grid)
+        </label>
       </div>
 
       <LinksEditor links={form.links} onChange={(val) => set("links", val)} />

@@ -4,6 +4,7 @@ import { db } from "../../../firebase";
 import { PERIODS, formatCost, formatCount, totalCostFromDoc, type Period } from "../../../utils/admin/costHelper";
 import MetricBar from "./MetricBar";
 import UsageChart from "./UsageChart";
+import Spinner from "../../Spinner";
 import "../../css/CostDashboard.css";
 
 export default function CostDashboard() {
@@ -52,7 +53,11 @@ export default function CostDashboard() {
   const monthCost = totalCostFromDoc(currentMonth);
 
   if (loading) {
-    return <div className="cd-loading muted">Loading cost data…</div>;
+    return (
+      <div className="cd-loading">
+        <Spinner label="Loading cost data…" />
+      </div>
+    );
   }
 
   return (
