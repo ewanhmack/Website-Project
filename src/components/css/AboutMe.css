@@ -10,11 +10,13 @@
 }
 
 .aboutme-section {
-  padding: clamp(48px, 8vw, 22px) 0;
+  padding: clamp(48px, 8vw, 88px) 0;
 }
 
 .aboutme-section-alt {
-  background: var(--bg);
+  background: color-mix(in srgb, var(--panel) 45%, var(--bg));
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .aboutme-head {
@@ -33,51 +35,111 @@
 .aboutme-title {
   margin: 0;
   font-size: clamp(22px, 3vw, 32px);
+  letter-spacing: -0.01em;
 }
 
 .aboutme-sub {
   margin: 0;
   color: var(--muted);
-  max-width: 70ch;
+  max-width: 60ch;
 }
 
+/* -----------------------------
+   Hero
+----------------------------- */
 .aboutme-hero-grid {
   display: grid;
-  gap: clamp(16px, 2.6vw, 24px);
-  align-items: start;
-  margin-top: clamp(14px, 2vw, 18px);
+  gap: clamp(24px, 4vw, 40px);
+  align-items: center;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 860px) {
   .aboutme-hero-grid {
-    grid-template-columns: 1.25fr 0.75fr;
+    grid-template-columns: 1.15fr 0.85fr;
   }
 }
 
-.aboutme-panel {
-  background: color-mix(in srgb, var(--panel) 94%, transparent);
+.aboutme-hero-text {
+  display: grid;
+  gap: 14px;
+}
+
+.aboutme-hero-text .aboutme-title {
+  font-size: clamp(28px, 4vw, 42px);
+}
+
+.aboutme-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.aboutme-chip {
+  display: inline-block;
+  font-size: 12px;
+  padding: 4px 10px;
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: clamp(14px, 2.2vw, 18px);
-  box-shadow: 0 1px 2px rgba(2, 6, 23, 0.6), 0 2px 6px rgba(2, 6, 23, 0.5);
+  border-radius: 999px;
+  color: var(--muted);
 }
 
-.aboutme-panel-title {
-  margin: 0 0 10px;
+.aboutme-photo-wrap {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 320px);
 }
 
-.aboutme-panel-subtitle {
-  margin: 0 0 10px;
-  font-size: 1rem;
+.aboutme-photo-frame {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  aspect-ratio: 4 / 5;
+  box-shadow: var(--shadow-lg);
+  transform: rotate(-2.5deg);
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.aboutme-photo-wrap:hover .aboutme-photo-frame {
+  transform: rotate(0deg);
+}
+
+.aboutme-photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 79% center;
+  display: block;
+}
+
+.aboutme-photo-badge {
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  transform: translateX(-50%);
+  max-width: calc(100% + 24px);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .aboutme-stats {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
+  gap: 12px;
+  margin-top: clamp(40px, 6vw, 64px);
 }
 
-@media (min-width: 520px) {
+@media (min-width: 620px) {
   .aboutme-stats {
     grid-template-columns: 1fr 1fr 1fr;
   }
@@ -86,8 +148,13 @@
 .aboutme-stat {
   background: color-mix(in srgb, var(--panel) 82%, transparent);
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  transition: border-color 0.2s ease;
+}
+
+.aboutme-stat:hover {
+  border-color: color-mix(in srgb, var(--brand) 30%, var(--border));
 }
 
 .aboutme-stat-value {
@@ -103,59 +170,97 @@
   color: var(--muted);
 }
 
-.aboutme-divider {
-  height: 1px;
-  background: var(--border);
-  margin: 14px 0;
-}
-
-.aboutme-list {
-  margin: 0;
-  padding-left: 18px;
+/* -----------------------------
+   Hobbies (alternating rows)
+----------------------------- */
+.aboutme-hobbies-list {
   display: grid;
-  gap: 8px;
-  color: var(--muted);
+  gap: clamp(20px, 3vw, 32px);
+  margin-top: clamp(20px, 3vw, 32px);
 }
 
-.aboutme-chips {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 12px;
+.aboutme-hobby-row {
+  display: grid;
+  gap: 20px;
+  align-items: center;
+  grid-template-columns: auto 1fr;
 }
 
-.aboutme-chip {
-  display: inline-block;
-  font-size: 12px;
-  padding: 4px 8px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  color: var(--muted);
+@media (min-width: 620px) {
+  .aboutme-hobby-row {
+    grid-template-columns: 120px 1fr;
+    gap: 32px;
+  }
+
+  .aboutme-hobby-row.is-reversed {
+    grid-template-columns: 1fr 120px;
+  }
+
+  .aboutme-hobby-row.is-reversed .aboutme-hobby-icon {
+    order: 2;
+  }
+
+  .aboutme-hobby-row.is-reversed .aboutme-hobby-copy {
+    order: 1;
+    text-align: right;
+  }
 }
 
-.aboutme-photo-frame {
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--panel);
-  aspect-ratio: 4 / 5;
+.aboutme-hobby-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--brand) 12%, var(--panel));
+  border: 1px solid color-mix(in srgb, var(--brand) 20%, var(--border));
+  color: var(--brand);
 }
 
-.aboutme-photo-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 79% center;
-  display: block;
+@media (min-width: 620px) {
+  .aboutme-hobby-icon {
+    width: 88px;
+    height: 88px;
+    justify-self: center;
+  }
 }
 
+.aboutme-hobby-icon img {
+  width: 40%;
+  height: 40%;
+  object-fit: contain;
+}
 
-.aboutme-photo-caption {
-  margin-top: 10px;
+.aboutme-hobby-copy {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: clamp(20px, 3vw, 32px);
+}
+
+.aboutme-hobbies-list .aboutme-hobby-row:last-child .aboutme-hobby-copy {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.aboutme-hobby-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.aboutme-hobby-body {
   color: var(--muted);
   font-size: 0.95rem;
+  max-width: 60ch;
 }
 
+.aboutme-hobby-row.is-reversed .aboutme-hobby-body {
+  margin-left: auto;
+}
+
+/* -----------------------------
+   Focus cards + CTA
+----------------------------- */
 .aboutme-grid {
   display: grid;
   gap: clamp(16px, 2.6vw, 24px);
@@ -171,9 +276,15 @@
 .aboutme-card {
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: clamp(16px, 2.6vw, 24px);
-  box-shadow: 0 1px 2px rgba(2, 6, 23, 0.6), 0 2px 6px rgba(2, 6, 23, 0.5);
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.aboutme-card:hover {
+  border-color: color-mix(in srgb, var(--brand) 25%, var(--border));
+  transform: translateY(-2px);
 }
 
 .aboutme-card-title {
@@ -188,11 +299,10 @@
 
 .aboutme-cta {
   margin-top: clamp(18px, 2.6vw, 24px);
-  background: color-mix(in srgb, var(--panel) 94%, transparent);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: clamp(14px, 2.2vw, 18px);
-  box-shadow: 0 1px 2px rgba(2, 6, 23, 0.6), 0 2px 6px rgba(2, 6, 23, 0.5);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 14%, var(--panel)), var(--panel));
+  border: 1px solid color-mix(in srgb, var(--brand) 25%, var(--border));
+  border-radius: var(--radius-lg);
+  padding: clamp(18px, 2.6vw, 26px);
 
   display: grid;
   gap: 14px;
@@ -222,67 +332,8 @@
   justify-content: flex-end;
 }
 
-/* -----------------------------
-   Hobbies
------------------------------ */
-
-.aboutme-hobbies-grid {
-  display: grid;
-  gap: clamp(16px, 2.6vw, 24px);
-  grid-template-columns: 1fr;
-  margin-top: clamp(14px, 2vw, 18px);
-}
-
-@media (min-width: 760px) {
-  .aboutme-hobbies-grid {
-    grid-template-columns: 1fr 1fr;
+@media (prefers-reduced-motion: reduce) {
+  .aboutme-photo-frame {
+    transition: none;
   }
-}
-
-.aboutme-hobby-card {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 14px;
-  align-items: start;
-
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: clamp(14px, 2.2vw, 18px);
-
-  box-shadow: 0 1px 2px rgba(2, 6, 23, 0.6),
-              0 2px 6px rgba(2, 6, 23, 0.5);
-
-  transition: transform 0.08s ease, border-color 0.2s ease;
-}
-
-.aboutme-hobby-card:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--brand) 25%, var(--border));
-}
-
-.aboutme-hobby-icon {
-  width: 32px;
-  height: 32px;
-  display: grid;
-  place-items: center;
-  color: var(--brand);
-}
-
-.aboutme-hobby-icon svg {
-  width: 100%;
-  height: 100%;
-  fill: currentColor;
-}
-
-
-.aboutme-hobby-title {
-  font-weight: 700;
-  margin-bottom: 4px;
-  color: var(--text);
-}
-
-.aboutme-hobby-body {
-  color: var(--muted);
-  font-size: 0.95rem;
 }

@@ -37,7 +37,7 @@
 
 .contact-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(12px, 2vw, 16px);
   margin: 16px 0 24px;
 }
@@ -50,7 +50,7 @@
 
 .contact-card {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 12px;
   padding: 14px;
@@ -79,6 +79,10 @@
   border: 1px solid var(--border);
 }
 
+.contact-body {
+  min-width: 0;
+}
+
 .contact-body h3 {
   margin: 0 0 2px;
   font-size: 1.05rem;
@@ -86,6 +90,7 @@
 
 .contact-body p {
   margin: 0;
+  overflow-wrap: break-word;
 }
 
 .contact-arrow {
@@ -128,7 +133,12 @@
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
+}
+
+.actions .btn {
+  white-space: nowrap;
 }
 
 .cv-panel {
