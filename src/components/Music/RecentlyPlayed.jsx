@@ -38,11 +38,6 @@ export default function RecentlyPlayed({ tracks, loading, loadingMore, error, ha
         <Spinner label="Loading recently played…" />
       </div>
     );
-    return (
-      <div style={{ padding: "16px 1.1em" }}>
-        <Spinner label="Loading recently played…" />
-      </div>
-    );
   }
 
   if (error) {
@@ -100,9 +95,6 @@ export default function RecentlyPlayed({ tracks, loading, loadingMore, error, ha
       ) : null}
 
       {hasLoadedMore && loadingMore ? (
-        <div style={{ display: "flex", justifyContent: "center", padding: "16px" }}>
-          <Spinner label="Loading more…" />
-        </div>
         <div style={{ display: "flex", justifyContent: "center", padding: "16px" }}>
           <Spinner label="Loading more…" />
         </div>
