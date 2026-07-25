@@ -1,4 +1,5 @@
 import React from "react";
+import Reveal from "../Reveal";
 
 function ChipRow({ items }) {
   if (!items || items.length === 0) {
@@ -32,7 +33,7 @@ export default function AboutSection() {
 
   return (
     <section id="about" className="section container" aria-label="About">
-      <header className="section-head">
+      <Reveal as="header" className="section-head">
         <div className="section-eyebrow">About</div>
         <h2 className="section-title">Hi, I’m Ewan</h2>
         <p className="muted">
@@ -40,10 +41,10 @@ export default function AboutSection() {
           systems in UE5, graphics programming with SFML/SEG, and exploring accessibility
           patterns in games.
         </p>
-      </header>
+      </Reveal>
 
       <div className="grid two" style={{ paddingBottom: '40px' }}>
-        <div className="panel">
+        <Reveal as="div" className="panel">
           <h3 className="card-title">Toolkit</h3>
           <ul className="list muted" style={{ listStyle: "none", paddingLeft: 0 }}>
             {toolkit.map((tool) => (
@@ -56,9 +57,9 @@ export default function AboutSection() {
               items={["UE5", "C++", "Blueprints", "React", "TypeScript", "SFML", "SEG"]}
             />
           </div>
-        </div>
+        </Reveal>
 
-        <div className="panel">
+        <Reveal as="div" className="panel" delay={80}>
           <h3 className="card-title">Right now</h3>
           <p className="muted">
             Placement at <strong>Cirdan</strong> as a Software Developer working with
@@ -75,7 +76,7 @@ export default function AboutSection() {
               ))}
             </ul>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

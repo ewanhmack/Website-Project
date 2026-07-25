@@ -159,6 +159,13 @@ p {
   background: color-mix(in srgb, var(--bg) 82%, transparent);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(10px);
+  transition: background 0.25s ease, border-color 0.25s ease, backdrop-filter 0.25s ease;
+}
+
+.navbar--transparent {
+  background: transparent;
+  border-bottom-color: transparent;
+  backdrop-filter: none;
 }
 
 .navbar-inner {
@@ -228,7 +235,14 @@ html::-webkit-scrollbar {
 /* -----------------------------
    Hero
 ----------------------------- */
+.hero-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
 .hero {
+  position: relative;
+  z-index: 1;
   padding: clamp(48px, 10vw, 96px) 0;
   display: grid;
   gap: var(--space);
@@ -238,6 +252,72 @@ html::-webkit-scrollbar {
 @media (min-width: 900px) {
   .hero {
     grid-template-columns: 1.1fr 1fr;
+  }
+}
+
+/* Ambient background: soft warm shapes drifting slowly behind the hero,
+   purely decorative — gives the homepage a sense of motion without
+   competing with the content on top of it. */
+.hero-ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-ambient-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.32;
+  will-change: transform;
+}
+
+.hero-ambient-blob--a {
+  width: 420px;
+  height: 420px;
+  top: -140px;
+  left: -100px;
+  background: radial-gradient(circle, var(--brand), transparent 70%);
+  animation: hero-ambient-drift-a 24s ease-in-out infinite;
+}
+
+.hero-ambient-blob--b {
+  width: 360px;
+  height: 360px;
+  top: 30%;
+  right: -120px;
+  background: radial-gradient(circle, #b0553a, transparent 70%);
+  animation: hero-ambient-drift-b 28s ease-in-out infinite;
+}
+
+.hero-ambient-blob--c {
+  width: 300px;
+  height: 300px;
+  bottom: -160px;
+  left: 35%;
+  background: radial-gradient(circle, #8a4a63, transparent 70%);
+  animation: hero-ambient-drift-c 32s ease-in-out infinite;
+}
+
+@keyframes hero-ambient-drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(50px, 40px) scale(1.1); }
+}
+
+@keyframes hero-ambient-drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-40px, -50px) scale(1.12); }
+}
+
+@keyframes hero-ambient-drift-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(35px, -25px) scale(0.94); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-ambient-blob {
+    animation: none !important;
   }
 }
 
