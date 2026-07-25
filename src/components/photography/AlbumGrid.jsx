@@ -119,6 +119,13 @@ function AlbumTile({ photo, id, isLoaded, isFirst, markLoaded, onSelectPhoto }) 
           {photo.header ? (
             <span className="album-item-title">{photo.header}</span>
           ) : null}
+          {photo.tags && photo.tags.length > 0 ? (
+            <span className="album-item-tags">
+              {photo.tags.map((tag) => (
+                <span key={tag} className="album-item-tag">{tag}</span>
+              ))}
+            </span>
+          ) : null}
           {exposureLine ? (
             <span className="album-item-exposure">{exposureLine}</span>
           ) : null}
