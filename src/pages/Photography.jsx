@@ -6,14 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { createPortal } from "react-dom";
-import {
-  collection,
-  getDocs,
-  query,
-  orderBy,
-  limit,
-  startAfter,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import AlbumGrid from "../components/photography/AlbumGrid";
 import PhotoEditor from "../components/photography/Editor/PhotoEditor";
@@ -178,10 +171,8 @@ function useIntersectionObserver(callback, options = {}) {
 }
 
 export default function Photography() {
-  const [gridPages, setGridPages] = useState([]);
-  const [gridCursor, setGridCursor] = useState(null);
-  const [gridHasMore, setGridHasMore] = useState(true);
-  const [gridLoading, setGridLoading] = useState(false);
+  const [allPhotos, setAllPhotos] = useState(null);
+  const [visiblePages, setVisiblePages] = useState(1);
 
   const [categories, setCategories] = useState([]);
   const [loaded, setLoaded] = useState(false);
@@ -216,63 +207,6 @@ export default function Photography() {
     });
   }, [selectedPhoto]);
 
-  const gridFetchInFlightRef = useRef(false);
-
-  const fetchGridPage = useCallback(async (cursor = null) => {
-    if (categories.length === 0 || gridFetchInFlightRef.current) {
-      return;
-    }
-
-    gridFetchInFlightRef.current = true;
-    setGridLoading(true);
-
-    try {
-      const perCategory = Math.ceil(GRID_PAGE_SIZE / categories.length);
-      const newPhotos = [];
-      const newCursors = { ...(cursor ?? {}) };
-
-      for (const category of categories) {
-        const catCursor = cursor?.[category] ?? null;
-        const q = catCursor
-          ? query(
-              collection(db, "photography", category, "photos"),
-              orderBy("order"),
-              startAfter(catCursor),
-              limit(perCategory)
-            )
-          : query(
-              collection(db, "photography", category, "photos"),
-              orderBy("order"),
-              limit(perCategory)
-            );
-
-        const snap = await getDocs(q);
-        const photos = snap.docs.map((d) => ({ ...d.data(), id: d.id, category }));
-        newPhotos.push(...photos);
-
-        if (snap.docs.length > 0) {
-          newCursors[category] = snap.docs[snap.docs.length - 1];
-        }
-      }
-
-      const shuffled = shuffle(newPhotos);
-
-      setGridPages((prev) => {
-        const seen = new Set(prev.flat().map((photo) => `${photo.category}-${photo.id}`));
-        const deduped = shuffled.filter((photo) => !seen.has(`${photo.category}-${photo.id}`));
-        if (deduped.length === 0) {
-          return prev;
-        }
-        return [...prev, deduped];
-      });
-      setGridCursor(newCursors);
-      setGridHasMore(newPhotos.length >= GRID_PAGE_SIZE);
-    } finally {
-      setGridLoading(false);
-      gridFetchInFlightRef.current = false;
-    }
-  }, [categories]);
-
   useEffect(() => {
     let alive = true;
 
@@ -281,11 +215,19 @@ export default function Photography() {
         const categoriesSnapshot = await getDocs(collection(db, "photography"));
         const cats = categoriesSnapshot.docs.map((d) => d.id);
 
+        const photosByCategory = await Promise.all(
+          cats.map(async (category) => {
+            const snap = await getDocs(collection(db, "photography", category, "photos"));
+            return snap.docs.map((d) => ({ ...d.data(), id: d.id, category }));
+          })
+        );
+
         if (!alive) {
           return;
         }
 
         setCategories(cats);
+        setAllPhotos(shuffle(photosByCategory.flat()));
         setLoaded(true);
       } catch (err) {
         if (!alive) {
@@ -303,21 +245,22 @@ export default function Photography() {
     };
   }, []);
 
-  const gridFetchedRef = useRef(false);
-
-  useEffect(() => {
-    if (categories.length > 0 && !gridFetchedRef.current) {
-      gridFetchedRef.current = true;
-      fetchGridPage(null);
+  const gridPages = useMemo(() => {
+    if (!allPhotos) {
+      return [];
     }
-  }, [categories, fetchGridPage]);
+    const pages = [];
+    for (let i = 0; i < allPhotos.length; i += GRID_PAGE_SIZE) {
+      pages.push(allPhotos.slice(i, i + GRID_PAGE_SIZE));
+    }
+    return pages.slice(0, visiblePages);
+  }, [allPhotos, visiblePages]);
+
+  const gridHasMore = allPhotos ? visiblePages * GRID_PAGE_SIZE < allPhotos.length : false;
 
   const loadMoreGrid = useCallback(() => {
-    if (!gridHasMore || gridLoading) {
-      return;
-    }
-    fetchGridPage(gridCursor);
-  }, [gridHasMore, gridLoading, gridCursor, fetchGridPage]);
+    setVisiblePages((n) => n + 1);
+  }, []);
 
   const gridSentinelRef = useIntersectionObserver(loadMoreGrid, { rootMargin: "200px" });
 
@@ -392,11 +335,6 @@ export default function Photography() {
             markLoaded={markLoaded}
             onSelectPhoto={openPhoto}
           />
-          {gridLoading ? (
-            <div style={{ display: "flex", justifyContent: "center", padding: 16 }}>
-              <Spinner label="Loading more…" />
-            </div>
-          ) : null}
           {gridHasMore ? (
             <div ref={gridSentinelRef} style={{ height: 1 }} />
           ) : null}
