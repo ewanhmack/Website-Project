@@ -6,19 +6,13 @@ import React, {
   useCallback,
 } from "react";
 import { createPortal } from "react-dom";
-import {
-  collection,
-  getDocs,
-  query,
-  orderBy,
-  limit,
-  startAfter,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import AlbumGrid from "../components/photography/AlbumGrid";
 import PhotoEditor from "../components/photography/Editor/PhotoEditor";
 import Spinner from "../components/Spinner";
-import { shuffle, getPhotoUrl, formatShutterSpeed } from "../utils/photos";
+import { shuffle, getPhotoUrl, formatShutterSpeed, focalLengthGroup } from "../utils/photos";
+import { PHOTO_TAGS } from "../utils/photoTags";
 import "../components/css/photography.css";
 import "../components/css/PageStyles.css";
 
@@ -177,17 +171,41 @@ function useIntersectionObserver(callback, options = {}) {
   return ref;
 }
 
+function FilterGroup({ label, options, active, onSelect }) {
+  if (options.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="pf-group">
+      <div className="pf-group-title">{label}</div>
+      <div className="pf-group-options">
+        {options.map((option) => (
+          <button
+            key={option}
+            type="button"
+            className={`pf-chip ${active === option ? "pf-chip--active" : ""}`}
+            onClick={() => onSelect(active === option ? null : option)}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Photography() {
-  const [gridPages, setGridPages] = useState([]);
-  const [gridCursor, setGridCursor] = useState(null);
-  const [gridHasMore, setGridHasMore] = useState(true);
-  const [gridLoading, setGridLoading] = useState(false);
+  const [allPhotos, setAllPhotos] = useState(null);
+  const [visiblePages, setVisiblePages] = useState(1);
 
   const [categories, setCategories] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState("");
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [activeCategory, setActiveCategory] = useState("all");
+  const [activeTag, setActiveTag] = useState(null);
+  const [activeLens, setActiveLens] = useState(null);
 
   const savedScrollY = useRef(null);
 
@@ -216,63 +234,6 @@ export default function Photography() {
     });
   }, [selectedPhoto]);
 
-  const gridFetchInFlightRef = useRef(false);
-
-  const fetchGridPage = useCallback(async (cursor = null) => {
-    if (categories.length === 0 || gridFetchInFlightRef.current) {
-      return;
-    }
-
-    gridFetchInFlightRef.current = true;
-    setGridLoading(true);
-
-    try {
-      const perCategory = Math.ceil(GRID_PAGE_SIZE / categories.length);
-      const newPhotos = [];
-      const newCursors = { ...(cursor ?? {}) };
-
-      for (const category of categories) {
-        const catCursor = cursor?.[category] ?? null;
-        const q = catCursor
-          ? query(
-              collection(db, "photography", category, "photos"),
-              orderBy("order"),
-              startAfter(catCursor),
-              limit(perCategory)
-            )
-          : query(
-              collection(db, "photography", category, "photos"),
-              orderBy("order"),
-              limit(perCategory)
-            );
-
-        const snap = await getDocs(q);
-        const photos = snap.docs.map((d) => ({ ...d.data(), id: d.id, category }));
-        newPhotos.push(...photos);
-
-        if (snap.docs.length > 0) {
-          newCursors[category] = snap.docs[snap.docs.length - 1];
-        }
-      }
-
-      const shuffled = shuffle(newPhotos);
-
-      setGridPages((prev) => {
-        const seen = new Set(prev.flat().map((photo) => `${photo.category}-${photo.id}`));
-        const deduped = shuffled.filter((photo) => !seen.has(`${photo.category}-${photo.id}`));
-        if (deduped.length === 0) {
-          return prev;
-        }
-        return [...prev, deduped];
-      });
-      setGridCursor(newCursors);
-      setGridHasMore(newPhotos.length >= GRID_PAGE_SIZE);
-    } finally {
-      setGridLoading(false);
-      gridFetchInFlightRef.current = false;
-    }
-  }, [categories]);
-
   useEffect(() => {
     let alive = true;
 
@@ -281,11 +242,19 @@ export default function Photography() {
         const categoriesSnapshot = await getDocs(collection(db, "photography"));
         const cats = categoriesSnapshot.docs.map((d) => d.id);
 
+        const photosByCategory = await Promise.all(
+          cats.map(async (category) => {
+            const snap = await getDocs(collection(db, "photography", category, "photos"));
+            return snap.docs.map((d) => ({ ...d.data(), id: d.id, category }));
+          })
+        );
+
         if (!alive) {
           return;
         }
 
         setCategories(cats);
+        setAllPhotos(shuffle(photosByCategory.flat()));
         setLoaded(true);
       } catch (err) {
         if (!alive) {
@@ -303,21 +272,22 @@ export default function Photography() {
     };
   }, []);
 
-  const gridFetchedRef = useRef(false);
-
-  useEffect(() => {
-    if (categories.length > 0 && !gridFetchedRef.current) {
-      gridFetchedRef.current = true;
-      fetchGridPage(null);
+  const gridPages = useMemo(() => {
+    if (!allPhotos) {
+      return [];
     }
-  }, [categories, fetchGridPage]);
+    const pages = [];
+    for (let i = 0; i < allPhotos.length; i += GRID_PAGE_SIZE) {
+      pages.push(allPhotos.slice(i, i + GRID_PAGE_SIZE));
+    }
+    return pages.slice(0, visiblePages);
+  }, [allPhotos, visiblePages]);
+
+  const gridHasMore = allPhotos ? visiblePages * GRID_PAGE_SIZE < allPhotos.length : false;
 
   const loadMoreGrid = useCallback(() => {
-    if (!gridHasMore || gridLoading) {
-      return;
-    }
-    fetchGridPage(gridCursor);
-  }, [gridHasMore, gridLoading, gridCursor, fetchGridPage]);
+    setVisiblePages((n) => n + 1);
+  }, []);
 
   const gridSentinelRef = useIntersectionObserver(loadMoreGrid, { rootMargin: "200px" });
 
@@ -332,12 +302,45 @@ export default function Photography() {
     });
   }, []);
 
-  const filteredGridPages = useMemo(() => {
-    if (activeCategory === "all") {
-      return gridPages;
+  const availableTags = useMemo(() => {
+    if (!allPhotos) {
+      return [];
     }
-    return gridPages.map((page) => page.filter((photo) => photo.category === activeCategory));
-  }, [gridPages, activeCategory]);
+    const present = new Set();
+    allPhotos.forEach((photo) => (photo.tags || []).forEach((tag) => present.add(tag)));
+    return PHOTO_TAGS.filter((tag) => present.has(tag));
+  }, [allPhotos]);
+
+  const availableLenses = useMemo(() => {
+    if (!allPhotos) {
+      return [];
+    }
+    const present = new Set();
+    allPhotos.forEach((photo) => {
+      const group = focalLengthGroup(photo.metadata?.lensModel);
+      if (group) {
+        present.add(group);
+      }
+    });
+    return Array.from(present).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+  }, [allPhotos]);
+
+  const filteredGridPages = useMemo(() => {
+    return gridPages.map((page) =>
+      page.filter((photo) => {
+        if (activeCategory !== "all" && photo.category !== activeCategory) {
+          return false;
+        }
+        if (activeTag && !(photo.tags || []).includes(activeTag)) {
+          return false;
+        }
+        if (activeLens && focalLengthGroup(photo.metadata?.lensModel) !== activeLens) {
+          return false;
+        }
+        return true;
+      })
+    );
+  }, [gridPages, activeCategory, activeTag, activeLens]);
 
   return (
     <div className="page-container photography">
@@ -363,43 +366,29 @@ export default function Photography() {
       ) : null}
 
       {loaded && !error ? (
-        <div>
-          {categories.length > 0 ? (
-            <div className="category-filters" role="group" aria-label="Filter by category">
-              <button
-                type="button"
-                className={`period-btn ${activeCategory === "all" ? "active" : ""}`}
-                onClick={() => setActiveCategory("all")}
-              >
-                All
-              </button>
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  type="button"
-                  className={`period-btn ${activeCategory === category ? "active" : ""}`}
-                  onClick={() => setActiveCategory(category)}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          ) : null}
+        <div className="photography-body">
+          <div className="photography-main">
+            <AlbumGrid
+              pages={filteredGridPages}
+              loadedMap={loadedMap}
+              markLoaded={markLoaded}
+              onSelectPhoto={openPhoto}
+            />
+            {gridHasMore ? (
+              <div ref={gridSentinelRef} style={{ height: 1 }} />
+            ) : null}
+          </div>
 
-          <AlbumGrid
-            pages={filteredGridPages}
-            loadedMap={loadedMap}
-            markLoaded={markLoaded}
-            onSelectPhoto={openPhoto}
-          />
-          {gridLoading ? (
-            <div style={{ display: "flex", justifyContent: "center", padding: 16 }}>
-              <Spinner label="Loading more…" />
-            </div>
-          ) : null}
-          {gridHasMore ? (
-            <div ref={gridSentinelRef} style={{ height: 1 }} />
-          ) : null}
+          <aside className="photography-sidebar" aria-label="Filter photos">
+            <FilterGroup
+              label="Type"
+              options={categories}
+              active={activeCategory === "all" ? null : activeCategory}
+              onSelect={(value) => setActiveCategory(value ?? "all")}
+            />
+            <FilterGroup label="Tags" options={availableTags} active={activeTag} onSelect={setActiveTag} />
+            <FilterGroup label="Lens" options={availableLenses} active={activeLens} onSelect={setActiveLens} />
+          </aside>
         </div>
       ) : null}
 

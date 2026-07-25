@@ -185,6 +185,51 @@
   transform: scale(1.04);
 }
 
+.aph-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 10px 0;
+}
+
+.aph-tag-btn {
+  appearance: none;
+  font-size: 0.72rem;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.aph-tag-btn:hover {
+  border-color: color-mix(in srgb, var(--brand) 40%, var(--border));
+  color: var(--text);
+}
+
+.aph-tag-btn--active {
+  border-color: var(--brand);
+  color: var(--text);
+  background: color-mix(in srgb, var(--brand) 18%, transparent);
+}
+
+.aph-tag-btn--ghost {
+  border-style: dashed;
+  color: var(--muted);
+}
+
+.aph-untagged-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
 .aph-photo-footer {
   padding: 8px 10px;
   display: flex;

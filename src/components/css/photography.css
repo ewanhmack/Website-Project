@@ -94,16 +94,94 @@
   text-align: center;
 }
 
-.category-filters {
+/* ---------- Grid + filter sidebar layout ---------- */
+.photography-body {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 0 var(--media-edge);
-  margin-bottom: clamp(12px, 2vw, 20px);
+  align-items: flex-start;
+  gap: clamp(20px, 3vw, 36px);
+  width: min(100%, 1800px);
+  margin-inline: auto;
+  padding-inline: var(--media-edge);
 }
 
-.category-filters .period-btn {
-  text-transform: capitalize;
+.photography-main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Neutralise AlbumGrid's viewport-edge full-bleed trick now that it shares
+   the row with a sidebar instead of owning the whole width. */
+.photography-main .album-grid.full-bleed {
+  position: static;
+  left: auto;
+  right: auto;
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+  max-width: 100%;
+  padding-inline: 0;
+}
+
+.photography-sidebar {
+  flex: 0 0 240px;
+  width: 240px;
+  position: sticky;
+  top: 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.pf-group-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.pf-group-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pf-chip {
+  appearance: none;
+  font-size: 0.78rem;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.pf-chip:hover {
+  border-color: color-mix(in srgb, var(--brand) 40%, var(--border));
+  color: var(--text);
+}
+
+.pf-chip--active {
+  border-color: var(--brand);
+  color: var(--text);
+  background: color-mix(in srgb, var(--brand) 18%, transparent);
+}
+
+@media (max-width: 900px) {
+  .photography-body {
+    flex-direction: column;
+  }
+
+  .photography-sidebar {
+    width: 100%;
+    flex: none;
+    position: static;
+    order: -1;
+  }
 }
 
 .album-item {
@@ -179,6 +257,23 @@
   font-weight: 600;
   color: var(--text);
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.album-item-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.album-item-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  color: var(--text);
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(6px);
 }
 
 .album-item-exposure {

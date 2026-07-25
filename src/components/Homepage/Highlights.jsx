@@ -1,5 +1,6 @@
 import React from "react";
 import { resolveMediaSrc } from "../../utils/projects";
+import Reveal from "../Reveal";
 
 function HighlightCard({ imageSource, imageAlt, title, description, chips, href }) {
   return (
@@ -59,8 +60,10 @@ export default function Highlights() {
 
   return (
     <div className="grid three" aria-label="Selected work">
-      {highlightItems.map((highlightItem) => (
-        <HighlightCard key={highlightItem.title} {...highlightItem} />
+      {highlightItems.map((highlightItem, index) => (
+        <Reveal as="div" key={highlightItem.title} delay={index * 80}>
+          <HighlightCard {...highlightItem} />
+        </Reveal>
       ))}
     </div>
   );

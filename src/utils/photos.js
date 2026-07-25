@@ -45,6 +45,21 @@ export function formatShutterSpeed(value) {
   return `1/${denominator}`;
 }
 
+// Groups distinct lens models by their focal length range (e.g.
+// "EF-S18-55mm f/3.5-5.6 III" and "EF-S18-55mm f/3.5-5.6 IS" both become
+// "18-55mm") so the same physical range filters together regardless of the
+// exact lens/mount variant.
+export function focalLengthGroup(lensModel) {
+  if (!lensModel) {
+    return null;
+  }
+  const match = lensModel.match(/(\d+(?:-\d+)?)\s*mm/i);
+  if (!match) {
+    return null;
+  }
+  return `${match[1]}mm`;
+}
+
 export function shuffle(a) {
   const arr = a.slice();
   for (let i = arr.length - 1; i > 0; i--) {

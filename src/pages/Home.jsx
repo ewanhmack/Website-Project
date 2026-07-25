@@ -2,12 +2,15 @@ import React from "react";
 import Hero from "../components/Homepage/Hero";
 import AboutSection from "../components/Homepage/About";
 import Highlights from "../components/Homepage/Highlights";
+import Snapshot from "../components/Homepage/Snapshot";
 import SiteFooter from "../components/SiteFooter";
 
 export default function Home() {
   return (
     <div className="home">
       <Hero />
+
+      <Snapshot />
 
       <AboutSection />
 

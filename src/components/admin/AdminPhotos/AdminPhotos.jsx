@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from "react";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, deleteObject, getMetadata } from "firebase/storage";
 import { db, storage } from "../../../firebase";
 import exifr from "exifr";
 import UploadZone from "./UploadZone";
 import UploadProgress from "./UploadProgress";
 import Spinner from "../../Spinner";
+import { PHOTO_TAGS } from "../../../utils/photoTags";
 import "../../css/AdminPhotos.css";
 
 function convertToWebP(file) {
@@ -73,6 +74,50 @@ function applySortAndSearch(photos, sort, search) {
   return sorted;
 }
 
+function PhotoTagEditor({ photo, onToggle }) {
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const activeTags = photo.tags || [];
+  const availableTags = PHOTO_TAGS.filter((tag) => !activeTags.includes(tag));
+
+  return (
+    <div className="aph-tag-row">
+      {activeTags.map((tag) => (
+        <button
+          key={tag}
+          type="button"
+          className="aph-tag-btn aph-tag-btn--active"
+          onClick={() => onToggle(photo, tag)}
+        >
+          {tag} ×
+        </button>
+      ))}
+
+      {pickerOpen
+        ? availableTags.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              className="aph-tag-btn"
+              onClick={() => onToggle(photo, tag)}
+            >
+              + {tag}
+            </button>
+          ))
+        : null}
+
+      {availableTags.length > 0 ? (
+        <button
+          type="button"
+          className="aph-tag-btn aph-tag-btn--ghost"
+          onClick={() => setPickerOpen((open) => !open)}
+        >
+          {pickerOpen ? "Done" : "+ Add tag"}
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
 export default function AdminPhotos() {
   const [uploadItems, setUploadItems] = useState([]);
   const [photos, setPhotos] = useState({});
@@ -81,6 +126,7 @@ export default function AdminPhotos() {
   const [activeCategory, setActiveCategory] = useState(null);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("oldest");
+  const [untaggedOnly, setUntaggedOnly] = useState(false);
 
   const fetchPhotos = useCallback(async () => {
     setLoadingPhotos(true);
@@ -200,12 +246,35 @@ export default function AdminPhotos() {
     }
   };
 
+  const toggleTag = async (photo, tag) => {
+    const current = photo.tags || [];
+    const nextTags = current.includes(tag)
+      ? current.filter((t) => t !== tag)
+      : [...current, tag];
+
+    setPhotos((prev) => ({
+      ...prev,
+      [photo.categoryId]: prev[photo.categoryId].map((p) =>
+        p.id === photo.id ? { ...p, tags: nextTags } : p
+      ),
+    }));
+
+    try {
+      await updateDoc(doc(db, "photography", photo.categoryId, "photos", photo.id), {
+        tags: nextTags,
+      });
+    } catch (err) {
+      console.error(err);
+      fetchPhotos();
+    }
+  };
+
   const categories = Object.keys(photos);
   const activePhotos = applySortAndSearch(
     activeCategory ? (photos[activeCategory] || []) : [],
     sort,
     search
-  );
+  ).filter((p) => !untaggedOnly || !(p.tags && p.tags.length > 0));
 
   return (
     <div className="aph-page">
@@ -267,6 +336,15 @@ export default function AdminPhotos() {
                 ))}
               </select>
             </div>
+
+            <label className="aph-untagged-toggle">
+              <input
+                type="checkbox"
+                checked={untaggedOnly}
+                onChange={(e) => setUntaggedOnly(e.target.checked)}
+              />
+              Untagged only
+            </label>
           </div>
 
           {activePhotos.length === 0 ? (
@@ -286,6 +364,7 @@ export default function AdminPhotos() {
                     decoding="async"
                   />
                 </div>
+                <PhotoTagEditor photo={photo} onToggle={toggleTag} />
                 <div className="aph-photo-footer">
                   <span className="aph-photo-name">{photo.image}</span>
                   {deleteConfirm === photo.id ? (
