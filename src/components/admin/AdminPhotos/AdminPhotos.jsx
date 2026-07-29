@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import React, { useState, useCallback, useEffect } from "react";
+import { collection, getDocs, deleteDoc, doc, updateDoc, deleteField } from "firebase/firestore";
 import { ref, uploadBytes, deleteObject, getMetadata } from "firebase/storage";
 import { db, storage } from "../../../firebase";
 import exifr from "exifr";
@@ -118,6 +118,51 @@ function PhotoTagEditor({ photo, onToggle }) {
   );
 }
 
+function PhotoTitleEditor({ photo, onSave, onAccept, onReject }) {
+  const [draft, setDraft] = useState(photo.header || "");
+
+  useEffect(() => {
+    setDraft(photo.header || "");
+  }, [photo.header, photo.id]);
+
+  const commit = () => {
+    const trimmed = draft.trim();
+    if (trimmed !== (photo.header || "")) {
+      onSave(photo, trimmed);
+    }
+  };
+
+  return (
+    <div className="aph-title-row">
+      <input
+        type="text"
+        className="aph-title-input"
+        placeholder="Add title…"
+        value={draft}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={commit}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.currentTarget.blur();
+          }
+        }}
+      />
+
+      {!photo.header && photo.suggestedTitle ? (
+        <div className="aph-title-suggestion">
+          <span className="aph-title-suggestion-text">Suggested: {photo.suggestedTitle}</span>
+          <button type="button" className="aph-title-accept" onClick={() => onAccept(photo)}>
+            Accept
+          </button>
+          <button type="button" className="aph-title-reject" onClick={() => onReject(photo)}>
+            Reject
+          </button>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export default function AdminPhotos() {
   const [uploadItems, setUploadItems] = useState([]);
   const [photos, setPhotos] = useState({});
@@ -125,7 +170,7 @@ export default function AdminPhotos() {
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [activeCategory, setActiveCategory] = useState(null);
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("oldest");
+  const [sort, setSort] = useState("newest");
   const [untaggedOnly, setUntaggedOnly] = useState(false);
 
   const fetchPhotos = useCallback(async () => {
@@ -269,6 +314,63 @@ export default function AdminPhotos() {
     }
   };
 
+  const saveTitle = async (photo, title) => {
+    setPhotos((prev) => ({
+      ...prev,
+      [photo.categoryId]: prev[photo.categoryId].map((p) =>
+        p.id === photo.id ? { ...p, header: title } : p
+      ),
+    }));
+
+    try {
+      await updateDoc(doc(db, "photography", photo.categoryId, "photos", photo.id), {
+        header: title,
+      });
+    } catch (err) {
+      console.error(err);
+      fetchPhotos();
+    }
+  };
+
+  const acceptSuggestedTitle = async (photo) => {
+    const title = photo.suggestedTitle;
+
+    setPhotos((prev) => ({
+      ...prev,
+      [photo.categoryId]: prev[photo.categoryId].map((p) =>
+        p.id === photo.id ? { ...p, header: title, suggestedTitle: undefined } : p
+      ),
+    }));
+
+    try {
+      await updateDoc(doc(db, "photography", photo.categoryId, "photos", photo.id), {
+        header: title,
+        suggestedTitle: deleteField(),
+      });
+    } catch (err) {
+      console.error(err);
+      fetchPhotos();
+    }
+  };
+
+  const rejectSuggestedTitle = async (photo) => {
+    setPhotos((prev) => ({
+      ...prev,
+      [photo.categoryId]: prev[photo.categoryId].map((p) =>
+        p.id === photo.id ? { ...p, suggestedTitle: undefined } : p
+      ),
+    }));
+
+    try {
+      await updateDoc(doc(db, "photography", photo.categoryId, "photos", photo.id), {
+        suggestedTitle: deleteField(),
+      });
+    } catch (err) {
+      console.error(err);
+      fetchPhotos();
+    }
+  };
+
   const categories = Object.keys(photos);
   const activePhotos = applySortAndSearch(
     activeCategory ? (photos[activeCategory] || []) : [],
@@ -364,6 +466,12 @@ export default function AdminPhotos() {
                     decoding="async"
                   />
                 </div>
+                <PhotoTitleEditor
+                  photo={photo}
+                  onSave={saveTitle}
+                  onAccept={acceptSuggestedTitle}
+                  onReject={rejectSuggestedTitle}
+                />
                 <PhotoTagEditor photo={photo} onToggle={toggleTag} />
                 <div className="aph-photo-footer">
                   <span className="aph-photo-name">{photo.image}</span>
