@@ -20,6 +20,92 @@ function getOrientation(width: number, height: number): string {
   return "Landscapes";
 }
 
+// Kept in sync by hand with src/utils/photoTags.js — the functions package
+// deploys standalone, so it can't import across the project boundary.
+const PHOTO_TAGS = [
+  "Forest",
+  "Mountains",
+  "Water",
+  "Sky",
+  "City",
+  "Architecture",
+  "Animals",
+  "Plants",
+  "People",
+  "Night",
+];
+
+const TAG_SYSTEM_PROMPT = `You are labeling photography subject matter for a portfolio website.
+Given a photo, choose 1 to 3 tags that best describe its main subject(s) from this fixed list ONLY:
+${PHOTO_TAGS.join(", ")}
+
+Respond with ONLY a JSON array of strings from that list, e.g. ["Forest","Animals"].
+Do not invent tags outside this list. If genuinely nothing fits, respond with [].`;
+
+const TITLE_SYSTEM_PROMPT = `You are writing short titles for photos in a personal photography portfolio.
+Given a photo, write one concise title: 2 to 5 words, title case, no quotation marks, no trailing period.
+Focus on the specific subject, mood, or moment — avoid generic words like "Photo", "Image", or "Untitled".
+Respond with ONLY the title text, nothing else.`;
+
+async function callClaudeVision(
+  apiKey: string,
+  imageUrl: string,
+  systemPrompt: string,
+  userText: string,
+  maxTokens: number
+): Promise<string> {
+  const body = JSON.stringify({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: maxTokens,
+    system: systemPrompt,
+    messages: [
+      {
+        role: "user",
+        content: [
+          { type: "image", source: { type: "url", url: imageUrl } },
+          { type: "text", text: userText },
+        ],
+      },
+    ],
+  });
+
+  const response = await httpPost(
+    "https://api.anthropic.com/v1/messages",
+    {
+      "content-type": "application/json",
+      "x-api-key": apiKey,
+      "anthropic-version": "2023-06-01",
+    },
+    body
+  );
+
+  const parsed = JSON.parse(response);
+  return parsed.content?.[0]?.text ?? "";
+}
+
+async function classifyPhotoTags(apiKey: string, imageUrl: string): Promise<string[]> {
+  const text = await callClaudeVision(apiKey, imageUrl, TAG_SYSTEM_PROMPT, "Classify this photo.", 100);
+  const match = text.match(/\[[\s\S]*\]/);
+  if (!match) {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(match[0]);
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+    return parsed.filter((tag: unknown): tag is string => typeof tag === "string" && PHOTO_TAGS.includes(tag));
+  } catch {
+    return [];
+  }
+}
+
+async function suggestPhotoTitle(apiKey: string, imageUrl: string): Promise<string> {
+  const text = await callClaudeVision(apiKey, imageUrl, TITLE_SYSTEM_PROMPT, "Title this photo.", 30);
+  return text.trim().replace(/^["']|["']$/g, "").replace(/\.$/, "");
+}
+
 async function writeFunctionStatus(
   name: string,
   status: "ok" | "error",
@@ -287,7 +373,7 @@ export const getRecentlyPlayed = onRequest(
 );
 
 export const onPhotoUploaded = onObjectFinalized(
-  { timeoutSeconds: 60, memory: "256MiB", region: "europe-west2" },
+  { timeoutSeconds: 60, memory: "256MiB", region: "europe-west2", secrets: ["ANTHROPIC_API_KEY"] },
   async (event) => {
     try {
       const filePath = event.data.name;
@@ -339,14 +425,38 @@ export const onPhotoUploaded = onObjectFinalized(
         expires: "01-01-2100",
       });
 
-      await categoryRef.collection("photos").add({
+      const photoData: Record<string, unknown> = {
         image: fileName,
         storageUrl: url,
         storagePath: filePath,
         metadata,
         order: nextOrder,
         uploadedAt: new Date().toISOString(),
-      });
+      };
+
+      // Best-effort AI enrichment: tags are auto-applied (same as the batch
+      // seed-scripts/tagPhotos.mjs), title lands as a suggestion for review
+      // in Admin > Photos (same as seed-scripts/suggestTitles.mjs) rather
+      // than being applied directly. Never blocks the upload itself.
+      const apiKey = process.env.ANTHROPIC_API_KEY;
+      if (apiKey) {
+        try {
+          const [tags, suggestedTitle] = await Promise.all([
+            classifyPhotoTags(apiKey, url),
+            suggestPhotoTitle(apiKey, url),
+          ]);
+          if (tags.length > 0) {
+            photoData.tags = tags;
+          }
+          if (suggestedTitle) {
+            photoData.suggestedTitle = suggestedTitle;
+          }
+        } catch (err: any) {
+          console.error(`AI enrichment failed for ${fileName}:`, err?.message ?? err);
+        }
+      }
+
+      await categoryRef.collection("photos").add(photoData);
 
       console.log(`Added ${fileName} to ${category}`);
       await writeFunctionStatus("onPhotoUploaded", "ok");
