@@ -79,11 +79,39 @@ function useLatestTrack() {
 }
 
 function SnapshotTile({ eyebrow, href, imageSrc, title, subtitle, delay }) {
+  const [loaded, setLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
+
   return (
     <Reveal as="div" delay={delay}>
       <a className="snapshot-tile" href={href}>
         <div className="snapshot-tile-media">
-          {imageSrc ? <img src={imageSrc} alt="" loading="lazy" decoding="async" /> : null}
+          {imageSrc && !hasError ? (
+            <>
+              {!loaded ? (
+                <span className="snapshot-tile-loading" aria-hidden="true">
+                  <span className="spinner" style={{ width: 16, height: 16 }} />
+                </span>
+              ) : null}
+              <img
+                key={retryCount}
+                src={imageSrc}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className={loaded ? "is-loaded" : ""}
+                onLoad={() => setLoaded(true)}
+                onError={() => {
+                  if (retryCount < 1) {
+                    setRetryCount((n) => n + 1);
+                  } else {
+                    setHasError(true);
+                  }
+                }}
+              />
+            </>
+          ) : null}
         </div>
         <div className="snapshot-tile-body">
           <div className="snapshot-tile-eyebrow">{eyebrow}</div>

@@ -94,6 +94,73 @@
   text-align: center;
 }
 
+/* Skeleton grid shown while photo metadata is still loading */
+.photo-grid-skeleton {
+  column-count: 1;
+  column-gap: clamp(8px, 1.6vw, 18px);
+}
+
+@media (min-width: 700px) {
+  .photo-grid-skeleton {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 1000px) {
+  .photo-grid-skeleton {
+    column-count: 3;
+  }
+}
+
+@media (min-width: 1400px) {
+  .photo-grid-skeleton {
+    column-count: 4;
+  }
+}
+
+@media (min-width: 1800px) {
+  .photo-grid-skeleton {
+    column-count: 5;
+  }
+}
+
+.photo-grid-skeleton-item {
+  break-inside: avoid;
+  margin-bottom: clamp(8px, 1.6vw, 18px);
+  border-radius: var(--radius-md, 8px);
+}
+
+/* Per-tile spinner shown while an individual photo is still downloading */
+.album-item-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.album-item.is-loaded .album-item-loading {
+  display: none;
+}
+
+.album-item.has-error {
+  min-height: 120px;
+}
+
+.album-item-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
 /* ---------- Grid + filter sidebar layout ---------- */
 .photography-body {
   display: flex;

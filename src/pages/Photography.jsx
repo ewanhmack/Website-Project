@@ -9,8 +9,8 @@ import { createPortal } from "react-dom";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import AlbumGrid from "../components/photography/AlbumGrid";
+import PhotoGridSkeleton from "../components/photography/PhotoGridSkeleton";
 import PhotoEditor from "../components/photography/Editor/PhotoEditor";
-import Spinner from "../components/Spinner";
 import { shuffle, getPhotoUrl, formatShutterSpeed, focalLengthGroup } from "../utils/photos";
 import { PHOTO_TAGS } from "../utils/photoTags";
 import "../components/css/photography.css";
@@ -354,8 +354,10 @@ export default function Photography() {
       </header>
 
       {!loaded ? (
-        <div style={{ marginTop: 24 }}>
-          <Spinner label="Loading photos…" />
+        <div className="photography-body" style={{ marginTop: 24 }}>
+          <div className="photography-main">
+            <PhotoGridSkeleton />
+          </div>
         </div>
       ) : null}
 

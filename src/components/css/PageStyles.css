@@ -36,6 +36,7 @@
 }
 
 .snapshot-tile-media {
+  position: relative;
   width: 76px;
   height: 76px;
   border-radius: var(--radius-md);
@@ -47,6 +48,21 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.snapshot-tile-media img.is-loaded {
+  opacity: 1;
+}
+
+.snapshot-tile-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
 }
 
 .snapshot-tile-body {

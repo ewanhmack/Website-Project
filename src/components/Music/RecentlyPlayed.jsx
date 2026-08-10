@@ -2,6 +2,24 @@ import React, { useRef, useEffect } from "react";
 import Spinner from "../Spinner";
 import { timeAgo } from "../../utils/time";
 
+function RecentlyPlayedSkeleton({ count = 8 }) {
+  return (
+    <ul className="recently-played-list" role="status" aria-label="Loading recently played tracks">
+      {Array.from({ length: count }, (_, i) => (
+        <li key={i} className="recently-played-row" aria-hidden="true">
+          <span className="recently-played-index skeleton skeleton-text" style={{ width: 14, height: 12 }} />
+          <span className="recently-played-art skeleton" />
+          <div className="recently-played-body">
+            <span className="skeleton skeleton-text" style={{ width: "65%", height: 14 }} />
+            <span className="skeleton skeleton-text" style={{ width: "35%", height: 12 }} />
+          </div>
+          <span className="skeleton skeleton-text" style={{ width: 56, height: 12 }} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export default function RecentlyPlayed({ tracks, loading, loadingMore, error, hasMore, hasLoadedMore, onLoadMore, onInfiniteLoad }) {
   const listRef = useRef(null);
   const sentinelRef = useRef(null);
@@ -33,11 +51,7 @@ export default function RecentlyPlayed({ tracks, loading, loadingMore, error, ha
   }, [hasLoadedMore, hasMore, loadingMore, onInfiniteLoad]);
 
   if (loading) {
-    return (
-      <div style={{ padding: "16px 1.1em" }}>
-        <Spinner label="Loading recently played…" />
-      </div>
-    );
+    return <RecentlyPlayedSkeleton />;
   }
 
   if (error) {
