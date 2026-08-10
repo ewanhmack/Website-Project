@@ -32,8 +32,8 @@ function HighlightCard({ imageSource, imageAlt, title, description, chips, href 
 export default function Highlights() {
   const highlightItems = [
     {
-      imageSource: resolveMediaSrc("photography/HighresScreenshot00007.png"),
-      imageAlt: "Photography Game — desert biome at dusk",
+      imageSource: resolveMediaSrc("photography/HighresScreenshot00005.png"),
+      imageAlt: "Photography Game — grassy mountain valley",
       title: "Photography Game (UE5)",
       description: "First-person photography with save-to-disk screenshots.",
       chips: ["UE5", "Blueprints", "Gameplay"],

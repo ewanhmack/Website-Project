@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { firstImage, getMediaArray, resolveMediaSrc } from "../../utils/projects";
 import { slugify, mediaTypeFromSrc, youtubeIdFrom, derivePosterFromVideoSrc } from "../../utils/projectsExtras";
 
 export default function ProjectCard({ project, featured = false }) {
   const slug = slugify(project.header);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgError, setImgError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   let preview = firstImage(project);
 
@@ -35,12 +38,35 @@ export default function ProjectCard({ project, featured = false }) {
       >
         <div className="project-media">
           {preview ? (
-            <img
-              src={resolveMediaSrc(preview)}
-              alt={project.header}
-              loading="lazy"
-              decoding="async"
-            />
+            <>
+              {!imgLoaded && !imgError ? (
+                <span className="project-media-loading" aria-hidden="true">
+                  <span className="spinner" style={{ width: 22, height: 22 }} />
+                </span>
+              ) : null}
+              {imgError ? (
+                <div className="no-image" aria-hidden>
+                  Couldn't load image
+                </div>
+              ) : (
+                <img
+                  key={retryCount}
+                  src={resolveMediaSrc(preview)}
+                  alt={project.header}
+                  loading="lazy"
+                  decoding="async"
+                  className={imgLoaded ? "is-loaded" : ""}
+                  onLoad={() => setImgLoaded(true)}
+                  onError={() => {
+                    if (retryCount < 1) {
+                      setRetryCount((n) => n + 1);
+                    } else {
+                      setImgError(true);
+                    }
+                  }}
+                />
+              )}
+            </>
           ) : (
             <div className="no-image" aria-hidden>
               No image

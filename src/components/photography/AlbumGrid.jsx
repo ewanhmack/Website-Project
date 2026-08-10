@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { getPhotoUrl, formatShutterSpeed } from "../../utils/photos";
-import Spinner from "../Spinner";
+import PhotoGridSkeleton from "./PhotoGridSkeleton";
 
 const BREAKPOINTS = [
   { minWidth: 1800, columns: 5 },
@@ -91,9 +91,11 @@ function formatExposureLine(metadata) {
 
 function AlbumTile({ photo, id, isLoaded, isFirst, markLoaded, onSelectPhoto }) {
   const exposureLine = formatExposureLine(photo.metadata);
+  const [hasError, setHasError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   return (
-    <figure className={`album-item ${isLoaded ? "is-loaded" : ""}`}>
+    <figure className={`album-item ${isLoaded ? "is-loaded" : ""} ${hasError ? "has-error" : ""}`}>
       <button
         type="button"
         className="album-item-button"
@@ -102,16 +104,34 @@ function AlbumTile({ photo, id, isLoaded, isFirst, markLoaded, onSelectPhoto }) 
         }}
         aria-label={`Open ${photo.header || "photo"}`}
       >
-        <img
-          src={getPhotoUrl(photo)}
-          alt={photo.header || "Photo"}
-          loading={isFirst ? "eager" : "lazy"}
-          fetchPriority={isFirst ? "high" : "auto"}
-          decoding="async"
-          onLoad={() => {
-            markLoaded(id);
-          }}
-        />
+        {!isLoaded && !hasError ? (
+          <span className="album-item-loading" aria-hidden="true">
+            <span className="spinner" style={{ width: 22, height: 22 }} />
+          </span>
+        ) : null}
+        {hasError ? (
+          <span className="album-item-error" aria-hidden="true">Couldn't load photo</span>
+        ) : (
+          <img
+            key={retryCount}
+            src={getPhotoUrl(photo)}
+            alt={photo.header || "Photo"}
+            loading={isFirst ? "eager" : "lazy"}
+            fetchPriority={isFirst ? "high" : "auto"}
+            decoding="async"
+            onLoad={() => {
+              markLoaded(id);
+            }}
+            onError={() => {
+              if (retryCount < 1) {
+                setRetryCount((n) => n + 1);
+              } else {
+                setHasError(true);
+                markLoaded(id);
+              }
+            }}
+          />
+        )}
         <span className="album-item-overlay" aria-hidden="true">
           {photo.category ? (
             <span className="album-item-badge">{photo.category}</span>
@@ -191,7 +211,7 @@ export default function AlbumGrid({ pages, loadedMap, markLoaded, onSelectPhoto 
     return (
       <div className="album-grid stylised full-bleed" aria-label="Album (all photos)">
         <div className="album-grid-loading">
-          <Spinner label="Loading photos…" />
+          <PhotoGridSkeleton />
         </div>
       </div>
     );

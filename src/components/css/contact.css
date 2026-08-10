@@ -71,7 +71,7 @@
   display: grid;
   gap: clamp(14px, 2vw, 20px);
   grid-template-columns: 1fr;
-  align-items: start;
+  align-items: stretch;
 }
 
 @media (min-width: 760px) {
