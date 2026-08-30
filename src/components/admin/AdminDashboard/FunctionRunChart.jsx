@@ -41,7 +41,11 @@ export default function FunctionRunChart({ data }) {
             color: "var(--text)",
           }}
         />
-        <Bar dataKey="count" fill={CHART_COLORS.functions} radius={[4, 4, 0, 0]} />
+        <Bar
+          dataKey="count"
+          fill={CHART_COLORS.functions}
+          radius={[4, 4, 0, 0]}
+        />
       </BarChart>
     </ResponsiveContainer>
   );

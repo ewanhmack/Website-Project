@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { collection, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useProjects } from "../../../utils/useProjects.js";
 import ProjectForm from "../ProjectForm/ProjectForm";
@@ -76,7 +82,10 @@ export default function AdminProjects() {
   const handleAdd = async (data) => {
     setSaving(true);
     try {
-      await addDoc(collection(db, "projects"), { ...data, order: projects.length });
+      await addDoc(collection(db, "projects"), {
+        ...data,
+        order: projects.length,
+      });
       setMode(null);
     } catch (err) {
       console.error(err);
@@ -116,7 +125,11 @@ export default function AdminProjects() {
   }
 
   if (error) {
-    return <div className="error-banner" role="alert">{error}</div>;
+    return (
+      <div className="error-banner" role="alert">
+        {error}
+      </div>
+    );
   }
 
   return (
@@ -124,7 +137,12 @@ export default function AdminProjects() {
       <div className="ap-page-header">
         <h1>Manage Projects</h1>
         <div className="ap-page-actions">
-          <button onClick={() => { setMode("add"); setEditTarget(null); }}>
+          <button
+            onClick={() => {
+              setMode("add");
+              setEditTarget(null);
+            }}
+          >
             + Add Project
           </button>
         </div>
@@ -147,7 +165,10 @@ export default function AdminProjects() {
           <ProjectForm
             initial={editTarget}
             onSave={handleEdit}
-            onCancel={() => { setMode(null); setEditTarget(null); }}
+            onCancel={() => {
+              setMode(null);
+              setEditTarget(null);
+            }}
             saving={saving}
           />
         </div>
@@ -160,7 +181,10 @@ export default function AdminProjects() {
             project={project}
             isEditing={mode === "edit" && editTarget?.id === project.id}
             isConfirmingDelete={deleteConfirm?.id === project.id}
-            onEdit={() => { setEditTarget(project); setMode("edit"); }}
+            onEdit={() => {
+              setEditTarget(project);
+              setMode("edit");
+            }}
             onRequestDelete={() => setDeleteConfirm(project)}
             onCancelDelete={() => setDeleteConfirm(null)}
             onConfirmDelete={() => handleDelete(project)}

@@ -22,7 +22,7 @@ export default function ProjectForm({ initial, onSave, onCancel, saving }) {
           links: [],
           media: [],
           featured: false,
-        }
+        },
   );
   const [formError, setFormError] = useState("");
 
@@ -40,7 +40,10 @@ export default function ProjectForm({ initial, onSave, onCancel, saving }) {
       header: form.header.trim(),
       description: form.description.trim(),
       longDescription: form.longDescription.trim(),
-      tech: form.tech.split(",").map((t) => t.trim()).filter(Boolean),
+      tech: form.tech
+        .split(",")
+        .map((t) => t.trim())
+        .filter(Boolean),
       links: form.links,
       media: form.media,
       featured: form.featured,
@@ -50,7 +53,9 @@ export default function ProjectForm({ initial, onSave, onCancel, saving }) {
   return (
     <div className="ap-form">
       {formError ? (
-        <div className="error-banner" role="alert">{formError}</div>
+        <div className="error-banner" role="alert">
+          {formError}
+        </div>
       ) : null}
 
       <div className="ap-field">
@@ -99,8 +104,8 @@ export default function ProjectForm({ initial, onSave, onCancel, saving }) {
             type="checkbox"
             checked={form.featured}
             onChange={(e) => set("featured", e.target.checked)}
-          />
-          {" "}Featured (shown in the highlighted section above the main grid)
+          />{" "}
+          Featured (shown in the highlighted section above the main grid)
         </label>
       </div>
 

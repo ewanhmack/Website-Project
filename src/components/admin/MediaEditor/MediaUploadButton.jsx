@@ -1,9 +1,18 @@
 import React, { useState, useRef } from "react";
-import { ref, uploadBytes, getDownloadURL, getMetadata } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  getMetadata,
+} from "firebase/storage";
 import { storage } from "../../../firebase";
 import { slugify } from "../../../utils/admin/slugify";
 
-export default function MediaUploadButton({ projectHeader, onUploaded, disabled }) {
+export default function MediaUploadButton({
+  projectHeader,
+  onUploaded,
+  disabled,
+}) {
   const inputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
 
@@ -43,7 +52,9 @@ export default function MediaUploadButton({ projectHeader, onUploaded, disabled 
         className="ap-upload-btn"
         onClick={() => inputRef.current?.click()}
         disabled={disabled || uploading || !projectHeader.trim()}
-        title={!projectHeader.trim() ? "Enter a project title first" : "Upload file"}
+        title={
+          !projectHeader.trim() ? "Enter a project title first" : "Upload file"
+        }
       >
         {uploading ? "Uploading…" : "↑ Upload"}
       </button>

@@ -14,7 +14,7 @@ export default function MediaEditor({ media, onChange, projectHeader = "" }) {
   const [pasting, setPasting] = useState(false);
 
   const update = (index, key, value) => {
-    onChange(media.map((m, i) => i === index ? { ...m, [key]: value } : m));
+    onChange(media.map((m, i) => (i === index ? { ...m, [key]: value } : m)));
   };
 
   const add = () => {
@@ -90,11 +90,15 @@ export default function MediaEditor({ media, onChange, projectHeader = "" }) {
           <span>Media</span>
           {projectHeader.trim() ? (
             <span className="ap-paste-hint">
-              {pasting ? "Uploading pasted image…" : "Ctrl+V to paste from clipboard"}
+              {pasting
+                ? "Uploading pasted image…"
+                : "Ctrl+V to paste from clipboard"}
             </span>
           ) : null}
         </div>
-        <button type="button" className="ap-add-btn" onClick={add}>+ Add Media</button>
+        <button type="button" className="ap-add-btn" onClick={add}>
+          + Add Media
+        </button>
       </div>
 
       {media.length === 0 ? (

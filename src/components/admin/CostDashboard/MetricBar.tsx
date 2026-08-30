@@ -1,5 +1,11 @@
 import React from "react";
-import { CHART_COLORS, FREE_TIER, calculateCost, formatCount, formatCost } from "../../../utils/admin/costHelper";
+import {
+  CHART_COLORS,
+  FREE_TIER,
+  calculateCost,
+  formatCount,
+  formatCost,
+} from "../../../utils/admin/costHelper";
 
 interface MetricBarProps {
   label: string;

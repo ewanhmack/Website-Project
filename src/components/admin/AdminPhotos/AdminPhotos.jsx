@@ -1,5 +1,12 @@
 import React, { useState, useCallback, useEffect, useMemo } from "react";
-import { collection, getDocs, deleteDoc, doc, updateDoc, deleteField } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc,
+  deleteField,
+} from "firebase/firestore";
 import { ref, uploadBytes, deleteObject, getMetadata } from "firebase/storage";
 import { db, storage } from "../../../firebase";
 import exifr from "exifr";
@@ -34,10 +41,14 @@ function convertToWebP(file) {
           }
           const webpName = file.name.replace(/\.[^.]+$/, ".webp");
           const webpFile = new File([blob], webpName, { type: "image/webp" });
-          resolve({ file: webpFile, width: img.naturalWidth, height: img.naturalHeight });
+          resolve({
+            file: webpFile,
+            width: img.naturalWidth,
+            height: img.naturalHeight,
+          });
         },
         "image/webp",
-        0.92
+        0.92,
       );
     };
 
@@ -53,13 +64,13 @@ function convertToWebP(file) {
 const SORT_OPTIONS = [
   { value: "newest", label: "Newest → Oldest" },
   { value: "oldest", label: "Oldest → Newest" },
-  { value: "az",     label: "A → Z" },
-  { value: "za",     label: "Z → A" },
+  { value: "az", label: "A → Z" },
+  { value: "za", label: "Z → A" },
 ];
 
 function applySortAndSearch(photos, sort, search) {
   const filtered = photos.filter((p) =>
-    p.image.toLowerCase().includes(search.toLowerCase())
+    p.image.toLowerCase().includes(search.toLowerCase()),
   );
 
   const sorted = [...filtered];
@@ -153,11 +164,21 @@ function PhotoTitleEditor({ photo, onSave, onAccept, onReject }) {
 
       {!photo.header && photo.suggestedTitle ? (
         <div className="aph-title-suggestion">
-          <span className="aph-title-suggestion-text">Suggested: {photo.suggestedTitle}</span>
-          <button type="button" className="aph-title-accept" onClick={() => onAccept(photo)}>
+          <span className="aph-title-suggestion-text">
+            Suggested: {photo.suggestedTitle}
+          </span>
+          <button
+            type="button"
+            className="aph-title-accept"
+            onClick={() => onAccept(photo)}
+          >
             Accept
           </button>
-          <button type="button" className="aph-title-reject" onClick={() => onReject(photo)}>
+          <button
+            type="button"
+            className="aph-title-reject"
+            onClick={() => onReject(photo)}
+          >
             Reject
           </button>
         </div>
@@ -208,7 +229,9 @@ const PhotoCard = React.memo(function PhotoCard({
         {isConfirmingDelete ? (
           <div className="aph-delete-confirm">
             <button onClick={() => onConfirmDelete(photo)}>Confirm</button>
-            <button className="ghost" onClick={onCancelDelete}>Cancel</button>
+            <button className="ghost" onClick={onCancelDelete}>
+              Cancel
+            </button>
           </div>
         ) : (
           <button
@@ -244,12 +267,12 @@ export default function AdminPhotos() {
         categoriesSnapshot.docs.map(async (categoryDoc) => {
           const category = categoryDoc.id;
           const photosSnapshot = await getDocs(
-            collection(db, "photography", category, "photos")
+            collection(db, "photography", category, "photos"),
           );
           result[category] = photosSnapshot.docs
             .map((d) => ({ id: d.id, categoryId: category, ...d.data() }))
             .sort((a, b) => a.order - b.order);
-        })
+        }),
       );
 
       setPhotos(result);
@@ -261,13 +284,13 @@ export default function AdminPhotos() {
     }
   }, [activeCategory]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchPhotos();
   }, []);
 
   const updateItem = (name, patch) => {
     setUploadItems((prev) =>
-      prev.map((item) => item.name === name ? { ...item, ...patch } : item)
+      prev.map((item) => (item.name === name ? { ...item, ...patch } : item)),
     );
   };
 
@@ -284,9 +307,19 @@ export default function AdminPhotos() {
       try {
         const [{ file: webpFile, width, height }, exif] = await Promise.all([
           convertToWebP(file),
-          exifr.parse(file, {
-            pick: ["ExposureTime", "FNumber", "ISO", "DateTimeOriginal", "LensModel", "ImageWidth", "ImageHeight"],
-          }).catch(() => ({})),
+          exifr
+            .parse(file, {
+              pick: [
+                "ExposureTime",
+                "FNumber",
+                "ISO",
+                "DateTimeOriginal",
+                "LensModel",
+                "ImageWidth",
+                "ImageHeight",
+              ],
+            })
+            .catch(() => ({})),
         ]);
 
         updateItem(file.name, { status: "uploading" });
@@ -304,7 +337,9 @@ export default function AdminPhotos() {
         const customMetadata = {};
 
         if (exif?.ExposureTime !== undefined) {
-          customMetadata.shutterSpeed = String(parseFloat(Number(exif.ExposureTime).toFixed(10)));
+          customMetadata.shutterSpeed = String(
+            parseFloat(Number(exif.ExposureTime).toFixed(10)),
+          );
         }
         if (exif?.FNumber !== undefined) {
           customMetadata.aperture = `f/${parseFloat(Number(exif.FNumber).toFixed(10))}`;
@@ -313,7 +348,9 @@ export default function AdminPhotos() {
           customMetadata.iso = String(exif.ISO);
         }
         if (exif?.DateTimeOriginal !== undefined) {
-          customMetadata.createdDateTime = new Date(exif.DateTimeOriginal).toISOString();
+          customMetadata.createdDateTime = new Date(
+            exif.DateTimeOriginal,
+          ).toISOString();
         }
         if (exif?.LensModel !== undefined) {
           customMetadata.lensModel = String(exif.LensModel);
@@ -341,109 +378,140 @@ export default function AdminPhotos() {
     }, 5000);
   };
 
-  const handleDelete = useCallback(async (photo) => {
-    try {
-      const storagePath = photo.storagePath || `images/photos/${photo.image}`;
-      const storageRef = ref(storage, storagePath);
-      await deleteObject(storageRef);
-      await deleteDoc(doc(db, "photography", photo.categoryId, "photos", photo.id));
-      setDeleteConfirm(null);
-      fetchPhotos();
-    } catch (err) {
-      console.error(err);
-    }
-  }, [fetchPhotos]);
+  const handleDelete = useCallback(
+    async (photo) => {
+      try {
+        const storagePath = photo.storagePath || `images/photos/${photo.image}`;
+        const storageRef = ref(storage, storagePath);
+        await deleteObject(storageRef);
+        await deleteDoc(
+          doc(db, "photography", photo.categoryId, "photos", photo.id),
+        );
+        setDeleteConfirm(null);
+        fetchPhotos();
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    [fetchPhotos],
+  );
 
   const requestDelete = useCallback((photoId) => setDeleteConfirm(photoId), []);
   const cancelDelete = useCallback(() => setDeleteConfirm(null), []);
 
-  const toggleTag = useCallback(async (photo, tag) => {
-    const current = photo.tags || [];
-    const nextTags = current.includes(tag)
-      ? current.filter((t) => t !== tag)
-      : [...current, tag];
+  const toggleTag = useCallback(
+    async (photo, tag) => {
+      const current = photo.tags || [];
+      const nextTags = current.includes(tag)
+        ? current.filter((t) => t !== tag)
+        : [...current, tag];
 
-    setPhotos((prev) => ({
-      ...prev,
-      [photo.categoryId]: prev[photo.categoryId].map((p) =>
-        p.id === photo.id ? { ...p, tags: nextTags } : p
-      ),
-    }));
+      setPhotos((prev) => ({
+        ...prev,
+        [photo.categoryId]: prev[photo.categoryId].map((p) =>
+          p.id === photo.id ? { ...p, tags: nextTags } : p,
+        ),
+      }));
 
-    try {
-      await updateDoc(doc(db, "photography", photo.categoryId, "photos", photo.id), {
-        tags: nextTags,
-      });
-    } catch (err) {
-      console.error(err);
-      fetchPhotos();
-    }
-  }, [fetchPhotos]);
+      try {
+        await updateDoc(
+          doc(db, "photography", photo.categoryId, "photos", photo.id),
+          {
+            tags: nextTags,
+          },
+        );
+      } catch (err) {
+        console.error(err);
+        fetchPhotos();
+      }
+    },
+    [fetchPhotos],
+  );
 
-  const saveTitle = useCallback(async (photo, title) => {
-    setPhotos((prev) => ({
-      ...prev,
-      [photo.categoryId]: prev[photo.categoryId].map((p) =>
-        p.id === photo.id ? { ...p, header: title } : p
-      ),
-    }));
+  const saveTitle = useCallback(
+    async (photo, title) => {
+      setPhotos((prev) => ({
+        ...prev,
+        [photo.categoryId]: prev[photo.categoryId].map((p) =>
+          p.id === photo.id ? { ...p, header: title } : p,
+        ),
+      }));
 
-    try {
-      await updateDoc(doc(db, "photography", photo.categoryId, "photos", photo.id), {
-        header: title,
-      });
-    } catch (err) {
-      console.error(err);
-      fetchPhotos();
-    }
-  }, [fetchPhotos]);
+      try {
+        await updateDoc(
+          doc(db, "photography", photo.categoryId, "photos", photo.id),
+          {
+            header: title,
+          },
+        );
+      } catch (err) {
+        console.error(err);
+        fetchPhotos();
+      }
+    },
+    [fetchPhotos],
+  );
 
-  const acceptSuggestedTitle = useCallback(async (photo) => {
-    const title = photo.suggestedTitle;
+  const acceptSuggestedTitle = useCallback(
+    async (photo) => {
+      const title = photo.suggestedTitle;
 
-    setPhotos((prev) => ({
-      ...prev,
-      [photo.categoryId]: prev[photo.categoryId].map((p) =>
-        p.id === photo.id ? { ...p, header: title, suggestedTitle: undefined } : p
-      ),
-    }));
+      setPhotos((prev) => ({
+        ...prev,
+        [photo.categoryId]: prev[photo.categoryId].map((p) =>
+          p.id === photo.id
+            ? { ...p, header: title, suggestedTitle: undefined }
+            : p,
+        ),
+      }));
 
-    try {
-      await updateDoc(doc(db, "photography", photo.categoryId, "photos", photo.id), {
-        header: title,
-        suggestedTitle: deleteField(),
-      });
-    } catch (err) {
-      console.error(err);
-      fetchPhotos();
-    }
-  }, [fetchPhotos]);
+      try {
+        await updateDoc(
+          doc(db, "photography", photo.categoryId, "photos", photo.id),
+          {
+            header: title,
+            suggestedTitle: deleteField(),
+          },
+        );
+      } catch (err) {
+        console.error(err);
+        fetchPhotos();
+      }
+    },
+    [fetchPhotos],
+  );
 
-  const rejectSuggestedTitle = useCallback(async (photo) => {
-    setPhotos((prev) => ({
-      ...prev,
-      [photo.categoryId]: prev[photo.categoryId].map((p) =>
-        p.id === photo.id ? { ...p, suggestedTitle: undefined } : p
-      ),
-    }));
+  const rejectSuggestedTitle = useCallback(
+    async (photo) => {
+      setPhotos((prev) => ({
+        ...prev,
+        [photo.categoryId]: prev[photo.categoryId].map((p) =>
+          p.id === photo.id ? { ...p, suggestedTitle: undefined } : p,
+        ),
+      }));
 
-    try {
-      await updateDoc(doc(db, "photography", photo.categoryId, "photos", photo.id), {
-        suggestedTitle: deleteField(),
-      });
-    } catch (err) {
-      console.error(err);
-      fetchPhotos();
-    }
-  }, [fetchPhotos]);
+      try {
+        await updateDoc(
+          doc(db, "photography", photo.categoryId, "photos", photo.id),
+          {
+            suggestedTitle: deleteField(),
+          },
+        );
+      } catch (err) {
+        console.error(err);
+        fetchPhotos();
+      }
+    },
+    [fetchPhotos],
+  );
 
   const categories = Object.keys(photos);
 
   const activePhotos = useMemo(() => {
     return applySortAndSearch(
-      activeCategory ? (photos[activeCategory] || []) : [],
+      activeCategory ? photos[activeCategory] || [] : [],
       sort,
-      search
+      search,
     ).filter((p) => !untaggedOnly || !(p.tags && p.tags.length > 0));
   }, [photos, activeCategory, sort, search, untaggedOnly]);
 
@@ -453,7 +521,7 @@ export default function AdminPhotos() {
 
   const visiblePhotos = useMemo(
     () => activePhotos.slice(0, visibleCount),
-    [activePhotos, visibleCount]
+    [activePhotos, visibleCount],
   );
 
   const hasMore = visibleCount < activePhotos.length;
@@ -462,7 +530,9 @@ export default function AdminPhotos() {
     setVisibleCount((n) => n + PAGE_SIZE);
   }, []);
 
-  const sentinelRef = useIntersectionObserver(loadMore, { rootMargin: "400px" });
+  const sentinelRef = useIntersectionObserver(loadMore, {
+    rootMargin: "400px",
+  });
 
   return (
     <div className="aph-page">
@@ -484,10 +554,15 @@ export default function AdminPhotos() {
               <button
                 key={cat}
                 className={`aph-tab ${cat === activeCategory ? "aph-tab--active" : ""}`}
-                onClick={() => { setActiveCategory(cat); setSearch(""); }}
+                onClick={() => {
+                  setActiveCategory(cat);
+                  setSearch("");
+                }}
               >
                 {cat}
-                <span className="aph-tab-count">{photos[cat]?.length ?? 0}</span>
+                <span className="aph-tab-count">
+                  {photos[cat]?.length ?? 0}
+                </span>
               </button>
             ))}
           </div>
@@ -520,7 +595,9 @@ export default function AdminPhotos() {
                 onChange={(e) => setSort(e.target.value)}
               >
                 {SORT_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
                 ))}
               </select>
             </div>
@@ -537,7 +614,9 @@ export default function AdminPhotos() {
 
           {activePhotos.length === 0 ? (
             <div className="muted aph-loading">
-              {search ? "No photos match your search." : "No photos in this category yet."}
+              {search
+                ? "No photos match your search."
+                : "No photos in this category yet."}
             </div>
           ) : null}
 

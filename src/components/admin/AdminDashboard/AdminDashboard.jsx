@@ -1,7 +1,20 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { collection, getDocs, doc, getDoc, query, orderBy, limit } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  query,
+  orderBy,
+  limit,
+} from "firebase/firestore";
 import { db } from "../../../firebase";
-import { CHART_COLORS, timeAgo, bucketByDay, bucketFunctionHistory } from "../../../utils/admin/dashboardHelper";
+import {
+  CHART_COLORS,
+  timeAgo,
+  bucketByDay,
+  bucketFunctionHistory,
+} from "../../../utils/admin/dashboardHelper";
 import MiniChart from "./MiniChart";
 import FunctionRunChart from "./FunctionRunChart";
 import "../../css/AdminDashboard.css";
@@ -42,15 +55,41 @@ export default function AdminDashboard() {
         getDocs(collection(db, "projects")),
         getDocs(collection(db, "photography", "Portraits", "photos")),
         getDocs(collection(db, "photography", "Landscapes", "photos")),
-        getDocs(query(collection(db, "music", "recently-played", "tracks"), orderBy("played_at", "desc"))),
-        getDoc(doc(db, "_meta", "functionStatus", "functions", "fetchRecentlyPlayed")),
-        getDoc(doc(db, "_meta", "functionStatus", "functions", "onPhotoUploaded")),
-        getDoc(doc(db, "_meta", "functionStatus", "functions", "onPhotoDeleted")),
-        getDocs(query(
-          collection(db, "_meta", "functionStatus", "functions", "fetchRecentlyPlayed", "history"),
-          orderBy("timestamp", "desc"),
-          limit(200)
-        )),
+        getDocs(
+          query(
+            collection(db, "music", "recently-played", "tracks"),
+            orderBy("played_at", "desc"),
+          ),
+        ),
+        getDoc(
+          doc(
+            db,
+            "_meta",
+            "functionStatus",
+            "functions",
+            "fetchRecentlyPlayed",
+          ),
+        ),
+        getDoc(
+          doc(db, "_meta", "functionStatus", "functions", "onPhotoUploaded"),
+        ),
+        getDoc(
+          doc(db, "_meta", "functionStatus", "functions", "onPhotoDeleted"),
+        ),
+        getDocs(
+          query(
+            collection(
+              db,
+              "_meta",
+              "functionStatus",
+              "functions",
+              "fetchRecentlyPlayed",
+              "history",
+            ),
+            orderBy("timestamp", "desc"),
+            limit(200),
+          ),
+        ),
       ]);
 
       setCounts({
@@ -61,9 +100,15 @@ export default function AdminDashboard() {
       });
 
       setFunctions({
-        fetchRecentlyPlayed: fetchRecentlyPlayedSnap.exists() ? fetchRecentlyPlayedSnap.data() : null,
-        onPhotoUploaded: onPhotoUploadedSnap.exists() ? onPhotoUploadedSnap.data() : null,
-        onPhotoDeleted: onPhotoDeletedSnap.exists() ? onPhotoDeletedSnap.data() : null,
+        fetchRecentlyPlayed: fetchRecentlyPlayedSnap.exists()
+          ? fetchRecentlyPlayedSnap.data()
+          : null,
+        onPhotoUploaded: onPhotoUploadedSnap.exists()
+          ? onPhotoUploadedSnap.data()
+          : null,
+        onPhotoDeleted: onPhotoDeletedSnap.exists()
+          ? onPhotoDeletedSnap.data()
+          : null,
       });
 
       const allTracks = tracksSnap.docs.map((d) => d.data());
@@ -71,7 +116,9 @@ export default function AdminDashboard() {
 
       const allPortraits = portraitsSnap.docs.map((d) => d.data());
       const allLandscapes = landscapesSnap.docs.map((d) => d.data());
-      setPhotosChart(bucketByDay([...allPortraits, ...allLandscapes], "uploadedAt"));
+      setPhotosChart(
+        bucketByDay([...allPortraits, ...allLandscapes], "uploadedAt"),
+      );
 
       const fnHistory = fnHistorySnap.docs.map((d) => d.data());
       setFunctionsChart(bucketFunctionHistory(fnHistory));
@@ -92,9 +139,15 @@ export default function AdminDashboard() {
         <h2>System Health</h2>
         <div className="ad-header-right">
           {lastRefresh ? (
-            <span className="ad-refresh-time">Updated {timeAgo(lastRefresh.toISOString())}</span>
+            <span className="ad-refresh-time">
+              Updated {timeAgo(lastRefresh.toISOString())}
+            </span>
           ) : null}
-          <button className="ad-refresh-btn" onClick={fetchData} disabled={loading}>
+          <button
+            className="ad-refresh-btn"
+            onClick={fetchData}
+            disabled={loading}
+          >
             {loading ? "Refreshing…" : "↻ Refresh"}
           </button>
         </div>
@@ -129,14 +182,18 @@ export default function AdminDashboard() {
 
         <div className="ad-chart-card">
           <div className="ad-chart-header">
-            <span className="ad-chart-title">Photos uploaded — last 30 days</span>
+            <span className="ad-chart-title">
+              Photos uploaded — last 30 days
+            </span>
           </div>
           <MiniChart data={photosChart} color={CHART_COLORS.photos} />
         </div>
 
         <div className="ad-chart-card">
           <div className="ad-chart-header">
-            <span className="ad-chart-title">Spotify sync runs — last 14 days</span>
+            <span className="ad-chart-title">
+              Spotify sync runs — last 14 days
+            </span>
           </div>
           <FunctionRunChart data={functionsChart} />
         </div>
