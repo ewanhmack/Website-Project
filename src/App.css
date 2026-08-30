@@ -28,6 +28,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -83,6 +84,7 @@
     opacity: 0;
     transform: translateY(6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -94,6 +96,7 @@
     opacity: 0;
     transform: translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -156,6 +159,7 @@ main,
     opacity: 0;
     transform: scale(0.995);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -170,6 +174,7 @@ main,
     opacity: 0;
     transform: translateY(6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -186,6 +191,7 @@ main,
     transform: translateY(8px);
     filter: blur(2px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -193,24 +199,24 @@ main,
   }
 }
 
-.home .hero-text > * {
+.home .hero-text>* {
   opacity: 0;
   animation: hero-in 0.42s ease forwards;
 }
 
-.home .hero-text > *:nth-child(1) {
+.home .hero-text>*:nth-child(1) {
   animation-delay: 40ms;
 }
 
-.home .hero-text > *:nth-child(2) {
+.home .hero-text>*:nth-child(2) {
   animation-delay: 90ms;
 }
 
-.home .hero-text > *:nth-child(3) {
+.home .hero-text>*:nth-child(3) {
   animation-delay: 140ms;
 }
 
-.home .hero-text > *:nth-child(4) {
+.home .hero-text>*:nth-child(4) {
   animation-delay: 190ms;
 }
 
@@ -219,6 +225,7 @@ main,
     opacity: 0;
     transform: translateY(10px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -253,12 +260,13 @@ main,
    Reduced motion
    ========================================================= */
 @media (prefers-reduced-motion: reduce) {
+
   main,
   .App,
   .card,
   .thumb img,
   .home,
-  .home .hero-text > *,
+  .home .hero-text>*,
   .home .hero-card {
     animation: none !important;
     transition: none !important;
