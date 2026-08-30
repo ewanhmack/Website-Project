@@ -12,7 +12,8 @@ export default function Contact() {
       <header className="contact-hero">
         <h2>Contact</h2>
         <p className="muted">
-          Prefer email, but I’m also on LinkedIn and Instagram. I’ll get back to you as soon as I can.
+          Prefer email, but I’m also on LinkedIn and Instagram. I’ll get back to
+          you as soon as I can.
         </p>
       </header>
 

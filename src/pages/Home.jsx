@@ -14,7 +14,11 @@ export default function Home() {
 
       <AboutSection />
 
-      <section id="selected-work" className="section section-alt" aria-label="Selected work">
+      <section
+        id="selected-work"
+        className="section section-alt"
+        aria-label="Selected work"
+      >
         <div className="container">
           <header className="section-head">
             <div className="section-eyebrow">Highlights</div>

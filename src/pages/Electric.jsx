@@ -1,5 +1,5 @@
-import React from 'react';
-import ElectricNetworkCanvas from '../components/ElectricNetwork/ElectricNetworkCanvas';
+import React from "react";
+import ElectricNetworkCanvas from "../components/ElectricNetwork/ElectricNetworkCanvas";
 
 export default function Electric() {
   return (

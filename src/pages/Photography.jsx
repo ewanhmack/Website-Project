@@ -4,6 +4,7 @@ import React, {
   useState,
   useRef,
   useCallback,
+  Fragment,
 } from "react";
 import { createPortal } from "react-dom";
 import { collection, getDocs } from "firebase/firestore";
@@ -104,7 +105,9 @@ function PhotoModal({ photo, onClose }) {
         }
       }}
     >
-      <div className={`photo-modal ${mode === "edit" ? "photo-modal--editor" : ""}`}>
+      <div
+        className={`photo-modal ${mode === "edit" ? "photo-modal--editor" : ""}`}
+      >
         <button
           type="button"
           className="photo-modal-close"
@@ -122,19 +125,23 @@ function PhotoModal({ photo, onClose }) {
             <div className="photo-modal-meta">
               <div className="photo-modal-title-row">
                 <div className="photo-modal-title">{title}</div>
-                {category ? <div className="photo-modal-category">{category}</div> : null}
+                {category ? (
+                  <div className="photo-modal-category">{category}</div>
+                ) : null}
               </div>
               {details.length > 0 ? (
                 <dl className="photo-modal-details">
                   {details.map(([label, value]) => (
-                    <React.Fragment key={label}>
+                    <Fragment key={label}>
                       <dt>{label}</dt>
                       <dd>{String(value)}</dd>
-                    </React.Fragment>
+                    </Fragment>
                   ))}
                 </dl>
               ) : (
-                <div className="photo-modal-empty muted">No metadata available for this photo.</div>
+                <div className="photo-modal-empty muted">
+                  No metadata available for this photo.
+                </div>
               )}
               <button
                 type="button"
@@ -150,7 +157,7 @@ function PhotoModal({ photo, onClose }) {
         )}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }
 
@@ -228,9 +235,11 @@ export default function Photography() {
 
         const photosByCategory = await Promise.all(
           cats.map(async (category) => {
-            const snap = await getDocs(collection(db, "photography", category, "photos"));
+            const snap = await getDocs(
+              collection(db, "photography", category, "photos"),
+            );
             return snap.docs.map((d) => ({ ...d.data(), id: d.id, category }));
-          })
+          }),
         );
 
         if (!alive) {
@@ -298,13 +307,17 @@ export default function Photography() {
     return pages.slice(0, visiblePages);
   }, [sortedPhotos, visiblePages]);
 
-  const gridHasMore = sortedPhotos ? visiblePages * GRID_PAGE_SIZE < sortedPhotos.length : false;
+  const gridHasMore = sortedPhotos
+    ? visiblePages * GRID_PAGE_SIZE < sortedPhotos.length
+    : false;
 
   const loadMoreGrid = useCallback(() => {
     setVisiblePages((n) => n + 1);
   }, []);
 
-  const gridSentinelRef = useIntersectionObserver(loadMoreGrid, { rootMargin: "200px" });
+  const gridSentinelRef = useIntersectionObserver(loadMoreGrid, {
+    rootMargin: "200px",
+  });
 
   const [loadedMap, setLoadedMap] = useState({});
 
@@ -322,7 +335,9 @@ export default function Photography() {
       return [];
     }
     const present = new Set();
-    allPhotos.forEach((photo) => (photo.tags || []).forEach((tag) => present.add(tag)));
+    allPhotos.forEach((photo) =>
+      (photo.tags || []).forEach((tag) => present.add(tag)),
+    );
     return PHOTO_TAGS.filter((tag) => present.has(tag));
   }, [allPhotos]);
 
@@ -337,7 +352,9 @@ export default function Photography() {
         present.add(group);
       }
     });
-    return Array.from(present).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+    return Array.from(present).sort(
+      (a, b) => parseInt(a, 10) - parseInt(b, 10),
+    );
   }, [allPhotos]);
 
   const filteredGridPages = useMemo(() => {
@@ -349,11 +366,14 @@ export default function Photography() {
         if (activeTag && !(photo.tags || []).includes(activeTag)) {
           return false;
         }
-        if (activeLens && focalLengthGroup(photo.metadata?.lensModel) !== activeLens) {
+        if (
+          activeLens &&
+          focalLengthGroup(photo.metadata?.lensModel) !== activeLens
+        ) {
           return false;
         }
         return true;
-      })
+      }),
     );
   }, [gridPages, activeCategory, activeTag, activeLens]);
 
@@ -409,8 +429,18 @@ export default function Photography() {
               active={activeCategory === "all" ? null : activeCategory}
               onSelect={(value) => setActiveCategory(value ?? "all")}
             />
-            <FilterGroup label="Tags" options={availableTags} active={activeTag} onSelect={setActiveTag} />
-            <FilterGroup label="Lens" options={availableLenses} active={activeLens} onSelect={setActiveLens} />
+            <FilterGroup
+              label="Tags"
+              options={availableTags}
+              active={activeTag}
+              onSelect={setActiveTag}
+            />
+            <FilterGroup
+              label="Lens"
+              options={availableLenses}
+              active={activeLens}
+              onSelect={setActiveLens}
+            />
           </aside>
         </div>
       ) : null}

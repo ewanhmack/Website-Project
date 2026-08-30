@@ -1,5 +1,5 @@
-import React from 'react';
-import ExplainThisUI from '../components/explain-this-ui/ExplainThisUI';
+import React from "react";
+import ExplainThisUI from "../components/explain-this-ui/ExplainThisUI";
 
 export default function ExplainThisUIPage() {
   return (

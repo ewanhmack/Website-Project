@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { collection, getDocs, orderBy, query, limit, startAfter } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  limit,
+  startAfter,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import RecentlyPlayed from "../components/Music/RecentlyPlayed";
 import MusicStats from "../components/Music/MusicStats";
@@ -29,12 +36,12 @@ export default function Music() {
             collection(db, "music", "recently-played", "tracks"),
             orderBy("played_at", "desc"),
             startAfter(cursor.current),
-            limit(PAGE_SIZE)
+            limit(PAGE_SIZE),
           )
         : query(
             collection(db, "music", "recently-played", "tracks"),
             orderBy("played_at", "desc"),
-            limit(PAGE_SIZE)
+            limit(PAGE_SIZE),
           );
 
       const snapshot = await getDocs(q);
@@ -42,7 +49,7 @@ export default function Music() {
 
       cursor.current = snapshot.docs[snapshot.docs.length - 1] ?? null;
       setHasMore(snapshot.docs.length === PAGE_SIZE);
-      setTracks((prev) => isLoadMore ? [...prev, ...newTracks] : newTracks);
+      setTracks((prev) => (isLoadMore ? [...prev, ...newTracks] : newTracks));
     } catch (err) {
       setError("Couldn't load recently played tracks.");
     } finally {

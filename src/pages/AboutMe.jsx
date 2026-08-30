@@ -12,7 +12,15 @@ const STATS = [
   { value: "React", label: "UI + tooling" },
 ];
 
-const TOOLKIT = ["UE5", "C++", "Blueprints", "React", "TypeScript", "SFML", "Python"];
+const TOOLKIT = [
+  "UE5",
+  "C++",
+  "Blueprints",
+  "React",
+  "TypeScript",
+  "SFML",
+  "Python",
+];
 
 const HOBBIES = [
   {
@@ -62,9 +70,9 @@ export default function AboutMe() {
               <div className="aboutme-eyebrow">About me</div>
               <h1 className="aboutme-title">Hi, I&rsquo;m Ewan</h1>
               <p className="aboutme-sub">
-                I&rsquo;m a Computer Games Development student at LJMU. I enjoy building
-                gameplay systems in Unreal Engine 5, front-end tooling in React,
-                and projects that blend creativity with engineering.
+                I&rsquo;m a Computer Games Development student at LJMU. I enjoy
+                building gameplay systems in Unreal Engine 5, front-end tooling
+                in React, and projects that blend creativity with engineering.
               </p>
 
               <div className="aboutme-chips">

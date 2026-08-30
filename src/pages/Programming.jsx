@@ -24,7 +24,7 @@ export default function Programming() {
     return projects.filter((p) =>
       [p.header, p.description, p.longDescription]
         .filter(Boolean)
-        .some((txt) => String(txt).toLowerCase().includes(queryLower))
+        .some((txt) => String(txt).toLowerCase().includes(queryLower)),
     );
   }, [projects, q]);
 
@@ -43,17 +43,17 @@ export default function Programming() {
     return [...base].sort(
       (a, b) =>
         PROJECT_DOMAINS.indexOf(deriveProjectDomain(a)) -
-        PROJECT_DOMAINS.indexOf(deriveProjectDomain(b))
+        PROJECT_DOMAINS.indexOf(deriveProjectDomain(b)),
     );
   }, [searched, activeDomain]);
 
   const featuredProjects = useMemo(
     () => filtered.filter((p) => p.featured),
-    [filtered]
+    [filtered],
   );
   const restProjects = useMemo(
     () => filtered.filter((p) => !p.featured),
-    [filtered]
+    [filtered],
   );
 
   const setParam = (key, val) => {
@@ -71,7 +71,10 @@ export default function Programming() {
       <header className="projects-hero container">
         <div className="hero-text">
           <h1>Projects</h1>
-          <p>Selected builds, experiments, and coursework. Click any card to view a dedicated project page with full media and write-up.</p>
+          <p>
+            Selected builds, experiments, and coursework. Click any card to view
+            a dedicated project page with full media and write-up.
+          </p>
         </div>
         <div className="hero-actions">
           <div className="input-group">
@@ -83,14 +86,24 @@ export default function Programming() {
               aria-label="Search projects"
             />
             {q ? (
-              <button className="ghost" onClick={() => setParam("q", "")} aria-label="Clear search">×</button>
+              <button
+                className="ghost"
+                onClick={() => setParam("q", "")}
+                aria-label="Clear search"
+              >
+                ×
+              </button>
             ) : null}
           </div>
         </div>
       </header>
 
       {!loading && !error ? (
-        <div className="container domain-filters" role="group" aria-label="Filter by domain">
+        <div
+          className="container domain-filters"
+          role="group"
+          aria-label="Filter by domain"
+        >
           <button
             type="button"
             className={`period-btn ${activeDomain === "all" ? "active" : ""}`}
@@ -125,7 +138,12 @@ export default function Programming() {
           {filtered.length === 0 ? (
             <div className="empty-state">
               <p>No projects match your search.</p>
-              <button className="ghost" onClick={() => setSearchParams({}, { replace: true })}>Reset filters</button>
+              <button
+                className="ghost"
+                onClick={() => setSearchParams({}, { replace: true })}
+              >
+                Reset filters
+              </button>
             </div>
           ) : (
             <>
@@ -151,7 +169,9 @@ export default function Programming() {
       ) : null}
 
       <footer className="projects-footer container">
-        <Link to="/" className="ghost">← Back home</Link>
+        <Link to="/" className="ghost">
+          ← Back home
+        </Link>
       </footer>
     </main>
   );
