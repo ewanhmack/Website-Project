@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { firstImage, getMediaArray, resolveMediaSrc } from "../../utils/projects";
-import { slugify, mediaTypeFromSrc, youtubeIdFrom, derivePosterFromVideoSrc } from "../../utils/projectsExtras";
+import {
+  firstImage,
+  getMediaArray,
+  resolveMediaSrc,
+} from "../../utils/projects";
+import {
+  slugify,
+  mediaTypeFromSrc,
+  youtubeIdFrom,
+  derivePosterFromVideoSrc,
+} from "../../utils/projectsExtras";
 
 export default function ProjectCard({ project, featured = false }) {
   const slug = slugify(project.header);
@@ -24,13 +33,19 @@ export default function ProjectCard({ project, featured = false }) {
       }
 
       if (!preview && mediaType === "video") {
-        preview = firstMedia.poster || firstMedia.thumbnail || derivePosterFromVideoSrc(firstMedia.src);
+        preview =
+          firstMedia.poster ||
+          firstMedia.thumbnail ||
+          derivePosterFromVideoSrc(firstMedia.src);
       }
     }
   }
 
   return (
-    <li className={`project-card ${featured ? "featured" : ""}`} role="listitem">
+    <li
+      className={`project-card ${featured ? "featured" : ""}`}
+      role="listitem"
+    >
       <Link
         to={`/projects/${slug}`}
         className="card-link"

@@ -1,6 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import '../css/ExplainThisUI.css';
-import { CATEGORIES, PERSPECTIVES, SEVERITIES, STORAGE_KEY } from './constants';
+import React, {
+  ChangeEvent,
+  SyntheticEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  MouseEvent,
+  WheelEvent,
+  DragEvent,
+  CSSProperties,
+} from "react";
+import { CATEGORIES, PERSPECTIVES, SEVERITIES, STORAGE_KEY } from "./constants";
 import type {
   CategoryId,
   ExportModel,
@@ -8,16 +19,19 @@ import type {
   PerspectiveId,
   PinModel,
   SeverityId,
-} from './types';
+} from "./types";
 import {
   buildExportModel,
   clampNumber,
   createId,
   isValidExportModel,
   safeParseJson,
-} from './helpers';
-import { ColorPicker, useColor } from 'react-colour-palette';
-import 'react-colour-palette/dist/index.css';
+} from "./helpers";
+import { ColorPicker, useColor } from "react-colour-palette";
+// @ts-expect-error - CSS side-effect imports are handled by the bundler
+import "react-colour-palette/css";
+// @ts-expect-error - CSS side-effect imports are handled by the bundler
+import "../css/ExplainThisUI.css";
 
 type PanModel = { x: number; y: number };
 
@@ -38,16 +52,16 @@ type PinColourPickerProps = {
 };
 
 function PinColourPicker({ colour, onChange }: PinColourPickerProps) {
-  const [currentColour, setCurrentColour] = useColor('hex', colour);
+  const [currentColour, setCurrentColour] = useColor("hex", colour);
 
   const handleChange = useCallback(
     (next: any) => {
       setCurrentColour(next);
-      if (typeof next?.hex === 'string') {
+      if (typeof next?.hex === "string") {
         onChange(next.hex);
       }
     },
-    [onChange, setCurrentColour]
+    [onChange, setCurrentColour],
   );
 
   return (
@@ -63,49 +77,52 @@ function PinColourPicker({ colour, onChange }: PinColourPickerProps) {
   );
 }
 
-
 function defaultPinColourForCategory(category: CategoryId) {
-  if (category === 'ux') {
-    return '#4ea8ff';
+  if (category === "ux") {
+    return "#4ea8ff";
   }
-  if (category === 'visual') {
-    return '#b983ff';
+  if (category === "visual") {
+    return "#b983ff";
   }
-  if (category === 'logic') {
-    return '#33d17a';
+  if (category === "logic") {
+    return "#33d17a";
   }
-  return '#ff6b6b';
+  return "#ff6b6b";
 }
 
 function normalisePins(pins: any[]): PinModel[] {
   return pins
-    .filter((pin) => pin && typeof pin === 'object' && typeof pin.id === 'string')
+    .filter(
+      (pin) => pin && typeof pin === "object" && typeof pin.id === "string",
+    )
     .map((pin) => {
-      const categoryValue = (typeof pin.category === 'string'
-        ? pin.category
-        : 'ux') as CategoryId;
-      const perspectiveValue = (typeof pin.perspective === 'string'
-        ? pin.perspective
-        : 'user') as PerspectiveId;
-      const severityValue = (typeof pin.severity === 'string'
-        ? pin.severity
-        : 'medium') as SeverityId;
+      const categoryValue = (
+        typeof pin.category === "string" ? pin.category : "ux"
+      ) as CategoryId;
+      const perspectiveValue = (
+        typeof pin.perspective === "string" ? pin.perspective : "user"
+      ) as PerspectiveId;
+      const severityValue = (
+        typeof pin.severity === "string" ? pin.severity : "medium"
+      ) as SeverityId;
 
       return {
         id: String(pin.id),
-        x: typeof pin.x === 'number' ? pin.x : 0,
-        y: typeof pin.y === 'number' ? pin.y : 0,
-        title: typeof pin.title === 'string' ? pin.title : '',
-        note: typeof pin.note === 'string' ? pin.note : '',
+        x: typeof pin.x === "number" ? pin.x : 0,
+        y: typeof pin.y === "number" ? pin.y : 0,
+        title: typeof pin.title === "string" ? pin.title : "",
+        note: typeof pin.note === "string" ? pin.note : "",
         category: categoryValue,
         perspective: perspectiveValue,
         severity: severityValue,
         colour:
-          typeof pin.colour === 'string'
+          typeof pin.colour === "string"
             ? pin.colour
             : defaultPinColourForCategory(categoryValue),
         createdAt:
-          typeof pin.createdAt === 'string' ? pin.createdAt : new Date().toISOString(),
+          typeof pin.createdAt === "string"
+            ? pin.createdAt
+            : new Date().toISOString(),
       };
     });
 }
@@ -129,8 +146,9 @@ function ExplainThisUI() {
   const [panStart, setPanStart] = useState<PanModel>({ x: 0, y: 0 });
   const [spaceHeld, setSpaceHeld] = useState(false);
 
-  const [activePerspective, setActivePerspective] = useState<PerspectiveId>('user');
-  const [activeCategory, setActiveCategory] = useState<CategoryId>('ux');
+  const [activePerspective, setActivePerspective] =
+    useState<PerspectiveId>("user");
+  const [activeCategory, setActiveCategory] = useState<CategoryId>("ux");
 
   const [selectedPinId, setSelectedPinId] = useState<string | null>(null);
   const [pins, setPins] = useState<PinModel[]>([]);
@@ -154,39 +172,39 @@ function ExplainThisUI() {
     }
 
     const parsed = safeParseJson(savedText) as PersistedModel | null;
-    if (!parsed || typeof parsed !== 'object') {
+    if (!parsed || typeof parsed !== "object") {
       return;
     }
 
-    if (typeof parsed.imageUrl === 'string') {
+    if (typeof parsed.imageUrl === "string") {
       setImageUrl(parsed.imageUrl);
     }
     if (
       parsed.imageNaturalSize &&
-      typeof parsed.imageNaturalSize.width === 'number' &&
-      typeof parsed.imageNaturalSize.height === 'number'
+      typeof parsed.imageNaturalSize.width === "number" &&
+      typeof parsed.imageNaturalSize.height === "number"
     ) {
       setImageNaturalSize(parsed.imageNaturalSize);
     }
     if (Array.isArray(parsed.pins)) {
       setPins(normalisePins(parsed.pins));
     }
-    if (typeof parsed.selectedPinId === 'string') {
+    if (typeof parsed.selectedPinId === "string") {
       setSelectedPinId(parsed.selectedPinId);
     }
-    if (typeof parsed.activeCategory === 'string') {
+    if (typeof parsed.activeCategory === "string") {
       setActiveCategory(parsed.activeCategory as CategoryId);
     }
-    if (typeof parsed.activePerspective === 'string') {
+    if (typeof parsed.activePerspective === "string") {
       setActivePerspective(parsed.activePerspective as PerspectiveId);
     }
-    if (typeof parsed.zoom === 'number') {
+    if (typeof parsed.zoom === "number") {
       setZoom(parsed.zoom);
     }
     if (
       parsed.pan &&
-      typeof parsed.pan.x === 'number' &&
-      typeof parsed.pan.y === 'number'
+      typeof parsed.pan.x === "number" &&
+      typeof parsed.pan.y === "number"
     ) {
       setPan(parsed.pan);
     }
@@ -219,13 +237,13 @@ function ExplainThisUI() {
   const exportJson = useCallback(() => {
     const exportModel = buildExportModel(pins, imageNaturalSize);
     const blob = new Blob([JSON.stringify(exportModel, null, 2)], {
-      type: 'application/json',
+      type: "application/json",
     });
     const url = URL.createObjectURL(blob);
 
-    const anchor = document.createElement('a');
+    const anchor = document.createElement("a");
     anchor.href = url;
-    anchor.download = 'explain-this-ui.json';
+    anchor.download = "explain-this-ui.json";
     anchor.click();
 
     URL.revokeObjectURL(url);
@@ -233,39 +251,41 @@ function ExplainThisUI() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.code === 'Space') {
+      if (event.code === "Space") {
         setSpaceHeld(true);
       }
-      if (event.code === 'Delete' || event.code === 'Backspace') {
+      if (event.code === "Delete" || event.code === "Backspace") {
         if (selectedPinId) {
-          setPins((previousPins) => previousPins.filter((pin) => pin.id !== selectedPinId));
+          setPins((previousPins) =>
+            previousPins.filter((pin) => pin.id !== selectedPinId),
+          );
           setSelectedPinId(null);
         }
       }
-      if ((event.ctrlKey || event.metaKey) && event.code === 'KeyE') {
+      if ((event.ctrlKey || event.metaKey) && event.code === "KeyE") {
         event.preventDefault();
         exportJson();
       }
     };
 
     const onKeyUp = (event: KeyboardEvent) => {
-      if (event.code === 'Space') {
+      if (event.code === "Space") {
         setSpaceHeld(false);
       }
     };
 
-    window.addEventListener('keydown', onKeyDown);
-    window.addEventListener('keyup', onKeyUp);
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keyup", onKeyUp);
 
     return () => {
-      window.removeEventListener('keydown', onKeyDown);
-      window.removeEventListener('keyup', onKeyUp);
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("keyup", onKeyUp);
     };
   }, [exportJson, selectedPinId]);
 
   useEffect(() => {
     return () => {
-      if (imageUrl && imageUrl.startsWith('blob:')) {
+      if (imageUrl && imageUrl.startsWith("blob:")) {
         URL.revokeObjectURL(imageUrl);
       }
     };
@@ -276,7 +296,7 @@ function ExplainThisUI() {
   }, []);
 
   const resetSession = useCallback(() => {
-    if (imageUrl && imageUrl.startsWith('blob:')) {
+    if (imageUrl && imageUrl.startsWith("blob:")) {
       URL.revokeObjectURL(imageUrl);
     }
     setImageUrl(null);
@@ -289,11 +309,11 @@ function ExplainThisUI() {
 
   const onFileSelected = useCallback(
     (file: File) => {
-      if (!file.type.startsWith('image/')) {
+      if (!file.type.startsWith("image/")) {
         return;
       }
 
-      if (imageUrl && imageUrl.startsWith('blob:')) {
+      if (imageUrl && imageUrl.startsWith("blob:")) {
         URL.revokeObjectURL(imageUrl);
       }
 
@@ -304,23 +324,26 @@ function ExplainThisUI() {
       setZoom(1);
       setPan({ x: 0, y: 0 });
     },
-    [imageUrl]
+    [imageUrl],
   );
 
   const onFileChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files?.[0];
       if (!file) {
         return;
       }
       onFileSelected(file);
     },
-    [onFileSelected]
+    [onFileSelected],
   );
 
-  const onImageLoad = useCallback((event: React.SyntheticEvent<HTMLImageElement>) => {
+  const onImageLoad = useCallback((event: SyntheticEvent<HTMLImageElement>) => {
     const element = event.currentTarget;
-    setImageNaturalSize({ width: element.naturalWidth, height: element.naturalHeight });
+    setImageNaturalSize({
+      width: element.naturalWidth,
+      height: element.naturalHeight,
+    });
   }, []);
 
   const viewPointToImagePoint = useCallback(
@@ -346,11 +369,11 @@ function ExplainThisUI() {
 
       return { x: clampedX, y: clampedY };
     },
-    [imageNaturalSize.height, imageNaturalSize.width, pan.x, pan.y, zoom]
+    [imageNaturalSize.height, imageNaturalSize.width, pan.x, pan.y, zoom],
   );
 
   const onCanvasClick = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
+    (event: MouseEvent<HTMLDivElement>) => {
       if (!imageUrl) {
         return;
       }
@@ -371,11 +394,11 @@ function ExplainThisUI() {
         id: pinId,
         x: imagePoint.x,
         y: imagePoint.y,
-        title: '',
-        note: '',
+        title: "",
+        note: "",
         category: activeCategory,
         perspective: activePerspective,
-        severity: 'medium',
+        severity: "medium",
         colour: defaultPinColourForCategory(activeCategory),
         createdAt: new Date().toISOString(),
       };
@@ -383,14 +406,24 @@ function ExplainThisUI() {
       setPins((previousPins) => [nextPin, ...previousPins]);
       setSelectedPinId(pinId);
     },
-    [activeCategory, activePerspective, draggingPinId, imageUrl, isPanning, viewPointToImagePoint]
+    [
+      activeCategory,
+      activePerspective,
+      draggingPinId,
+      imageUrl,
+      isPanning,
+      viewPointToImagePoint,
+    ],
   );
 
   const updateSelectedPin = useCallback(
     (
       patch: Partial<
-        Pick<PinModel, 'title' | 'note' | 'category' | 'perspective' | 'severity' | 'colour'>
-      >
+        Pick<
+          PinModel,
+          "title" | "note" | "category" | "perspective" | "severity" | "colour"
+        >
+      >,
     ) => {
       if (!selectedPinId) {
         return;
@@ -405,14 +438,16 @@ function ExplainThisUI() {
         });
       });
     },
-    [selectedPinId]
+    [selectedPinId],
   );
 
   const deleteSelectedPin = useCallback(() => {
     if (!selectedPinId) {
       return;
     }
-    setPins((previousPins) => previousPins.filter((pin) => pin.id !== selectedPinId));
+    setPins((previousPins) =>
+      previousPins.filter((pin) => pin.id !== selectedPinId),
+    );
     setSelectedPinId(null);
   }, [selectedPinId]);
 
@@ -422,7 +457,7 @@ function ExplainThisUI() {
   }, []);
 
   const onWheel = useCallback(
-    (event: React.WheelEvent<HTMLDivElement>) => {
+    (event: WheelEvent<HTMLDivElement>) => {
       if (!imageUrl) {
         return;
       }
@@ -449,7 +484,7 @@ function ExplainThisUI() {
       setZoom(nextZoom);
       setPan({ x: nextPanX, y: nextPanY });
     },
-    [imageUrl, pan.x, pan.y, zoom]
+    [imageUrl, pan.x, pan.y, zoom],
   );
 
   const startPan = useCallback(
@@ -458,11 +493,11 @@ function ExplainThisUI() {
       setPanPointerStart({ x: clientX, y: clientY });
       setPanStart(pan);
     },
-    [pan]
+    [pan],
   );
 
   const onMouseDown = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
+    (event: MouseEvent<HTMLDivElement>) => {
       if (!imageUrl) {
         return;
       }
@@ -477,11 +512,11 @@ function ExplainThisUI() {
       event.preventDefault();
       startPan(event.clientX, event.clientY);
     },
-    [imageUrl, spaceHeld, startPan]
+    [imageUrl, spaceHeld, startPan],
   );
 
   const onMouseMove = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
+    (event: MouseEvent<HTMLDivElement>) => {
       if (draggingPinId) {
         const imagePoint = viewPointToImagePoint(event.clientX, event.clientY);
         if (!imagePoint) {
@@ -527,7 +562,7 @@ function ExplainThisUI() {
       panStart.x,
       panStart.y,
       viewPointToImagePoint,
-    ]
+    ],
   );
 
   const onMouseUp = useCallback(() => {
@@ -536,9 +571,9 @@ function ExplainThisUI() {
   }, []);
 
   const importJson = useCallback(() => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'application/json';
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "application/json";
 
     input.onchange = (event: any) => {
       const file = event.target?.files?.[0] as File | undefined;
@@ -564,23 +599,23 @@ function ExplainThisUI() {
     input.click();
   }, []);
 
-  const onDragEnter = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+  const onDragEnter = useCallback((event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragOver(true);
   }, []);
 
-  const onDragOver = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+  const onDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragOver(true);
   }, []);
 
-  const onDragLeave = useCallback((event: React.DragEvent<HTMLDivElement>) => {
+  const onDragLeave = useCallback((event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragOver(false);
   }, []);
 
   const onDrop = useCallback(
-    (event: React.DragEvent<HTMLDivElement>) => {
+    (event: DragEvent<HTMLDivElement>) => {
       event.preventDefault();
       setIsDragOver(false);
 
@@ -590,11 +625,11 @@ function ExplainThisUI() {
       }
       onFileSelected(file);
     },
-    [onFileSelected]
+    [onFileSelected],
   );
 
   const onPinMouseDown = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>, pinId: string) => {
+    (event: MouseEvent<HTMLButtonElement>, pinId: string) => {
       if (event.button !== 0) {
         return;
       }
@@ -615,7 +650,7 @@ function ExplainThisUI() {
       setDraggingPinId(pinId);
       setDragPinOffset({ x: imagePoint.x - pin.x, y: imagePoint.y - pin.y });
     },
-    [pins, viewPointToImagePoint]
+    [pins, viewPointToImagePoint],
   );
 
   return (
@@ -623,21 +658,40 @@ function ExplainThisUI() {
       <header className="explain-ui-header">
         <div className="explain-ui-title">
           <h1>Explain This UI</h1>
-          <p>Upload a screenshot, place pins, and write critiques from different perspectives.</p>
+          <p>
+            Upload a screenshot, place pins, and write critiques from different
+            perspectives.
+          </p>
         </div>
 
         <div className="explain-ui-actions">
-          <input ref={fileInputRef} type="file" accept="image/*" onChange={onFileChange} hidden />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            onChange={onFileChange}
+            hidden
+          />
 
           <button className="btn" type="button" onClick={openFilePicker}>
             Upload Screenshot
           </button>
 
-          <button className="btn" type="button" onClick={resetView} disabled={!imageUrl}>
+          <button
+            className="btn"
+            type="button"
+            onClick={resetView}
+            disabled={!imageUrl}
+          >
             Reset View
           </button>
 
-          <button className="btn" type="button" onClick={exportJson} disabled={pins.length === 0}>
+          <button
+            className="btn"
+            type="button"
+            onClick={exportJson}
+            disabled={pins.length === 0}
+          >
             Export JSON
           </button>
 
@@ -663,7 +717,7 @@ function ExplainThisUI() {
                     return (
                       <button
                         key={item.id}
-                        className={`segmented-btn ${isActive ? 'active' : ''}`}
+                        className={`segmented-btn ${isActive ? "active" : ""}`}
                         type="button"
                         onClick={() => setActivePerspective(item.id)}
                       >
@@ -682,7 +736,7 @@ function ExplainThisUI() {
                     return (
                       <button
                         key={item.id}
-                        className={`segmented-btn ${isActive ? 'active' : ''}`}
+                        className={`segmented-btn ${isActive ? "active" : ""}`}
                         type="button"
                         onClick={() => setActiveCategory(item.id)}
                       >
@@ -707,7 +761,7 @@ function ExplainThisUI() {
           </div>
 
           <div
-            className={`canvas ${isDragOver ? 'drag-over' : ''}`}
+            className={`canvas ${isDragOver ? "drag-over" : ""}`}
             ref={containerRef}
             onClick={onCanvasClick}
             onWheel={onWheel}
@@ -725,7 +779,9 @@ function ExplainThisUI() {
             {!imageUrl ? (
               <div className="canvas-empty">
                 <div className="canvas-empty-inner">
-                  <div className="canvas-empty-title">Drop a screenshot to start</div>
+                  <div className="canvas-empty-title">
+                    Drop a screenshot to start
+                  </div>
                   <div className="canvas-empty-subtitle">
                     Drag and drop an image here, or use “Upload Screenshot”.
                   </div>
@@ -736,7 +792,7 @@ function ExplainThisUI() {
                 className="canvas-stage"
                 style={{
                   transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
-                  transformOrigin: '0 0',
+                  transformOrigin: "0 0",
                 }}
               >
                 <img
@@ -756,13 +812,13 @@ function ExplainThisUI() {
                     <button
                       key={pin.id}
                       type="button"
-                      className={`pin ${isSelected ? 'selected' : ''}`}
+                      className={`pin ${isSelected ? "selected" : ""}`}
                       style={
                         {
                           left: pin.x,
                           top: pin.y,
-                          ['--pin-colour' as any]: pin.colour,
-                        } as React.CSSProperties
+                          ["--pin-colour" as any]: pin.colour,
+                        } as CSSProperties
                       }
                       onMouseDown={(event) => onPinMouseDown(event, pin.id)}
                       onClick={(event) => {
@@ -795,7 +851,9 @@ function ExplainThisUI() {
             </div>
 
             {!selectedPin ? (
-              <div className="panel-empty">Select a pin to edit, or click the image to create one.</div>
+              <div className="panel-empty">
+                Select a pin to edit, or click the image to create one.
+              </div>
             ) : (
               <div className="form">
                 <label className="field">
@@ -803,7 +861,9 @@ function ExplainThisUI() {
                   <input
                     className="input"
                     value={selectedPin.title}
-                    onChange={(event) => updateSelectedPin({ title: event.target.value })}
+                    onChange={(event) =>
+                      updateSelectedPin({ title: event.target.value })
+                    }
                     placeholder="e.g. Primary CTA lacks emphasis"
                   />
                 </label>
@@ -814,7 +874,9 @@ function ExplainThisUI() {
                     className="textarea"
                     rows={8}
                     value={selectedPin.note}
-                    onChange={(event) => updateSelectedPin({ note: event.target.value })}
+                    onChange={(event) =>
+                      updateSelectedPin({ note: event.target.value })
+                    }
                     placeholder="Explain the issue, why it matters, and what you’d change."
                   />
                 </label>
@@ -824,7 +886,9 @@ function ExplainThisUI() {
                   <div className="pin-colour-picker">
                     <PinColourPicker
                       colour={selectedPin.colour}
-                      onChange={(nextColour) => updateSelectedPin({ colour: nextColour })}
+                      onChange={(nextColour) =>
+                        updateSelectedPin({ colour: nextColour })
+                      }
                     />
                   </div>
                 </label>
@@ -835,7 +899,9 @@ function ExplainThisUI() {
                     className="select"
                     value={selectedPin.perspective}
                     onChange={(event) =>
-                      updateSelectedPin({ perspective: event.target.value as PerspectiveId })
+                      updateSelectedPin({
+                        perspective: event.target.value as PerspectiveId,
+                      })
                     }
                   >
                     {PERSPECTIVES.map((item) => (
@@ -852,7 +918,9 @@ function ExplainThisUI() {
                     className="select"
                     value={selectedPin.category}
                     onChange={(event) =>
-                      updateSelectedPin({ category: event.target.value as CategoryId })
+                      updateSelectedPin({
+                        category: event.target.value as CategoryId,
+                      })
                     }
                   >
                     {CATEGORIES.map((item) => (
@@ -869,7 +937,9 @@ function ExplainThisUI() {
                     className="select"
                     value={selectedPin.severity}
                     onChange={(event) =>
-                      updateSelectedPin({ severity: event.target.value as SeverityId })
+                      updateSelectedPin({
+                        severity: event.target.value as SeverityId,
+                      })
                     }
                   >
                     {SEVERITIES.map((item) => (
@@ -882,13 +952,15 @@ function ExplainThisUI() {
 
                 <div className="meta">
                   <div>
-                    <strong>Position:</strong> {Math.round(selectedPin.x)}, {Math.round(selectedPin.y)}
+                    <strong>Position:</strong> {Math.round(selectedPin.x)},{" "}
+                    {Math.round(selectedPin.y)}
                   </div>
                   <div>
                     <strong>Zoom:</strong> {Math.round(zoom * 100)}%
                   </div>
                   <div>
-                    <strong>Created:</strong> {new Date(selectedPin.createdAt).toLocaleString()}
+                    <strong>Created:</strong>{" "}
+                    {new Date(selectedPin.createdAt).toLocaleString()}
                   </div>
                 </div>
               </div>
@@ -905,10 +977,12 @@ function ExplainThisUI() {
                   <button
                     key={pin.id}
                     type="button"
-                    className={`pin-list-item ${pin.id === selectedPinId ? 'active' : ''}`}
+                    className={`pin-list-item ${pin.id === selectedPinId ? "active" : ""}`}
                     onClick={() => setSelectedPinId(pin.id)}
                   >
-                    <div className="pin-list-title">{pin.title || '(Untitled)'}</div>
+                    <div className="pin-list-title">
+                      {pin.title || "(Untitled)"}
+                    </div>
                     <div className="pin-list-sub">
                       {pin.perspective} • {pin.category} • {pin.severity}
                     </div>

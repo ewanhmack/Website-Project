@@ -1,6 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { firstImage, getMediaArray, resolveMediaSrc } from "../../utils/projects";
+import {
+  firstImage,
+  getMediaArray,
+  resolveMediaSrc,
+} from "../../utils/projects";
 import {
   slugify,
   mediaTypeFromSrc,
@@ -45,7 +49,9 @@ function resolveRelatedPreview(project) {
 
   const mediaArray = getMediaArray(project) || [];
 
-  const firstVideo = mediaArray.find((m) => mediaTypeFromSrc(m?.src || "") === "video");
+  const firstVideo = mediaArray.find(
+    (m) => mediaTypeFromSrc(m?.src || "") === "video",
+  );
   if (firstVideo?.src) {
     const posterSrc = derivePosterFromVideoSrc(firstVideo.src);
     if (posterSrc) {
@@ -53,7 +59,9 @@ function resolveRelatedPreview(project) {
     }
   }
 
-  const firstYoutube = mediaArray.find((m) => mediaTypeFromSrc(m?.src || "") === "youtube");
+  const firstYoutube = mediaArray.find(
+    (m) => mediaTypeFromSrc(m?.src || "") === "youtube",
+  );
   if (firstYoutube?.src) {
     const videoId = youtubeIdFrom(firstYoutube.src);
     if (videoId) {
@@ -146,12 +154,18 @@ export default function ProjectDetail() {
         <header className="detail-header">
           <h1>{project.header}</h1>
 
-          {project.description ? <p className="lead">{project.description}</p> : null}
+          {project.description ? (
+            <p className="lead">{project.description}</p>
+          ) : null}
 
           {project.tech?.length ? (
             <div className="chips">
               {project.tech.map((techItem) => (
-                <span key={techItem} className="chip pill disabled" aria-disabled>
+                <span
+                  key={techItem}
+                  className="chip pill disabled"
+                  aria-disabled
+                >
                   {techItem}
                 </span>
               ))}
@@ -165,7 +179,10 @@ export default function ProjectDetail() {
           <div className="container">
             <div className="media-viewer">
               {media[index].type === "image" ? (
-                <img src={media[index]._resolvedSrc} alt={media[index].caption || project.header} />
+                <img
+                  src={media[index]._resolvedSrc}
+                  alt={media[index].caption || project.header}
+                />
               ) : null}
 
               {media[index].type === "video" ? (
@@ -178,7 +195,12 @@ export default function ProjectDetail() {
                   title={media[index].caption || project.header}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
-                  style={{ width: "100%", aspectRatio: "16 / 9", border: 0, display: "block" }}
+                  style={{
+                    width: "100%",
+                    aspectRatio: "16 / 9",
+                    border: 0,
+                    display: "block",
+                  }}
                 />
               ) : null}
 
@@ -186,7 +208,11 @@ export default function ProjectDetail() {
                 <div className="viewer-arrows">
                   <button
                     className="circle"
-                    onClick={() => { if (canPrev) { setIndex((i) => Math.max(0, i - 1)); } }}
+                    onClick={() => {
+                      if (canPrev) {
+                        setIndex((i) => Math.max(0, i - 1));
+                      }
+                    }}
                     disabled={!canPrev}
                     aria-label="Previous media"
                   >
@@ -194,7 +220,11 @@ export default function ProjectDetail() {
                   </button>
                   <button
                     className="circle"
-                    onClick={() => { if (canNext) { setIndex((i) => Math.min(media.length - 1, i + 1)); } }}
+                    onClick={() => {
+                      if (canNext) {
+                        setIndex((i) => Math.min(media.length - 1, i + 1));
+                      }
+                    }}
                     disabled={!canNext}
                     aria-label="Next media"
                   >
@@ -210,7 +240,9 @@ export default function ProjectDetail() {
                   <button
                     key={`${mediaItem.src}-${mediaIndex}`}
                     className={mediaIndex === index ? "thumb active" : "thumb"}
-                    onClick={() => { setIndex(mediaIndex); }}
+                    onClick={() => {
+                      setIndex(mediaIndex);
+                    }}
                     aria-label={`Show ${mediaItem.caption || `media ${mediaIndex + 1}`}`}
                   >
                     <img src={mediaItem._resolvedThumb} alt="" />
@@ -220,10 +252,14 @@ export default function ProjectDetail() {
             ) : null}
 
             {media[index]?.caption ? (
-              <figcaption className="caption">{media[index].caption}</figcaption>
+              <figcaption className="caption">
+                {media[index].caption}
+              </figcaption>
             ) : null}
 
-            {media[index]?.blurb ? <p className="blurb">{media[index].blurb}</p> : null}
+            {media[index]?.blurb ? (
+              <p className="blurb">{media[index].blurb}</p>
+            ) : null}
           </div>
         </section>
       ) : null}

@@ -1,9 +1,17 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  SyntheticEvent,
+} from "react";
 import { useSpotify, SpotifyTrack } from "./useSpotify";
 import Spinner from "../Spinner";
+// @ts-expect-error - CSS side-effect imports are handled by the bundler
 import "../css/landsat.css";
 
-const BASE_URL = "https://science.nasa.gov/specials/your-name-in-landsat/images/";
+const BASE_URL =
+  "https://science.nasa.gov/specials/your-name-in-landsat/images/";
 const MAX_VARIANT = 3;
 const BPM_MULTIPLIER = 2;
 
@@ -11,7 +19,8 @@ function getVariant(char: string, seed: number): number {
   return (seed * 7 + char.charCodeAt(0) * 13) % (MAX_VARIANT + 1);
 }
 
-const TRACK_NOISE = /\s*[-–(].*?(remaster\w*|re-?master\w*|deluxe|edition edition|bonus|live|acoustic|version|mix|edit|single|ep|\d{4}).*?[)-]?\s*$/gi;
+const TRACK_NOISE =
+  /\s*[-–(].*?(remaster\w*|re-?master\w*|deluxe|edition edition|bonus|live|acoustic|version|mix|edit|single|ep|\d{4}).*?[)-]?\s*$/gi;
 
 function cleanTrackName(name: string): string {
   return name.replace(TRACK_NOISE, "").trim();
@@ -33,14 +42,16 @@ interface LetterTileProps {
 }
 
 function LetterTile({ char, seed }: LetterTileProps) {
-  const [status, setStatus] = useState<"loading" | "loaded" | "error">("loading");
+  const [status, setStatus] = useState<"loading" | "loaded" | "error">(
+    "loading",
+  );
   const upper = char.toUpperCase();
   const variant = getVariant(upper, seed);
   const primaryUrl = `${BASE_URL}${upper.toLowerCase()}_${variant}.jpg`;
   const fallbackUrl = `${BASE_URL}${upper.toLowerCase()}_0.jpg`;
 
   const handleError = useCallback(
-    (e: React.SyntheticEvent<HTMLImageElement>) => {
+    (e: SyntheticEvent<HTMLImageElement>) => {
       const img = e.currentTarget;
       if (img.src !== fallbackUrl) {
         img.src = fallbackUrl;
@@ -48,7 +59,7 @@ function LetterTile({ char, seed }: LetterTileProps) {
         setStatus("error");
       }
     },
-    [fallbackUrl]
+    [fallbackUrl],
   );
 
   return (
@@ -73,7 +84,10 @@ function LetterTile({ char, seed }: LetterTileProps) {
 }
 
 function WordDisplay({ word }: { word: string }) {
-  const letters = word.toUpperCase().replace(/[^A-Z]/g, "").split("");
+  const letters = word
+    .toUpperCase()
+    .replace(/[^A-Z]/g, "")
+    .split("");
   return (
     <div className="ll-word-display">
       {letters.map((char, i) => (
@@ -119,17 +133,15 @@ function CandidateList({
     <div className="ll-candidates">
       <p className="ll-candidates-label">Select the right track:</p>
       {candidates.map((c) => (
-        <button
-          key={c.id}
-          className="ll-candidate"
-          onClick={() => onSelect(c)}
-        >
+        <button key={c.id} className="ll-candidate" onClick={() => onSelect(c)}>
           {c.albumArt && (
             <img src={c.albumArt} alt={c.name} className="ll-candidate-art" />
           )}
           <div className="ll-candidate-info">
             <span className="ll-candidate-name">{c.name}</span>
-            <span className="ll-candidate-meta">{c.artist} · {c.album}</span>
+            <span className="ll-candidate-meta">
+              {c.artist} · {c.album}
+            </span>
           </div>
         </button>
       ))}
@@ -138,7 +150,14 @@ function CandidateList({
 }
 
 export default function LandsatLyrics() {
-  const { track, candidates, searching, error: spotifyError, searchTracks, selectTrack } = useSpotify();
+  const {
+    track,
+    candidates,
+    searching,
+    error: spotifyError,
+    searchTracks,
+    selectTrack,
+  } = useSpotify();
 
   const [songQuery, setSongQuery] = useState("");
   const [words, setWords] = useState<string[]>([]);
@@ -256,7 +275,8 @@ export default function LandsatLyrics() {
         setActiveIndex(0);
         setLyricsStatus("");
       } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : "Failed to fetch lyrics.";
+        const message =
+          err instanceof Error ? err.message : "Failed to fetch lyrics.";
         setLyricsStatus(message);
       } finally {
         setLyricsLoading(false);
@@ -340,7 +360,11 @@ export default function LandsatLyrics() {
 
         {statusMessage && (
           <p className="ll-status">
-            {isLoading && !spotifyError ? <Spinner label={statusMessage} /> : statusMessage}
+            {isLoading && !spotifyError ? (
+              <Spinner label={statusMessage} />
+            ) : (
+              statusMessage
+            )}
           </p>
         )}
         {candidates.length > 0 && (
@@ -361,13 +385,24 @@ export default function LandsatLyrics() {
           </div>
 
           <div className="ll-controls">
-            <button className="ll-ctrl-btn" onClick={handleRestart} title="Restart">
+            <button
+              className="ll-ctrl-btn"
+              onClick={handleRestart}
+              title="Restart"
+            >
               ⟪
             </button>
-            <button className="ll-ctrl-btn" onClick={handlePrev} title="Previous">
+            <button
+              className="ll-ctrl-btn"
+              onClick={handlePrev}
+              title="Previous"
+            >
               ‹
             </button>
-            <button className="ll-ctrl-btn ll-play-btn" onClick={handlePlayPause}>
+            <button
+              className="ll-ctrl-btn ll-play-btn"
+              onClick={handlePlayPause}
+            >
               {playing ? "Pause" : "Play"}
             </button>
             <button className="ll-ctrl-btn" onClick={handleNext} title="Next">

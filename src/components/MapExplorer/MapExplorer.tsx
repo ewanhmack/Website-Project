@@ -7,10 +7,12 @@ import {
   useMapEvents,
   useMap,
 } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 import { useOSMGraph } from "./useOSMGraph";
 import { usePathfinder, formatDuration } from "./usePathfinder";
 import { useRoutePlanner, RoutePlannerPanel } from "./RoutePlanner";
+// @ts-expect-error - CSS side-effect imports are handled by the bundler
+import "leaflet/dist/leaflet.css";
+// @ts-expect-error - CSS side-effect imports are handled by the bundler
 import "../css/MapExplorer.css";
 
 const BELFAST_CENTER: [number, number] = [54.5973, -5.9301];
@@ -23,7 +25,11 @@ const START_COLOR = "#60a5fa";
 const END_COLOR = "#f472b6";
 const ROUTE_COLOR = "#a78bfa";
 
-function ClickHandler({ onClick }: { onClick: (latlng: { lat: number; lng: number }) => void }) {
+function ClickHandler({
+  onClick,
+}: {
+  onClick: (latlng: { lat: number; lng: number }) => void;
+}) {
   useMapEvents({
     click(e) {
       onClick(e.latlng);
@@ -46,7 +52,38 @@ function MapInvalidator() {
   return null;
 }
 
-function StatusBar({ loading, error, graph, startNode, endNode, running, tripStats, mode, routeState }) {
+type StatusBarProps = {
+  loading: boolean;
+  error: string | null;
+  graph: unknown | null;
+  startNode: { lat: number; lng: number } | null;
+  endNode: { lat: number; lng: number } | null;
+  running: boolean;
+  tripStats: TripStatsData;
+  mode: string;
+  routeState: {
+    error?: string | null;
+    loading: boolean;
+    start?: { lat: number; lng: number } | null;
+    route?:
+      | Array<[number, number]>
+      | Array<{ lat: number; lng: number }>
+      | { distance: number; ascentFt: number | null; descentFt: number | null }
+      | null;
+  };
+};
+
+function StatusBar({
+  loading,
+  error,
+  graph,
+  startNode,
+  endNode,
+  running,
+  tripStats,
+  mode,
+  routeState,
+}: StatusBarProps) {
   if (loading) {
     return (
       <div className="mxp-status mxp-status--loading">
@@ -71,9 +108,7 @@ function StatusBar({ loading, error, graph, startNode, endNode, running, tripSta
   if (mode === "planner") {
     if (routeState.error) {
       return (
-        <div className="mxp-status mxp-status--error">
-          ⚠ {routeState.error}
-        </div>
+        <div className="mxp-status mxp-status--error">⚠ {routeState.error}</div>
       );
     }
     if (routeState.loading) {
@@ -120,19 +155,36 @@ function StatusBar({ loading, error, graph, startNode, endNode, running, tripSta
   return null;
 }
 
-function TripStats({ tripStats, finalPath }) {
+type TripStatsData = {
+  exact: boolean;
+  distanceMiles: number;
+  durationMins: number;
+  explored?: number;
+} | null;
+
+type TripStatsProps = {
+  tripStats?: TripStatsData;
+  finalPath: Array<[number, number]> | Array<{ lat: number; lng: number }>;
+};
+
+function TripStats({ tripStats, finalPath }: TripStatsProps) {
   const isExact = tripStats?.exact ?? false;
-  const hasData = tripStats !== null;
+  const hasData = tripStats != null;
 
   return (
-    <div className={`mxp-trip-stats ${isExact ? "mxp-trip-stats--exact" : "mxp-trip-stats--live"}`}>
+    <div
+      className={`mxp-trip-stats ${isExact ? "mxp-trip-stats--exact" : "mxp-trip-stats--live"}`}
+    >
       <div className="mxp-trip-stat">
         <span className="mxp-trip-label">
           {isExact ? "Distance" : "Explored Dist."}
         </span>
         <span className="mxp-trip-value">
           {hasData ? (
-            <>{tripStats.distanceMiles.toFixed(1)}<span className="mxp-trip-unit"> mi</span></>
+            <>
+              {tripStats.distanceMiles.toFixed(1)}
+              <span className="mxp-trip-unit"> mi</span>
+            </>
           ) : (
             <span className="mxp-trip-empty">—</span>
           )}
@@ -144,7 +196,11 @@ function TripStats({ tripStats, finalPath }) {
           {isExact ? "Est. Drive Time" : "Explored Time"}
         </span>
         <span className="mxp-trip-value">
-          {hasData ? formatDuration(tripStats.durationMins) : <span className="mxp-trip-empty">—</span>}
+          {hasData ? (
+            formatDuration(tripStats.durationMins)
+          ) : (
+            <span className="mxp-trip-empty">—</span>
+          )}
         </span>
       </div>
       <div className="mxp-trip-divider" />
@@ -154,7 +210,11 @@ function TripStats({ tripStats, finalPath }) {
         </span>
         <span className="mxp-trip-value">
           {hasData ? (
-            isExact ? finalPath.length : tripStats.explored
+            isExact ? (
+              finalPath.length
+            ) : (
+              tripStats.explored
+            )
           ) : (
             <span className="mxp-trip-empty">—</span>
           )}
@@ -167,9 +227,7 @@ function TripStats({ tripStats, finalPath }) {
         </div>
       )}
       {isExact && (
-        <div className="mxp-trip-badge mxp-trip-badge--done">
-          ✓ route found
-        </div>
+        <div className="mxp-trip-badge mxp-trip-badge--done">✓ route found</div>
       )}
     </div>
   );
@@ -246,22 +304,35 @@ export default function MapExplorer() {
         {mode === "pathfinder" && (
           <div className="mxp-legend">
             <span className="mxp-legend-item">
-              <span className="mxp-dot" style={{ background: START_COLOR }} />Start
+              <span className="mxp-dot" style={{ background: START_COLOR }} />
+              Start
             </span>
             <span className="mxp-legend-item">
-              <span className="mxp-dot" style={{ background: END_COLOR }} />End
+              <span className="mxp-dot" style={{ background: END_COLOR }} />
+              End
             </span>
             <span className="mxp-legend-item">
-              <span className="mxp-dot" style={{ background: EXPLORED_COLOR }} />Explored
+              <span
+                className="mxp-dot"
+                style={{ background: EXPLORED_COLOR }}
+              />
+              Explored
             </span>
             <span className="mxp-legend-item">
-              <span className="mxp-dot" style={{ background: FRONTIER_COLOR }} />Frontier
+              <span
+                className="mxp-dot"
+                style={{ background: FRONTIER_COLOR }}
+              />
+              Frontier
             </span>
             <span className="mxp-legend-item">
-              <span className="mxp-dot" style={{ background: PATH_COLOR }} />Path
+              <span className="mxp-dot" style={{ background: PATH_COLOR }} />
+              Path
             </span>
             {(startNode || finalPath.length > 0) && (
-              <button className="mxp-reset-btn" onClick={resetPathfinder}>Reset</button>
+              <button className="mxp-reset-btn" onClick={resetPathfinder}>
+                Reset
+              </button>
             )}
           </div>
         )}
@@ -269,10 +340,12 @@ export default function MapExplorer() {
         {mode === "planner" && (
           <div className="mxp-legend">
             <span className="mxp-legend-item">
-              <span className="mxp-dot" style={{ background: START_COLOR }} />Start
+              <span className="mxp-dot" style={{ background: START_COLOR }} />
+              Start
             </span>
             <span className="mxp-legend-item">
-              <span className="mxp-dot" style={{ background: ROUTE_COLOR }} />Route
+              <span className="mxp-dot" style={{ background: ROUTE_COLOR }} />
+              Route
             </span>
           </div>
         )}
@@ -327,7 +400,12 @@ export default function MapExplorer() {
                   key={`exp-${i}`}
                   center={pt}
                   radius={2}
-                  pathOptions={{ color: EXPLORED_COLOR, fillColor: EXPLORED_COLOR, fillOpacity: 0.5, weight: 0 }}
+                  pathOptions={{
+                    color: EXPLORED_COLOR,
+                    fillColor: EXPLORED_COLOR,
+                    fillOpacity: 0.5,
+                    weight: 0,
+                  }}
                 />
               ))}
               {frontierPoints.map((pt, i) => (
@@ -335,7 +413,12 @@ export default function MapExplorer() {
                   key={`fr-${i}`}
                   center={pt}
                   radius={3}
-                  pathOptions={{ color: FRONTIER_COLOR, fillColor: FRONTIER_COLOR, fillOpacity: 0.8, weight: 0 }}
+                  pathOptions={{
+                    color: FRONTIER_COLOR,
+                    fillColor: FRONTIER_COLOR,
+                    fillOpacity: 0.8,
+                    weight: 0,
+                  }}
                 />
               ))}
               {finalPath.length > 1 && (
@@ -348,14 +431,24 @@ export default function MapExplorer() {
                 <CircleMarker
                   center={[startNode.lat, startNode.lng]}
                   radius={8}
-                  pathOptions={{ color: START_COLOR, fillColor: START_COLOR, fillOpacity: 1, weight: 2 }}
+                  pathOptions={{
+                    color: START_COLOR,
+                    fillColor: START_COLOR,
+                    fillOpacity: 1,
+                    weight: 2,
+                  }}
                 />
               )}
               {endNode && (
                 <CircleMarker
                   center={[endNode.lat, endNode.lng]}
                   radius={8}
-                  pathOptions={{ color: END_COLOR, fillColor: END_COLOR, fillOpacity: 1, weight: 2 }}
+                  pathOptions={{
+                    color: END_COLOR,
+                    fillColor: END_COLOR,
+                    fillOpacity: 1,
+                    weight: 2,
+                  }}
                 />
               )}
             </>
@@ -367,7 +460,12 @@ export default function MapExplorer() {
                 <CircleMarker
                   center={[routeState.start.lat, routeState.start.lng]}
                   radius={8}
-                  pathOptions={{ color: START_COLOR, fillColor: START_COLOR, fillOpacity: 1, weight: 2 }}
+                  pathOptions={{
+                    color: START_COLOR,
+                    fillColor: START_COLOR,
+                    fillOpacity: 1,
+                    weight: 2,
+                  }}
                 />
               )}
               {routeState.path.length > 1 && (

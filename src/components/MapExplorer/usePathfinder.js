@@ -122,7 +122,7 @@ export function usePathfinder(graph) {
 
       return nearest;
     },
-    [graph]
+    [graph],
   );
 
   const handleMapClick = useCallback(
@@ -157,7 +157,7 @@ export function usePathfinder(graph) {
         exploredNodeIdsRef.current = [];
       }
     },
-    [running, startId, endId, findNearestNode, graph]
+    [running, startId, endId, findNearestNode, graph],
   );
 
   function runAStar(sId, eId) {

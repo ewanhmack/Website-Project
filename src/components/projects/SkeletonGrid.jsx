@@ -4,7 +4,11 @@ export default function SkeletonGrid({ count = 6 }) {
   return (
     <section aria-label="Loading projects" className="projects-grid">
       {Array.from({ length: count }).map((_, i) => (
-        <article key={i} className="project-card skeleton-card" aria-hidden="true">
+        <article
+          key={i}
+          className="project-card skeleton-card"
+          aria-hidden="true"
+        >
           <figure className="project-media">
             <div className="skeleton skeleton-media" />
           </figure>

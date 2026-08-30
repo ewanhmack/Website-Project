@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 
-const ORS_API_KEY = import.meta.env.VITE_ORS_API_KEY;
+const ORS_API_KEY = (
+  import.meta as ImportMeta & { env?: { VITE_ORS_API_KEY?: string } }
+).env?.VITE_ORS_API_KEY ?? "";
 const MILES_TO_METERS = 1609.344;
 
 export function metersToMiles(m: number): string {
@@ -13,8 +15,12 @@ function metersToFeet(m: number): number {
 
 function getToleranceColor(actual: number, target: number): string {
   const diff = Math.abs(actual - target) / target;
-  if (diff <= 0.05) { return "#34d399"; }
-  if (diff <= 0.10) { return "#f59e0b"; }
+  if (diff <= 0.05) {
+    return "#34d399";
+  }
+  if (diff <= 0.1) {
+    return "#f59e0b";
+  }
   return "#fc8181";
 }
 
@@ -44,7 +50,9 @@ export function useRoutePlanner() {
   const [routeState, setRouteState] = useState<RouteState>(initialRouteState);
 
   function handlePlannerClick(latlng: { lat: number; lng: number }) {
-    if (routeState.loading) { return; }
+    if (routeState.loading) {
+      return;
+    }
     setRouteState((prev) => ({
       ...prev,
       start: latlng,
@@ -55,137 +63,167 @@ export function useRoutePlanner() {
   }
 
   useEffect(() => {
-  setRouteState((prev) => ({
-    ...prev,
-    route: null,
-    path: [],
-    error: null,
-  }));
-}, [miles, isLoop]);
-
-async function handleFindRoute() {
-  if (!routeState.start) { return; }
-  setRouteState((prev) => ({ ...prev, loading: true, error: null, route: null, path: [] }));
-
-  try {
-    const { lat, lng } = routeState.start;
-    const targetMeters = miles * MILES_TO_METERS;
-    const toleranceMeters = 0.5 * MILES_TO_METERS;
-    const maxAttempts = 8;
-
-    let geojson = null;
-
-    if (isLoop) {
-      let orsLength = targetMeters / 2;
-
-      for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        const res = await fetch(
-          "https://api.openrouteservice.org/v2/directions/foot-walking/geojson",
-          {
-            method: "POST",
-            headers: {
-              Authorization: ORS_API_KEY,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              coordinates: [[lng, lat]],
-              options: { round_trip: { length: orsLength, points: 3, seed: attempt + 1 } },
-              elevation: true,
-            }),
-          }
-        );
-
-        const candidate = await res.json();
-
-        if (candidate.error) {
-          throw new Error(candidate.error.message || "Route error");
-        }
-
-        const returnedMeters = candidate.features[0].properties.summary.distance;
-
-        if (Math.abs(returnedMeters - targetMeters) <= toleranceMeters) {
-          geojson = candidate;
-          break;
-        }
-
-        const ratio = targetMeters / returnedMeters;
-        const diff = Math.abs(returnedMeters - targetMeters) / targetMeters;
-        const blend = diff > 0.2 ? 0.25 : 0.75;
-        const smoothedRatio = blend + (ratio * (1 - blend));
-        orsLength = orsLength * smoothedRatio;
-
-        if (attempt === maxAttempts - 1) {
-          geojson = candidate;
-        }
-      }
-    } else {
-      let attemptLength = targetMeters;
-
-      for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        const angle = Math.random() * 2 * Math.PI;
-        const latOffset = (attemptLength / 111320) * Math.cos(angle);
-        const lngOffset =
-          (attemptLength / (111320 * Math.cos((lat * Math.PI) / 180))) * Math.sin(angle);
-        const endLat = lat + latOffset;
-        const endLng = lng + lngOffset;
-
-        const res = await fetch(
-          "https://api.openrouteservice.org/v2/directions/foot-walking/geojson",
-          {
-            method: "POST",
-            headers: {
-              Authorization: ORS_API_KEY,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              coordinates: [[lng, lat], [endLng, endLat]],
-              elevation: true,
-            }),
-          }
-        );
-
-        const candidate = await res.json();
-
-        if (candidate.error) {
-          throw new Error(candidate.error.message || "Route error");
-        }
-
-        const returnedMeters = candidate.features[0].properties.summary.distance;
-
-        if (Math.abs(returnedMeters - targetMeters) <= toleranceMeters) {
-          geojson = candidate;
-          break;
-        }
-
-        const ratio = targetMeters / returnedMeters;
-        attemptLength = attemptLength * ratio;
-
-        if (attempt === maxAttempts - 1) {
-          geojson = candidate;
-        }
-      }
-    }
-
-    const feature = geojson!.features[0];
-    const summary = feature.properties.summary;
-    const coords: [number, number][] = feature.geometry.coordinates.map(
-      ([lng, lat]: [number, number]) => [lat, lng]
-    );
-
     setRouteState((prev) => ({
       ...prev,
-      loading: false,
-      path: coords,
-      route: {
-        distance: summary.distance,
-        ascentFt: feature.properties.ascent != null ? metersToFeet(feature.properties.ascent) : null,
-        descentFt: feature.properties.descent != null ? metersToFeet(feature.properties.descent) : null,
-      },
+      route: null,
+      path: [],
+      error: null,
     }));
-  } catch (err: any) {
-    setRouteState((prev) => ({ ...prev, loading: false, error: err.message }));
+  }, [miles, isLoop]);
+
+  async function handleFindRoute() {
+    if (!routeState.start) {
+      return;
+    }
+    setRouteState((prev) => ({
+      ...prev,
+      loading: true,
+      error: null,
+      route: null,
+      path: [],
+    }));
+
+    try {
+      const { lat, lng } = routeState.start;
+      const targetMeters = miles * MILES_TO_METERS;
+      const toleranceMeters = 0.5 * MILES_TO_METERS;
+      const maxAttempts = 8;
+
+      let geojson = null;
+
+      if (isLoop) {
+        let orsLength = targetMeters / 2;
+
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+          const res = await fetch(
+            "https://api.openrouteservice.org/v2/directions/foot-walking/geojson",
+            {
+              method: "POST",
+              headers: {
+                Authorization: ORS_API_KEY,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                coordinates: [[lng, lat]],
+                options: {
+                  round_trip: {
+                    length: orsLength,
+                    points: 3,
+                    seed: attempt + 1,
+                  },
+                },
+                elevation: true,
+              }),
+            },
+          );
+
+          const candidate = await res.json();
+
+          if (candidate.error) {
+            throw new Error(candidate.error.message || "Route error");
+          }
+
+          const returnedMeters =
+            candidate.features[0].properties.summary.distance;
+
+          if (Math.abs(returnedMeters - targetMeters) <= toleranceMeters) {
+            geojson = candidate;
+            break;
+          }
+
+          const ratio = targetMeters / returnedMeters;
+          const diff = Math.abs(returnedMeters - targetMeters) / targetMeters;
+          const blend = diff > 0.2 ? 0.25 : 0.75;
+          const smoothedRatio = blend + ratio * (1 - blend);
+          orsLength = orsLength * smoothedRatio;
+
+          if (attempt === maxAttempts - 1) {
+            geojson = candidate;
+          }
+        }
+      } else {
+        let attemptLength = targetMeters;
+
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+          const angle = Math.random() * 2 * Math.PI;
+          const latOffset = (attemptLength / 111320) * Math.cos(angle);
+          const lngOffset =
+            (attemptLength / (111320 * Math.cos((lat * Math.PI) / 180))) *
+            Math.sin(angle);
+          const endLat = lat + latOffset;
+          const endLng = lng + lngOffset;
+
+          const res = await fetch(
+            "https://api.openrouteservice.org/v2/directions/foot-walking/geojson",
+            {
+              method: "POST",
+              headers: {
+                Authorization: ORS_API_KEY,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                coordinates: [
+                  [lng, lat],
+                  [endLng, endLat],
+                ],
+                elevation: true,
+              }),
+            },
+          );
+
+          const candidate = await res.json();
+
+          if (candidate.error) {
+            throw new Error(candidate.error.message || "Route error");
+          }
+
+          const returnedMeters =
+            candidate.features[0].properties.summary.distance;
+
+          if (Math.abs(returnedMeters - targetMeters) <= toleranceMeters) {
+            geojson = candidate;
+            break;
+          }
+
+          const ratio = targetMeters / returnedMeters;
+          attemptLength = attemptLength * ratio;
+
+          if (attempt === maxAttempts - 1) {
+            geojson = candidate;
+          }
+        }
+      }
+
+      const feature = geojson!.features[0];
+      const summary = feature.properties.summary;
+      const coords: [number, number][] = feature.geometry.coordinates.map(
+        ([lng, lat]: [number, number]) => [lat, lng],
+      );
+
+      setRouteState((prev) => ({
+        ...prev,
+        loading: false,
+        path: coords,
+        route: {
+          distance: summary.distance,
+          ascentFt:
+            feature.properties.ascent != null
+              ? metersToFeet(feature.properties.ascent)
+              : null,
+          descentFt:
+            feature.properties.descent != null
+              ? metersToFeet(feature.properties.descent)
+              : null,
+        },
+      }));
+    } catch (err: any) {
+      setRouteState((prev) => ({
+        ...prev,
+        loading: false,
+        error: err.message,
+      }));
+    }
   }
-}
   function resetRoute() {
     setRouteState(initialRouteState);
   }
@@ -224,9 +262,8 @@ export function RoutePlannerPanel({
   const actualMiles = routeState.route
     ? parseFloat(metersToMiles(routeState.route.distance))
     : null;
-  const toleranceColor = actualMiles !== null
-    ? getToleranceColor(actualMiles, miles)
-    : null;
+  const toleranceColor =
+    actualMiles !== null ? getToleranceColor(actualMiles, miles) : null;
 
   return (
     <div className="mxp-planner-panel">
@@ -267,7 +304,10 @@ export function RoutePlannerPanel({
       {routeState.route && actualMiles !== null && (
         <div className="mxp-planner-stats">
           <div className="mxp-planner-stat">
-            <span className="mxp-trip-value" style={{ color: toleranceColor ?? undefined }}>
+            <span
+              className="mxp-trip-value"
+              style={{ color: toleranceColor ?? undefined }}
+            >
               {actualMiles}
               <span className="mxp-trip-unit"> mi</span>
             </span>
@@ -307,8 +347,12 @@ export function RoutePlannerPanel({
           disabled={!routeState.start || routeState.loading}
         >
           {routeState.loading ? (
-            <><span className="mxp-spinner mxp-spinner--small" /> Finding…</>
-          ) : "Find Route"}
+            <>
+              <span className="mxp-spinner mxp-spinner--small" /> Finding…
+            </>
+          ) : (
+            "Find Route"
+          )}
         </button>
         {(routeState.start || routeState.route) && (
           <button className="mxp-reset-btn" onClick={onReset}>

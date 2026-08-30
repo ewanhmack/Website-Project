@@ -1,8 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-const TOKEN_FUNCTION_URL = "https://europe-west2-website-project-deb45.cloudfunctions.net/getSpotifyToken";
+const TOKEN_FUNCTION_URL =
+  "https://europe-west2-website-project-deb45.cloudfunctions.net/getSpotifyToken";
 
-const NOISE_PATTERN = /\s*[\(\[](official\s*(video|audio|music\s*video|lyric\s*video)|lyrics?|ft\.?|feat\.?|explicit|remaster(ed)?|live|acoustic|cover|radio\s*edit|hd|4k)[^\)\]]*[\)\]]/gi;
+const NOISE_PATTERN =
+  /\s*[\(\[](official\s*(video|audio|music\s*video|lyric\s*video)|lyrics?|ft\.?|feat\.?|explicit|remaster(ed)?|live|acoustic|cover|radio\s*edit|hd|4k)[^\)\]]*[\)\]]/gi;
 
 export interface SpotifyTrack {
   id: string;
@@ -86,7 +88,7 @@ export function useSpotify() {
 
         const searchRes = await fetch(
           `https://api.spotify.com/v1/search?q=${encodeURIComponent(q)}&type=track&limit=5`,
-          { headers: { Authorization: `Bearer ${accessToken}` } }
+          { headers: { Authorization: `Bearer ${accessToken}` } },
         );
         const searchData = await searchRes.json();
         const items = searchData.tracks?.items ?? [];
@@ -113,16 +115,21 @@ export function useSpotify() {
         setSearching(false);
       }
     },
-    [getToken]
+    [getToken],
   );
 
-  const selectTrack = useCallback(
-    (candidate: SpotifyTrack): void => {
-      setCandidates([]);
-      setTrack({ ...candidate, bpm: 120 });
-    },
-    []
-  );
+  const selectTrack = useCallback((candidate: SpotifyTrack): void => {
+    setCandidates([]);
+    setTrack({ ...candidate, bpm: 120 });
+  }, []);
 
-  return { token, track, candidates, searching, error, searchTracks, selectTrack };
+  return {
+    token,
+    track,
+    candidates,
+    searching,
+    error,
+    searchTracks,
+    selectTrack,
+  };
 }

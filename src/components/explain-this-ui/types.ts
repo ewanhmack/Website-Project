@@ -1,8 +1,8 @@
-export type PerspectiveId = 'user' | 'developer' | 'accessibility';
+export type PerspectiveId = "user" | "developer" | "accessibility";
 
-export type CategoryId = 'ux' | 'visual' | 'logic' | 'accessibility';
+export type CategoryId = "ux" | "visual" | "logic" | "accessibility";
 
-export type SeverityId = 'low' | 'medium' | 'high';
+export type SeverityId = "low" | "medium" | "high";
 
 export type ImageNaturalSize = {
   width: number;
