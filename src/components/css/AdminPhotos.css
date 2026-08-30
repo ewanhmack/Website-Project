@@ -168,6 +168,7 @@
 }
 
 .aph-photo-img-wrap {
+  position: relative;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   background: var(--bg);
@@ -178,11 +179,37 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.2s;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 300ms ease, transform 300ms ease;
 }
 
-.aph-photo-card:hover .aph-photo-img-wrap img {
+.aph-photo-img-wrap.is-loaded img {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.aph-photo-card:hover .aph-photo-img-wrap.is-loaded img {
   transform: scale(1.04);
+}
+
+/* Per-tile spinner shown while an individual photo is still downloading */
+.aph-photo-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aph-photo-img-wrap img {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 .aph-title-row {

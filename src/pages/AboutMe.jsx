@@ -18,7 +18,7 @@ const HOBBIES = [
   {
     icon: archeryIcon,
     title: "Archery",
-    body: "I shoot recurve and barebow at my university club, which I am currently vice president of.",
+    body: "I shoot recurve and barebow at my university club, which I am currently treasurer of.",
   },
   {
     icon: cameraIcon,
@@ -81,7 +81,7 @@ export default function AboutMe() {
                 <img src="./headshot.webp" alt="Ewan MacKerracher" />
               </div>
               <div className="aboutme-photo-badge">
-                Placement at Cirdan &mdash; Software Developer
+                Placement at Cirdan - Software Developer
               </div>
             </Reveal>
           </div>

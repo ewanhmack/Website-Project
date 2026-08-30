@@ -45,6 +45,60 @@ export function formatShutterSpeed(value) {
   return `1/${denominator}`;
 }
 
+// Parses either the raw EXIF date format ("YYYY:MM:DD HH:MM:SS", as produced
+// by the Python processing script) or an ISO 8601 string (as produced by the
+// admin upload flow) into a Date. Returns null if the value can't be parsed.
+export function parseCreatedDateTime(value) {
+  if (value === undefined || value === null) {
+    return null;
+  }
+
+  const rawText = String(value).trim();
+
+  if (rawText.length === 0) {
+    return null;
+  }
+
+  const exifMatch = rawText.match(
+    /^(\d{4}):(\d{2}):(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/
+  );
+  const isoText = exifMatch
+    ? `${exifMatch[1]}-${exifMatch[2]}-${exifMatch[3]}T${exifMatch[4]}:${exifMatch[5]}:${exifMatch[6]}`
+    : rawText;
+
+  const date = new Date(isoText);
+
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+// Formats createdDateTime metadata as a human-readable date/time, e.g.
+// "27 Mar 2026, 21:56". Falls back to the raw value if it can't be parsed.
+export function formatCreatedDateTime(value) {
+  if (value === undefined || value === null) {
+    return "";
+  }
+
+  const rawText = String(value).trim();
+
+  if (rawText.length === 0) {
+    return "";
+  }
+
+  const date = parseCreatedDateTime(rawText);
+
+  if (!date) {
+    return rawText;
+  }
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
+}
+
 // Groups distinct lens models by their focal length range (e.g.
 // "EF-S18-55mm f/3.5-5.6 III" and "EF-S18-55mm f/3.5-5.6 IS" both become
 // "18-55mm") so the same physical range filters together regardless of the

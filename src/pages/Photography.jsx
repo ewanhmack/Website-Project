@@ -11,7 +11,15 @@ import { db } from "../firebase";
 import AlbumGrid from "../components/photography/AlbumGrid";
 import PhotoGridSkeleton from "../components/photography/PhotoGridSkeleton";
 import PhotoEditor from "../components/photography/Editor/PhotoEditor";
-import { shuffle, getPhotoUrl, formatShutterSpeed, focalLengthGroup } from "../utils/photos";
+import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
+import {
+  shuffle,
+  getPhotoUrl,
+  formatShutterSpeed,
+  formatCreatedDateTime,
+  parseCreatedDateTime,
+  focalLengthGroup,
+} from "../utils/photos";
 import { PHOTO_TAGS } from "../utils/photoTags";
 import "../components/css/photography.css";
 import "../components/css/PageStyles.css";
@@ -71,7 +79,7 @@ function PhotoModal({ photo, onClose }) {
     ["Shutter Speed", formatShutterSpeed(metadata.shutterSpeed)],
     ["Aperture", metadata.aperture],
     ["ISO", metadata.iso],
-    ["Created", metadata.createdDateTime],
+    ["Created", formatCreatedDateTime(metadata.createdDateTime)],
     ["Camera Model", metadata.cameraModel],
     ["Lens Model", metadata.lensModel],
   ].filter(([, value]) => {
@@ -146,31 +154,6 @@ function PhotoModal({ photo, onClose }) {
   );
 }
 
-function useIntersectionObserver(callback, options = {}) {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const element = ref.current;
-    if (!element) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        callback();
-      }
-    }, options);
-
-    observer.observe(element);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [callback, options]);
-
-  return ref;
-}
-
 function FilterGroup({ label, options, active, onSelect }) {
   if (options.length === 0) {
     return null;
@@ -206,6 +189,7 @@ export default function Photography() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [activeTag, setActiveTag] = useState(null);
   const [activeLens, setActiveLens] = useState(null);
+  const [sortBy, setSortBy] = useState(null);
 
   const savedScrollY = useRef(null);
 
@@ -272,18 +256,49 @@ export default function Photography() {
     };
   }, []);
 
-  const gridPages = useMemo(() => {
+  const sortedPhotos = useMemo(() => {
     if (!allPhotos) {
+      return null;
+    }
+    if (!sortBy) {
+      return allPhotos;
+    }
+
+    const withDates = allPhotos.map((photo) => ({
+      photo,
+      date: parseCreatedDateTime(photo.metadata?.createdDateTime),
+    }));
+
+    withDates.sort((a, b) => {
+      if (!a.date && !b.date) {
+        return 0;
+      }
+      if (!a.date) {
+        return 1;
+      }
+      if (!b.date) {
+        return -1;
+      }
+      return sortBy === "Oldest"
+        ? a.date.getTime() - b.date.getTime()
+        : b.date.getTime() - a.date.getTime();
+    });
+
+    return withDates.map(({ photo }) => photo);
+  }, [allPhotos, sortBy]);
+
+  const gridPages = useMemo(() => {
+    if (!sortedPhotos) {
       return [];
     }
     const pages = [];
-    for (let i = 0; i < allPhotos.length; i += GRID_PAGE_SIZE) {
-      pages.push(allPhotos.slice(i, i + GRID_PAGE_SIZE));
+    for (let i = 0; i < sortedPhotos.length; i += GRID_PAGE_SIZE) {
+      pages.push(sortedPhotos.slice(i, i + GRID_PAGE_SIZE));
     }
     return pages.slice(0, visiblePages);
-  }, [allPhotos, visiblePages]);
+  }, [sortedPhotos, visiblePages]);
 
-  const gridHasMore = allPhotos ? visiblePages * GRID_PAGE_SIZE < allPhotos.length : false;
+  const gridHasMore = sortedPhotos ? visiblePages * GRID_PAGE_SIZE < sortedPhotos.length : false;
 
   const loadMoreGrid = useCallback(() => {
     setVisiblePages((n) => n + 1);
@@ -382,6 +397,12 @@ export default function Photography() {
           </div>
 
           <aside className="photography-sidebar" aria-label="Filter photos">
+            <FilterGroup
+              label="Sort by"
+              options={["Newest", "Oldest"]}
+              active={sortBy}
+              onSelect={setSortBy}
+            />
             <FilterGroup
               label="Type"
               options={categories}

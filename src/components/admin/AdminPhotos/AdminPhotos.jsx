@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useMemo } from "react";
 import { collection, getDocs, deleteDoc, doc, updateDoc, deleteField } from "firebase/firestore";
 import { ref, uploadBytes, deleteObject, getMetadata } from "firebase/storage";
 import { db, storage } from "../../../firebase";
@@ -7,7 +7,10 @@ import UploadZone from "./UploadZone";
 import UploadProgress from "./UploadProgress";
 import Spinner from "../../Spinner";
 import { PHOTO_TAGS } from "../../../utils/photoTags";
+import { useIntersectionObserver } from "../../../hooks/useIntersectionObserver";
 import "../../css/AdminPhotos.css";
+
+const PAGE_SIZE = 40;
 
 function convertToWebP(file) {
   return new Promise((resolve, reject) => {
@@ -163,6 +166,63 @@ function PhotoTitleEditor({ photo, onSave, onAccept, onReject }) {
   );
 }
 
+const PhotoCard = React.memo(function PhotoCard({
+  photo,
+  isConfirmingDelete,
+  onToggleTag,
+  onSaveTitle,
+  onAcceptTitle,
+  onRejectTitle,
+  onRequestDelete,
+  onCancelDelete,
+  onConfirmDelete,
+}) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <div className="aph-photo-card">
+      <div className={`aph-photo-img-wrap ${isLoaded ? "is-loaded" : ""}`}>
+        {!isLoaded ? (
+          <span className="aph-photo-loading" aria-hidden="true">
+            <span className="spinner" style={{ width: 22, height: 22 }} />
+          </span>
+        ) : null}
+        <img
+          src={photo.storageUrl}
+          alt={photo.image}
+          loading="lazy"
+          decoding="async"
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setIsLoaded(true)}
+        />
+      </div>
+      <PhotoTitleEditor
+        photo={photo}
+        onSave={onSaveTitle}
+        onAccept={onAcceptTitle}
+        onReject={onRejectTitle}
+      />
+      <PhotoTagEditor photo={photo} onToggle={onToggleTag} />
+      <div className="aph-photo-footer">
+        <span className="aph-photo-name">{photo.image}</span>
+        {isConfirmingDelete ? (
+          <div className="aph-delete-confirm">
+            <button onClick={() => onConfirmDelete(photo)}>Confirm</button>
+            <button className="ghost" onClick={onCancelDelete}>Cancel</button>
+          </div>
+        ) : (
+          <button
+            className="aph-delete-btn"
+            onClick={() => onRequestDelete(photo.id)}
+          >
+            Delete
+          </button>
+        )}
+      </div>
+    </div>
+  );
+});
+
 export default function AdminPhotos() {
   const [uploadItems, setUploadItems] = useState([]);
   const [photos, setPhotos] = useState({});
@@ -172,6 +232,7 @@ export default function AdminPhotos() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("newest");
   const [untaggedOnly, setUntaggedOnly] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const fetchPhotos = useCallback(async () => {
     setLoadingPhotos(true);
@@ -179,15 +240,17 @@ export default function AdminPhotos() {
       const categoriesSnapshot = await getDocs(collection(db, "photography"));
       const result = {};
 
-      for (const categoryDoc of categoriesSnapshot.docs) {
-        const category = categoryDoc.id;
-        const photosSnapshot = await getDocs(
-          collection(db, "photography", category, "photos")
-        );
-        result[category] = photosSnapshot.docs
-          .map((d) => ({ id: d.id, categoryId: category, ...d.data() }))
-          .sort((a, b) => a.order - b.order);
-      }
+      await Promise.all(
+        categoriesSnapshot.docs.map(async (categoryDoc) => {
+          const category = categoryDoc.id;
+          const photosSnapshot = await getDocs(
+            collection(db, "photography", category, "photos")
+          );
+          result[category] = photosSnapshot.docs
+            .map((d) => ({ id: d.id, categoryId: category, ...d.data() }))
+            .sort((a, b) => a.order - b.order);
+        })
+      );
 
       setPhotos(result);
       if (!activeCategory && Object.keys(result).length > 0) {
@@ -278,7 +341,7 @@ export default function AdminPhotos() {
     }, 5000);
   };
 
-  const handleDelete = async (photo) => {
+  const handleDelete = useCallback(async (photo) => {
     try {
       const storagePath = photo.storagePath || `images/photos/${photo.image}`;
       const storageRef = ref(storage, storagePath);
@@ -289,9 +352,12 @@ export default function AdminPhotos() {
     } catch (err) {
       console.error(err);
     }
-  };
+  }, [fetchPhotos]);
 
-  const toggleTag = async (photo, tag) => {
+  const requestDelete = useCallback((photoId) => setDeleteConfirm(photoId), []);
+  const cancelDelete = useCallback(() => setDeleteConfirm(null), []);
+
+  const toggleTag = useCallback(async (photo, tag) => {
     const current = photo.tags || [];
     const nextTags = current.includes(tag)
       ? current.filter((t) => t !== tag)
@@ -312,9 +378,9 @@ export default function AdminPhotos() {
       console.error(err);
       fetchPhotos();
     }
-  };
+  }, [fetchPhotos]);
 
-  const saveTitle = async (photo, title) => {
+  const saveTitle = useCallback(async (photo, title) => {
     setPhotos((prev) => ({
       ...prev,
       [photo.categoryId]: prev[photo.categoryId].map((p) =>
@@ -330,9 +396,9 @@ export default function AdminPhotos() {
       console.error(err);
       fetchPhotos();
     }
-  };
+  }, [fetchPhotos]);
 
-  const acceptSuggestedTitle = async (photo) => {
+  const acceptSuggestedTitle = useCallback(async (photo) => {
     const title = photo.suggestedTitle;
 
     setPhotos((prev) => ({
@@ -351,9 +417,9 @@ export default function AdminPhotos() {
       console.error(err);
       fetchPhotos();
     }
-  };
+  }, [fetchPhotos]);
 
-  const rejectSuggestedTitle = async (photo) => {
+  const rejectSuggestedTitle = useCallback(async (photo) => {
     setPhotos((prev) => ({
       ...prev,
       [photo.categoryId]: prev[photo.categoryId].map((p) =>
@@ -369,14 +435,34 @@ export default function AdminPhotos() {
       console.error(err);
       fetchPhotos();
     }
-  };
+  }, [fetchPhotos]);
 
   const categories = Object.keys(photos);
-  const activePhotos = applySortAndSearch(
-    activeCategory ? (photos[activeCategory] || []) : [],
-    sort,
-    search
-  ).filter((p) => !untaggedOnly || !(p.tags && p.tags.length > 0));
+
+  const activePhotos = useMemo(() => {
+    return applySortAndSearch(
+      activeCategory ? (photos[activeCategory] || []) : [],
+      sort,
+      search
+    ).filter((p) => !untaggedOnly || !(p.tags && p.tags.length > 0));
+  }, [photos, activeCategory, sort, search, untaggedOnly]);
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [activeCategory, sort, search, untaggedOnly]);
+
+  const visiblePhotos = useMemo(
+    () => activePhotos.slice(0, visibleCount),
+    [activePhotos, visibleCount]
+  );
+
+  const hasMore = visibleCount < activePhotos.length;
+
+  const loadMore = useCallback(() => {
+    setVisibleCount((n) => n + PAGE_SIZE);
+  }, []);
+
+  const sentinelRef = useIntersectionObserver(loadMore, { rootMargin: "400px" });
 
   return (
     <div className="aph-page">
@@ -456,42 +542,22 @@ export default function AdminPhotos() {
           ) : null}
 
           <div className="aph-grid">
-            {activePhotos.map((photo) => (
-              <div key={photo.id} className="aph-photo-card">
-                <div className="aph-photo-img-wrap">
-                  <img
-                    src={photo.storageUrl}
-                    alt={photo.image}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </div>
-                <PhotoTitleEditor
-                  photo={photo}
-                  onSave={saveTitle}
-                  onAccept={acceptSuggestedTitle}
-                  onReject={rejectSuggestedTitle}
-                />
-                <PhotoTagEditor photo={photo} onToggle={toggleTag} />
-                <div className="aph-photo-footer">
-                  <span className="aph-photo-name">{photo.image}</span>
-                  {deleteConfirm === photo.id ? (
-                    <div className="aph-delete-confirm">
-                      <button onClick={() => handleDelete(photo)}>Confirm</button>
-                      <button className="ghost" onClick={() => setDeleteConfirm(null)}>Cancel</button>
-                    </div>
-                  ) : (
-                    <button
-                      className="aph-delete-btn"
-                      onClick={() => setDeleteConfirm(photo.id)}
-                    >
-                      Delete
-                    </button>
-                  )}
-                </div>
-              </div>
+            {visiblePhotos.map((photo) => (
+              <PhotoCard
+                key={photo.id}
+                photo={photo}
+                isConfirmingDelete={deleteConfirm === photo.id}
+                onToggleTag={toggleTag}
+                onSaveTitle={saveTitle}
+                onAcceptTitle={acceptSuggestedTitle}
+                onRejectTitle={rejectSuggestedTitle}
+                onRequestDelete={requestDelete}
+                onCancelDelete={cancelDelete}
+                onConfirmDelete={handleDelete}
+              />
             ))}
           </div>
+          {hasMore ? <div ref={sentinelRef} style={{ height: 1 }} /> : null}
         </>
       )}
     </div>

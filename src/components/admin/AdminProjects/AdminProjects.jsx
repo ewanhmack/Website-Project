@@ -7,6 +7,65 @@ import Spinner from "../../Spinner";
 import "../../css/AdminProjects.css";
 import { resolveMediaSrc } from "../../../utils/projects";
 
+function ProjectTile({
+  project,
+  isEditing,
+  isConfirmingDelete,
+  onEdit,
+  onRequestDelete,
+  onCancelDelete,
+  onConfirmDelete,
+}) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const thumb = project.media?.find((m) => m.src);
+
+  return (
+    <div className={`ap-tile${isEditing ? " ap-tile--editing" : ""}`}>
+      <div
+        className={`ap-tile-image${!thumb ? " ap-tile-image--empty" : ""}`}
+        onClick={onEdit}
+      >
+        {thumb ? (
+          <>
+            {!isLoaded ? (
+              <span className="ap-tile-image-loading" aria-hidden="true">
+                <span className="spinner" style={{ width: 22, height: 22 }} />
+              </span>
+            ) : null}
+            <img
+              src={resolveMediaSrc(thumb.src)}
+              alt={project.header}
+              className={isLoaded ? "is-loaded" : ""}
+              loading="lazy"
+              decoding="async"
+              onLoad={() => setIsLoaded(true)}
+              onError={() => setIsLoaded(true)}
+            />
+          </>
+        ) : (
+          <span className="ap-tile-image-placeholder">🖼</span>
+        )}
+      </div>
+
+      <div className="ap-tile-info">
+        <span className="ap-tile-title">{project.header}</span>
+        <div className="ap-tile-actions">
+          {isConfirmingDelete ? (
+            <>
+              <button onClick={onConfirmDelete}>Confirm</button>
+              <button onClick={onCancelDelete}>Cancel</button>
+            </>
+          ) : (
+            <button className="ap-delete-btn" onClick={onRequestDelete}>
+              Delete
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function AdminProjects() {
   const { projects, loading, error } = useProjects();
   const [mode, setMode] = useState(null);
@@ -95,44 +154,18 @@ export default function AdminProjects() {
       ) : null}
 
       <div className="ap-grid">
-        {projects.map((project) => {
-          const thumb = project.media?.find((m) => m.src);
-          const isEditing = mode === "edit" && editTarget?.id === project.id;
-
-          return (
-            <div
-              key={project.id}
-              className={`ap-tile${isEditing ? " ap-tile--editing" : ""}`}
-            >
-              <div
-                className={`ap-tile-image${!thumb ? " ap-tile-image--empty" : ""}`}
-                onClick={() => { setEditTarget(project); setMode("edit"); }}
-              >
-                {thumb ? (
-                  <img src={resolveMediaSrc(thumb.src)} alt={project.header} />
-                ) : (
-                  <span className="ap-tile-image-placeholder">🖼</span>
-                )}
-              </div>
-
-              <div className="ap-tile-info">
-                <span className="ap-tile-title">{project.header}</span>
-                <div className="ap-tile-actions">
-                  {deleteConfirm?.id === project.id ? (
-                    <>
-                      <button onClick={() => handleDelete(project)}>Confirm</button>
-                      <button onClick={() => setDeleteConfirm(null)}>Cancel</button>
-                    </>
-                  ) : (
-                    <button className="ap-delete-btn" onClick={() => setDeleteConfirm(project)}>
-                      Delete
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        {projects.map((project) => (
+          <ProjectTile
+            key={project.id}
+            project={project}
+            isEditing={mode === "edit" && editTarget?.id === project.id}
+            isConfirmingDelete={deleteConfirm?.id === project.id}
+            onEdit={() => { setEditTarget(project); setMode("edit"); }}
+            onRequestDelete={() => setDeleteConfirm(project)}
+            onCancelDelete={() => setDeleteConfirm(null)}
+            onConfirmDelete={() => handleDelete(project)}
+          />
+        ))}
       </div>
     </div>
   );

@@ -513,6 +513,7 @@
 }
 
 .ap-tile-image {
+  position: relative;
   width: 100%;
   height: 180px;
   background-color: var(--bg);
@@ -523,6 +524,36 @@
   overflow: hidden;
   cursor: pointer;
   flex-shrink: 0;
+}
+
+.ap-tile-image img {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.ap-tile-image img.is-loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Spinner shown while a project thumbnail is still downloading */
+.ap-tile-image-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ap-tile-image img {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }
 
 .ap-tile-info {

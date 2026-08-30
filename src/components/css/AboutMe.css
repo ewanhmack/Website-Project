@@ -97,12 +97,11 @@
   background: var(--panel);
   aspect-ratio: 4 / 5;
   box-shadow: var(--shadow-lg);
-  transform: rotate(-2.5deg);
   transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .aboutme-photo-wrap:hover .aboutme-photo-frame {
-  transform: rotate(0deg);
+  transform: rotate(-2.5deg);
 }
 
 .aboutme-photo-frame img {
