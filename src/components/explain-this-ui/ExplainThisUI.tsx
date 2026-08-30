@@ -29,7 +29,7 @@ import {
 } from "./helpers";
 import { ColorPicker, useColor } from "react-colour-palette";
 // @ts-expect-error - CSS side-effect imports are handled by the bundler
-import "react-colour-palette/css";
+import "react-colour-palette/dist/index.css";
 // @ts-expect-error - CSS side-effect imports are handled by the bundler
 import "../css/ExplainThisUI.css";
 

@@ -20,7 +20,7 @@ export default function ContactCard({
   return (
     <a className="contact-card" {...props}>
       <div className="contact-icon" aria-hidden="true">
-        {icon}
+        <img src={icon} alt="" />
       </div>
       <div className="contact-body">
         <h3>{title}</h3>

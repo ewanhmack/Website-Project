@@ -22,14 +22,14 @@ import AdminPhotos from "./components/admin/AdminPhotos/AdminPhotos";
 import AdminLayout from "./components/admin/AdminLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-import SSHome from "./pages/songshack/SSHome";
-import SSLogin from "./pages/songshack/SSLogin";
-import SSRegister from "./pages/songshack/SSRegister";
-import SSProfile from "./pages/songshack/SSProfile";
-import SSAlbum from "./pages/songshack/SSAlbum";
-import SSRanking from "./pages/songshack/SSRanking";
-import SSNewAlbum from "./pages/songshack/SSNewAlbum";
-import SSError from "./pages/songshack/SSError";
+import SSHome from "./components/songshack/SSHome";
+import SSLogin from "./components/songshack/SSLogin";
+import SSRegister from "./components/songshack/SSRegister";
+import SSProfile from "./components/songshack/SSProfile";
+import SSAlbum from "./components/songshack/SSAlbum";
+import SSRanking from "./components/songshack/SSRanking";
+import SSNewAlbum from "./components/songshack/SSNewAlbum";
+import SSError from "./components/songshack/SSError";
 
 import "./App.css";
 import "./components/css/ComponentStyles.css";
