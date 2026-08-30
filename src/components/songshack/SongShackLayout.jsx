@@ -22,13 +22,17 @@ export default function SongShackLayout() {
         </NavLink>
 
         <nav className="ss-nav-links">
-          <NavLink to="/songshack" end>Home</NavLink>
+          <NavLink to="/songshack" end>
+            Home
+          </NavLink>
           <NavLink to="/songshack/ranking">Rankings</NavLink>
           <NavLink to="/songshack/new-album">Add Album</NavLink>
           {user ? (
             <>
               <NavLink to="/songshack/profile">Profile</NavLink>
-              <button className="ss-nav-btn" onClick={handleLogout}>Log Out</button>
+              <button className="ss-nav-btn" onClick={handleLogout}>
+                Log Out
+              </button>
             </>
           ) : (
             <NavLink to="/songshack/login">Login</NavLink>
