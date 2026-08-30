@@ -50,7 +50,7 @@ export default function Music() {
       cursor.current = snapshot.docs[snapshot.docs.length - 1] ?? null;
       setHasMore(snapshot.docs.length === PAGE_SIZE);
       setTracks((prev) => (isLoadMore ? [...prev, ...newTracks] : newTracks));
-    } catch (err) {
+    } catch {
       setError("Couldn't load recently played tracks.");
     } finally {
       setLoading(false);
