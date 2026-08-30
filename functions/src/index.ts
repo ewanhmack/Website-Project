@@ -1,5 +1,8 @@
 import { setGlobalOptions } from "firebase-functions";
-import { onObjectFinalized, onObjectDeleted } from "firebase-functions/v2/storage";
+import {
+  onObjectFinalized,
+  onObjectDeleted,
+} from "firebase-functions/v2/storage";
 import { onSchedule } from "firebase-functions/v2/scheduler";
 import { onRequest } from "firebase-functions/v2/https";
 import { initializeApp } from "firebase-admin/app";
@@ -52,7 +55,7 @@ async function callClaudeVision(
   imageUrl: string,
   systemPrompt: string,
   userText: string,
-  maxTokens: number
+  maxTokens: number,
 ): Promise<string> {
   const body = JSON.stringify({
     model: "claude-haiku-4-5-20251001",
@@ -76,15 +79,24 @@ async function callClaudeVision(
       "x-api-key": apiKey,
       "anthropic-version": "2023-06-01",
     },
-    body
+    body,
   );
 
   const parsed = JSON.parse(response);
   return parsed.content?.[0]?.text ?? "";
 }
 
-async function classifyPhotoTags(apiKey: string, imageUrl: string): Promise<string[]> {
-  const text = await callClaudeVision(apiKey, imageUrl, TAG_SYSTEM_PROMPT, "Classify this photo.", 100);
+async function classifyPhotoTags(
+  apiKey: string,
+  imageUrl: string,
+): Promise<string[]> {
+  const text = await callClaudeVision(
+    apiKey,
+    imageUrl,
+    TAG_SYSTEM_PROMPT,
+    "Classify this photo.",
+    100,
+  );
   const match = text.match(/\[[\s\S]*\]/);
   if (!match) {
     return [];
@@ -95,21 +107,36 @@ async function classifyPhotoTags(apiKey: string, imageUrl: string): Promise<stri
     if (!Array.isArray(parsed)) {
       return [];
     }
-    return parsed.filter((tag: unknown): tag is string => typeof tag === "string" && PHOTO_TAGS.includes(tag));
+    return parsed.filter(
+      (tag: unknown): tag is string =>
+        typeof tag === "string" && PHOTO_TAGS.includes(tag),
+    );
   } catch {
     return [];
   }
 }
 
-async function suggestPhotoTitle(apiKey: string, imageUrl: string): Promise<string> {
-  const text = await callClaudeVision(apiKey, imageUrl, TITLE_SYSTEM_PROMPT, "Title this photo.", 30);
-  return text.trim().replace(/^["']|["']$/g, "").replace(/\.$/, "");
+async function suggestPhotoTitle(
+  apiKey: string,
+  imageUrl: string,
+): Promise<string> {
+  const text = await callClaudeVision(
+    apiKey,
+    imageUrl,
+    TITLE_SYSTEM_PROMPT,
+    "Title this photo.",
+    30,
+  );
+  return text
+    .trim()
+    .replace(/^["']|["']$/g, "")
+    .replace(/\.$/, "");
 }
 
 async function writeFunctionStatus(
   name: string,
   status: "ok" | "error",
-  error?: string
+  error?: string,
 ): Promise<void> {
   const ref = db
     .collection("_meta")
@@ -132,10 +159,7 @@ async function writeFunctionStatus(
   });
 }
 
-async function trackUsage(
-  metric: string,
-  count: number = 1
-): Promise<void> {
+async function trackUsage(metric: string, count: number = 1): Promise<void> {
   const now = new Date();
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0");
@@ -150,25 +174,53 @@ async function trackUsage(
   const usageRef = db.collection("_meta").doc("usage");
 
   await Promise.all([
-    usageRef.collection("months").doc(monthKey).set(
-      { [metric]: FieldValue.increment(count), lastUpdated: now.toISOString() },
-      { merge: true }
-    ),
-    usageRef.collection("days").doc(dayKey).set(
-      { [metric]: FieldValue.increment(count), lastUpdated: now.toISOString() },
-      { merge: true }
-    ),
-    usageRef.collection("weeks").doc(weekKey).set(
-      { [metric]: FieldValue.increment(count), lastUpdated: now.toISOString() },
-      { merge: true }
-    ),
-    usageRef.collection("years").doc(yearKey).set(
-      { [metric]: FieldValue.increment(count), lastUpdated: now.toISOString() },
-      { merge: true }
-    ),
+    usageRef
+      .collection("months")
+      .doc(monthKey)
+      .set(
+        {
+          [metric]: FieldValue.increment(count),
+          lastUpdated: now.toISOString(),
+        },
+        { merge: true },
+      ),
+    usageRef
+      .collection("days")
+      .doc(dayKey)
+      .set(
+        {
+          [metric]: FieldValue.increment(count),
+          lastUpdated: now.toISOString(),
+        },
+        { merge: true },
+      ),
+    usageRef
+      .collection("weeks")
+      .doc(weekKey)
+      .set(
+        {
+          [metric]: FieldValue.increment(count),
+          lastUpdated: now.toISOString(),
+        },
+        { merge: true },
+      ),
+    usageRef
+      .collection("years")
+      .doc(yearKey)
+      .set(
+        {
+          [metric]: FieldValue.increment(count),
+          lastUpdated: now.toISOString(),
+        },
+        { merge: true },
+      ),
   ]);
 }
-function httpPost(url: string, headers: Record<string, string>, body: string): Promise<string> {
+function httpPost(
+  url: string,
+  headers: Record<string, string>,
+  body: string,
+): Promise<string> {
   return new Promise((resolve, reject) => {
     const urlObj = new URL(url);
     const req = https.request(
@@ -180,9 +232,13 @@ function httpPost(url: string, headers: Record<string, string>, body: string): P
       },
       (res) => {
         let data = "";
-        res.on("data", (chunk) => { data += chunk; });
-        res.on("end", () => { resolve(data); });
-      }
+        res.on("data", (chunk) => {
+          data += chunk;
+        });
+        res.on("end", () => {
+          resolve(data);
+        });
+      },
     );
     req.on("error", reject);
     req.write(body);
@@ -190,7 +246,10 @@ function httpPost(url: string, headers: Record<string, string>, body: string): P
   });
 }
 
-function httpGet(url: string, headers: Record<string, string>): Promise<string> {
+function httpGet(
+  url: string,
+  headers: Record<string, string>,
+): Promise<string> {
   return new Promise((resolve, reject) => {
     const urlObj = new URL(url);
     const req = https.request(
@@ -202,9 +261,13 @@ function httpGet(url: string, headers: Record<string, string>): Promise<string> 
       },
       (res) => {
         let data = "";
-        res.on("data", (chunk) => { data += chunk; });
-        res.on("end", () => { resolve(data); });
-      }
+        res.on("data", (chunk) => {
+          data += chunk;
+        });
+        res.on("end", () => {
+          resolve(data);
+        });
+      },
     );
     req.on("error", reject);
     req.end();
@@ -214,9 +277,11 @@ function httpGet(url: string, headers: Record<string, string>): Promise<string> 
 async function getSpotifyAccessToken(
   clientId: string,
   clientSecret: string,
-  refreshToken: string
+  refreshToken: string,
 ): Promise<string> {
-  const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+  const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString(
+    "base64",
+  );
   const body = `grant_type=refresh_token&refresh_token=${encodeURIComponent(refreshToken)}`;
 
   const response = await httpPost(
@@ -225,7 +290,7 @@ async function getSpotifyAccessToken(
       Authorization: `Basic ${credentials}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body
+    body,
   );
 
   const parsed = JSON.parse(response);
@@ -256,7 +321,9 @@ export const getSpotifyToken = onRequest(
     try {
       const clientId = process.env.SPOTIFY_CLIENT_ID!;
       const clientSecret = process.env.SPOTIFY_CLIENT_SECRET!;
-      const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+      const credentials = Buffer.from(`${clientId}:${clientSecret}`).toString(
+        "base64",
+      );
 
       const response = await httpPost(
         "https://accounts.spotify.com/api/token",
@@ -264,21 +331,26 @@ export const getSpotifyToken = onRequest(
           Authorization: `Basic ${credentials}`,
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        "grant_type=client_credentials"
+        "grant_type=client_credentials",
       );
 
       const data = JSON.parse(response);
-      res.json({ access_token: data.access_token, expires_in: data.expires_in });
+      res.json({
+        access_token: data.access_token,
+        expires_in: data.expires_in,
+      });
     } catch (err: any) {
       res.status(500).json({ error: err?.message ?? "Unknown error" });
     }
-  }
+  },
 );
 
-async function fetchSpotifyRecentlyPlayed(accessToken: string): Promise<Record<string, string>[]> {
+async function fetchSpotifyRecentlyPlayed(
+  accessToken: string,
+): Promise<Record<string, string>[]> {
   const response = await httpGet(
     "https://api.spotify.com/v1/me/player/recently-played?limit=50",
-    { Authorization: `Bearer ${accessToken}` }
+    { Authorization: `Bearer ${accessToken}` },
   );
 
   const parsed = JSON.parse(response);
@@ -302,7 +374,11 @@ export const fetchRecentlyPlayed = onSchedule(
   {
     schedule: "every 5 minutes",
     region: "europe-west2",
-    secrets: ["SPOTIFY_CLIENT_ID", "SPOTIFY_CLIENT_SECRET", "SPOTIFY_REFRESH_TOKEN"],
+    secrets: [
+      "SPOTIFY_CLIENT_ID",
+      "SPOTIFY_CLIENT_SECRET",
+      "SPOTIFY_REFRESH_TOKEN",
+    ],
   },
   async () => {
     try {
@@ -310,7 +386,11 @@ export const fetchRecentlyPlayed = onSchedule(
       const clientSecret = process.env.SPOTIFY_CLIENT_SECRET!;
       const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN!;
 
-      const accessToken = await getSpotifyAccessToken(clientId, clientSecret, refreshToken);
+      const accessToken = await getSpotifyAccessToken(
+        clientId,
+        clientSecret,
+        refreshToken,
+      );
       const tracks = await fetchSpotifyRecentlyPlayed(accessToken);
 
       if (tracks.length === 0) {
@@ -320,7 +400,10 @@ export const fetchRecentlyPlayed = onSchedule(
         return;
       }
 
-      const tracksRef = db.collection("music").doc("recently-played").collection("tracks");
+      const tracksRef = db
+        .collection("music")
+        .doc("recently-played")
+        .collection("tracks");
 
       let added = 0;
       for (const track of tracks) {
@@ -338,42 +421,51 @@ export const fetchRecentlyPlayed = onSchedule(
       await trackUsage("firestoreReads", tracks.length);
       await trackUsage("firestoreWrites", added);
     } catch (err: any) {
-      await writeFunctionStatus("fetchRecentlyPlayed", "error", err?.message ?? "Unknown error");
+      await writeFunctionStatus(
+        "fetchRecentlyPlayed",
+        "error",
+        err?.message ?? "Unknown error",
+      );
       throw err;
     }
-  }
+  },
 );
 
 export const getRecentlyPlayed = onRequest(
-    { region: "europe-west2" },
-    async (req, res) => {
-        res.set("Access-Control-Allow-Origin", "*");
+  { region: "europe-west2" },
+  async (req, res) => {
+    res.set("Access-Control-Allow-Origin", "*");
 
-        const since = req.query.since ? String(req.query.since) : null;
+    const since = req.query.since ? String(req.query.since) : null;
 
-        try {
-            let query: FirebaseFirestore.Query = db
-                .collection("music")
-                .doc("recently-played")
-                .collection("tracks")
-                .orderBy("played_at", "desc");
+    try {
+      let query: FirebaseFirestore.Query = db
+        .collection("music")
+        .doc("recently-played")
+        .collection("tracks")
+        .orderBy("played_at", "desc");
 
-            if (since) {
-                query = query.where("played_at", ">", since);
-            }
+      if (since) {
+        query = query.where("played_at", ">", since);
+      }
 
-            const snapshot = await query.get();
-            const tracks = snapshot.docs.map((doc) => doc.data());
+      const snapshot = await query.get();
+      const tracks = snapshot.docs.map((doc) => doc.data());
 
-            res.json({ tracks });
-        } catch (err: any) {
-            res.status(500).json({ error: err?.message ?? "Unknown error" });
-        }
+      res.json({ tracks });
+    } catch (err: any) {
+      res.status(500).json({ error: err?.message ?? "Unknown error" });
     }
+  },
 );
 
 export const onPhotoUploaded = onObjectFinalized(
-  { timeoutSeconds: 60, memory: "256MiB", region: "europe-west2", secrets: ["ANTHROPIC_API_KEY"] },
+  {
+    timeoutSeconds: 60,
+    memory: "256MiB",
+    region: "europe-west2",
+    secrets: ["ANTHROPIC_API_KEY"],
+  },
   async (event) => {
     try {
       const filePath = event.data.name;
@@ -396,11 +488,21 @@ export const onPhotoUploaded = onObjectFinalized(
 
       const metadata: Record<string, string> = {};
 
-      if (custom.shutterSpeed) { metadata.shutterSpeed = String(custom.shutterSpeed); }
-      if (custom.aperture) { metadata.aperture = String(custom.aperture); }
-      if (custom.iso) { metadata.iso = String(custom.iso); }
-      if (custom.createdDateTime) { metadata.createdDateTime = String(custom.createdDateTime); }
-      if (custom.lensModel) { metadata.lensModel = String(custom.lensModel); }
+      if (custom.shutterSpeed) {
+        metadata.shutterSpeed = String(custom.shutterSpeed);
+      }
+      if (custom.aperture) {
+        metadata.aperture = String(custom.aperture);
+      }
+      if (custom.iso) {
+        metadata.iso = String(custom.iso);
+      }
+      if (custom.createdDateTime) {
+        metadata.createdDateTime = String(custom.createdDateTime);
+      }
+      if (custom.lensModel) {
+        metadata.lensModel = String(custom.lensModel);
+      }
 
       const width = parseInt(String(custom.imageWidth ?? "0"), 10);
       const height = parseInt(String(custom.imageHeight ?? "0"), 10);
@@ -452,7 +554,10 @@ export const onPhotoUploaded = onObjectFinalized(
             photoData.suggestedTitle = suggestedTitle;
           }
         } catch (err: any) {
-          console.error(`AI enrichment failed for ${fileName}:`, err?.message ?? err);
+          console.error(
+            `AI enrichment failed for ${fileName}:`,
+            err?.message ?? err,
+          );
         }
       }
 
@@ -465,10 +570,14 @@ export const onPhotoUploaded = onObjectFinalized(
       await trackUsage("firestoreReads", 2);
       await trackUsage("firestoreWrites", 2);
     } catch (err: any) {
-      await writeFunctionStatus("onPhotoUploaded", "error", err?.message ?? "Unknown error");
+      await writeFunctionStatus(
+        "onPhotoUploaded",
+        "error",
+        err?.message ?? "Unknown error",
+      );
       throw err;
     }
-  }
+  },
 );
 
 export const onPhotoDeleted = onObjectDeleted(
@@ -494,7 +603,9 @@ export const onPhotoDeleted = onObjectDeleted(
         for (const photoDoc of photos.docs) {
           await photoDoc.ref.delete();
           deleted++;
-          console.log(`Deleted Firestore doc for ${fileName} from ${categoryDoc.id}`);
+          console.log(
+            `Deleted Firestore doc for ${fileName} from ${categoryDoc.id}`,
+          );
         }
       }
 
@@ -503,8 +614,12 @@ export const onPhotoDeleted = onObjectDeleted(
       await trackUsage("firestoreReads", categories.size);
       await trackUsage("firestoreWrites", deleted);
     } catch (err: any) {
-      await writeFunctionStatus("onPhotoDeleted", "error", err?.message ?? "Unknown error");
+      await writeFunctionStatus(
+        "onPhotoDeleted",
+        "error",
+        err?.message ?? "Unknown error",
+      );
       throw err;
     }
-  }
+  },
 );

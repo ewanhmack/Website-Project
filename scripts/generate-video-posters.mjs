@@ -17,10 +17,15 @@ async function listMp4FilesRecursively(rootFolderAbsolutePath) {
 
   while (folderQueue.length > 0) {
     const currentFolderAbsolutePath = folderQueue.pop();
-    const entries = await fs.readdir(currentFolderAbsolutePath, { withFileTypes: true });
+    const entries = await fs.readdir(currentFolderAbsolutePath, {
+      withFileTypes: true,
+    });
 
     for (const entry of entries) {
-      const entryAbsolutePath = path.join(currentFolderAbsolutePath, entry.name);
+      const entryAbsolutePath = path.join(
+        currentFolderAbsolutePath,
+        entry.name,
+      );
 
       if (entry.isDirectory()) {
         folderQueue.push(entryAbsolutePath);
@@ -55,7 +60,10 @@ function runFfmpeg(args) {
 
 function posterPathForVideo(videoAbsolutePath) {
   const directoryName = path.dirname(videoAbsolutePath);
-  const baseName = path.basename(videoAbsolutePath, path.extname(videoAbsolutePath));
+  const baseName = path.basename(
+    videoAbsolutePath,
+    path.extname(videoAbsolutePath),
+  );
   return path.join(directoryName, `${baseName}-poster.webp`);
 }
 
