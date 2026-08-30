@@ -12,6 +12,7 @@
     opacity: 0;
     transform: translateY(6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -37,7 +38,7 @@
   flex-wrap: wrap;
 }
 
-.photos-header-row > :first-child {
+.photos-header-row> :first-child {
   flex: 1 1 420px;
   min-width: 240px;
 }

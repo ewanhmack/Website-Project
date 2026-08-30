@@ -99,11 +99,30 @@
   border-bottom: 1px solid var(--border);
 }
 
-.mxp-status--loading { color: var(--muted); background: var(--bg); }
-.mxp-status--error   { color: #fc8181; background: #1a0f0f; }
-.mxp-status--running { color: #f59e0b; background: var(--bg); }
-.mxp-status--done    { color: #34d399; background: #0d160f; }
-.mxp-status--info    { color: #60a5fa; background: var(--bg); }
+.mxp-status--loading {
+  color: var(--muted);
+  background: var(--bg);
+}
+
+.mxp-status--error {
+  color: #fc8181;
+  background: #1a0f0f;
+}
+
+.mxp-status--running {
+  color: #f59e0b;
+  background: var(--bg);
+}
+
+.mxp-status--done {
+  color: #34d399;
+  background: #0d160f;
+}
+
+.mxp-status--info {
+  color: #60a5fa;
+  background: var(--bg);
+}
 
 .mxp-spinner {
   width: 12px;
@@ -123,7 +142,9 @@
 }
 
 @keyframes mxp-spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .mxp-map-wrap {
@@ -227,9 +248,9 @@
   color: var(--border);
 }
 
- /* Runner Router */
+/* Runner Router */
 
- .mxp-mode-toggle {
+.mxp-mode-toggle {
   display: flex;
   gap: 8px;
 }

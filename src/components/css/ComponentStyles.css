@@ -42,7 +42,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-weight: 600;
   letter-spacing: -0.01em;
 }
@@ -147,6 +150,7 @@ p {
     transform: translateY(-100%);
     opacity: 0;
   }
+
   100% {
     transform: translateY(0);
     opacity: 1;
@@ -305,18 +309,39 @@ html::-webkit-scrollbar {
 }
 
 @keyframes hero-ambient-drift-a {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(50px, 40px) scale(1.1); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(50px, 40px) scale(1.1);
+  }
 }
 
 @keyframes hero-ambient-drift-b {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-40px, -50px) scale(1.12); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(-40px, -50px) scale(1.12);
+  }
 }
 
 @keyframes hero-ambient-drift-c {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(35px, -25px) scale(0.94); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(35px, -25px) scale(0.94);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -783,7 +808,7 @@ html::-webkit-scrollbar {
 .music-stats-heading {
   margin: 0;
   font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-  
+
 }
 
 .period-toggle {
@@ -926,12 +951,10 @@ html::-webkit-scrollbar {
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: linear-gradient(
-    100deg,
-    transparent 30%,
-    color-mix(in srgb, var(--text) 10%, transparent) 50%,
-    transparent 70%
-  );
+  background: linear-gradient(100deg,
+      transparent 30%,
+      color-mix(in srgb, var(--text) 10%, transparent) 50%,
+      transparent 70%);
   animation: skeleton-shimmer 1.4s ease-in-out infinite;
 }
 
