@@ -31,7 +31,7 @@ export async function addAlbum(data) {
 export async function getReviews(albumId) {
   const q = query(
     collection(db, ALBUMS, albumId, "reviews"),
-    orderBy("date", "desc")
+    orderBy("date", "desc"),
   );
   const snap = await getDocs(q);
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));

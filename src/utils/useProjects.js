@@ -23,7 +23,10 @@ export function useProjects() {
 
         const q = query(collection(db, "projects"), orderBy("order"));
         const snapshot = await getDocs(q);
-        const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        const data = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
         if (!cancelled) {
           sessionStorage.setItem(cacheKey, JSON.stringify(data));

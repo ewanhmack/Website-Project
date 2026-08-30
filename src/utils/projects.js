@@ -18,7 +18,9 @@ export function resolveMediaSrc(src) {
   }
 
   const cleaned = src.replace(/^\/+/, "");
-  const fullPath = cleaned.startsWith(MEDIA_BASE) ? cleaned : `${MEDIA_BASE}${cleaned}`;
+  const fullPath = cleaned.startsWith(MEDIA_BASE)
+    ? cleaned
+    : `${MEDIA_BASE}${cleaned}`;
   return storageUrl(fullPath);
 }
 

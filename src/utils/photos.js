@@ -60,7 +60,7 @@ export function parseCreatedDateTime(value) {
   }
 
   const exifMatch = rawText.match(
-    /^(\d{4}):(\d{2}):(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/
+    /^(\d{4}):(\d{2}):(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/,
   );
   const isoText = exifMatch
     ? `${exifMatch[1]}-${exifMatch[2]}-${exifMatch[3]}T${exifMatch[4]}:${exifMatch[5]}:${exifMatch[6]}`
