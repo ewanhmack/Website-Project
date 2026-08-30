@@ -7,7 +7,9 @@ export default function QuickMessageForm() {
   function handleMailto(e) {
     e.preventDefault();
     const to = "ewanhmack@gmail.com";
-    const subject = encodeURIComponent(`Portfolio contact from ${name || "visitor"}`);
+    const subject = encodeURIComponent(
+      `Portfolio contact from ${name || "visitor"}`,
+    );
     const body = encodeURIComponent(msg);
     window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
   }
@@ -37,8 +39,12 @@ export default function QuickMessageForm() {
         </label>
 
         <div className="actions">
-          <button className="btn primary" type="submit">Send email</button>
-          <a className="btn ghost" href="mailto:ewanhmack@gmail.com">Open mail app</a>
+          <button className="btn primary" type="submit">
+            Send email
+          </button>
+          <a className="btn ghost" href="mailto:ewanhmack@gmail.com">
+            Open mail app
+          </a>
         </div>
       </form>
     </section>
