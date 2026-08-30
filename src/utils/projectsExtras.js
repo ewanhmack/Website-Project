@@ -103,7 +103,9 @@ export function youtubeIdFrom(u = "") {
         return parts[i + 1];
       }
     }
-  } catch {}
+  } catch {
+    // malformed URL, fall through to null
+  }
 
   return null;
 }
