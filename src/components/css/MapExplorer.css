@@ -385,3 +385,78 @@
 .mxp-planner-find-btn:hover:not(:disabled) {
   opacity: 0.85;
 }
+/* Pathfinder controls */
+
+.mxp-hint {
+  font-size: 12px;
+  color: var(--muted);
+  max-width: 520px;
+}
+
+.mxp-endpoint {
+  background: none;
+  border: none;
+}
+
+.mxp-endpoint-dot {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  box-shadow: 0 0 0 1px currentColor, 0 1px 6px rgba(0, 0, 0, 0.5);
+  cursor: grab;
+}
+
+.mxp-endpoint.leaflet-drag-target .mxp-endpoint-dot {
+  cursor: grabbing;
+}
+
+/* Algorithm comparison */
+
+.mxp-compare {
+  padding: 8px 24px 12px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.mxp-compare table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+}
+
+.mxp-compare th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 6px 12px 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.mxp-compare td {
+  padding: 6px 12px 6px 0;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.mxp-compare tbody tr {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.mxp-compare tbody tr:hover {
+  background: color-mix(in srgb, var(--border) 50%, transparent);
+}
+
+.mxp-compare-row--active td:first-child {
+  color: var(--brand);
+}
+
+.mxp-compare-best {
+  color: #34d399 !important;
+}

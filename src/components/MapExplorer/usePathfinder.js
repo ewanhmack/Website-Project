@@ -1,81 +1,14 @@
 import { useState, useRef, useCallback } from "react";
-import { aStar } from "./aStar";
+import { ALGORITHMS } from "./searchAlgorithms";
 
-const FRAME_INTERVAL_MS = 18;
-const FRAMES_PER_TICK = 8;
+// Long searches speed up so playback finishes in roughly this time at 1x.
+const TARGET_PLAYBACK_MS = 10000;
+const MIN_FRAMES_PER_TICK = 4;
+const ASSUMED_FPS = 60;
 
-const SPEED_MPH = {
-  motorway: 70,
-  trunk: 60,
-  primary: 45,
-  secondary: 35,
-};
+export const PLAYBACK_SPEEDS = [0.25, 0.5, 1, 2, 4];
 
-const DEFAULT_SPEED_MPH = 45;
 const MILES_PER_METRE = 0.000621371;
-
-function computeTripStats(graph, pathNodeIds) {
-  let totalDistM = 0;
-  let totalTimeH = 0;
-
-  for (let i = 0; i < pathNodeIds.length - 1; i++) {
-    const fromNode = graph.get(pathNodeIds[i]);
-    if (!fromNode) {
-      continue;
-    }
-
-    const toId = pathNodeIds[i + 1];
-    const edge = fromNode.neighbours.find((n) => n.id === toId);
-    if (!edge) {
-      continue;
-    }
-
-    const speedMph = SPEED_MPH[edge.highway] ?? DEFAULT_SPEED_MPH;
-    const distMiles = edge.dist * MILES_PER_METRE;
-    totalDistM += edge.dist;
-    totalTimeH += distMiles / speedMph;
-  }
-
-  return {
-    distanceMiles: totalDistM * MILES_PER_METRE,
-    durationMins: totalTimeH * 60,
-    exact: true,
-  };
-}
-
-function computeRunningStats(graph, exploredNodeIds) {
-  if (exploredNodeIds.length === 0) {
-    return null;
-  }
-
-  let totalDistM = 0;
-  let totalTimeH = 0;
-
-  for (let i = 0; i < exploredNodeIds.length - 1; i++) {
-    const fromNode = graph.get(exploredNodeIds[i]);
-    if (!fromNode) {
-      continue;
-    }
-
-    const toId = exploredNodeIds[i + 1];
-    const edge = fromNode.neighbours.find((n) => n.id === toId);
-    if (!edge) {
-      continue;
-    }
-
-    const speedMph = SPEED_MPH[edge.highway] ?? DEFAULT_SPEED_MPH;
-    const distMiles = edge.dist * MILES_PER_METRE;
-    totalDistM += edge.dist;
-    totalTimeH += distMiles / speedMph;
-  }
-
-  return {
-    distanceMiles: totalDistM * MILES_PER_METRE,
-    durationMins: totalTimeH * 60,
-    explored: exploredNodeIds.length,
-    exact: false,
-  };
-}
 
 export function formatDuration(mins) {
   if (mins < 1) {
@@ -89,145 +22,294 @@ export function formatDuration(mins) {
   return m === 0 ? `${h} hr` : `${h} hr ${m} min`;
 }
 
-export function usePathfinder(graph) {
+function emptyExploration() {
+  return { explored: [], frontier: new Set() };
+}
+
+function algorithmLabel({ algorithm, weight }) {
+  const label = ALGORITHMS[algorithm].label;
+  return algorithm === "weighted" ? `${label} (w=${weight})` : label;
+}
+
+function summarise(res, options) {
+  return {
+    key: algorithmLabel(options),
+    label: algorithmLabel(options),
+    options,
+    found: res.found,
+    distanceMiles: res.distanceM * MILES_PER_METRE,
+    durationMins: res.timeS / 60,
+    explored: res.explored.length,
+    searchMs: res.searchMs,
+  };
+}
+
+// status: idle | searching | playing | paused | done
+export function usePathfinder({ coords, findNearest, search }) {
   const [startId, setStartId] = useState(null);
   const [endId, setEndId] = useState(null);
-  const [exploredPoints, setExploredPoints] = useState([]);
-  const [frontierPoints, setFrontierPoints] = useState([]);
+  const [options, setOptionsState] = useState({ algorithm: "astar", metric: "time", weight: 2 });
+  const [speed, setSpeedState] = useState(1);
+  const [status, setStatus] = useState("idle");
+  const [result, setResult] = useState(null);
+  const [progress, setProgress] = useState({ explored: 0, frontier: 0 });
   const [finalPath, setFinalPath] = useState([]);
-  const [tripStats, setTripStats] = useState(null);
-  const [running, setRunning] = useState(false);
+  const [comparison, setComparison] = useState([]);
+  const [error, setError] = useState(null);
+
+  // Exploration lives in a ref and is drawn straight to canvas; the version
+  // counter tells the layer when to redraw without copying large arrays.
+  const explorationRef = useRef(emptyExploration());
+  const [explorationVersion, setExplorationVersion] = useState(0);
 
   const animRef = useRef(null);
-  const exploredNodeIdsRef = useRef([]);
+  const playbackRef = useRef(null);
+  const speedRef = useRef(1);
+  const runIdRef = useRef(0);
 
-  const findNearestNode = useCallback(
-    (latlng) => {
-      if (!graph) {
-        return null;
+  const stopAnimation = useCallback(() => {
+    if (animRef.current) {
+      cancelAnimationFrame(animRef.current);
+      animRef.current = null;
+    }
+  }, []);
+
+  const clearSearch = useCallback(() => {
+    runIdRef.current++;
+    stopAnimation();
+    playbackRef.current = null;
+    explorationRef.current = emptyExploration();
+    setExplorationVersion((v) => v + 1);
+    setFinalPath([]);
+    setResult(null);
+    setProgress({ explored: 0, frontier: 0 });
+    setError(null);
+  }, [stopAnimation]);
+
+  const pathToCoords = useCallback(
+    (path) => Array.from(path, (id) => [coords.lat[id], coords.lng[id]]),
+    [coords],
+  );
+
+  // Applies frames up to `end` from the current playback.
+  function applyFrames(playback, end) {
+    const { res, exploration } = playback;
+    for (let i = playback.frame; i < end; i++) {
+      const id = res.explored[i];
+      exploration.explored.push(id);
+      exploration.frontier.delete(id);
+      for (let a = res.addedOffsets[i]; a < res.addedOffsets[i + 1]; a++) {
+        exploration.frontier.add(res.added[a]);
       }
+    }
+    playback.frame = end;
+    setExplorationVersion((v) => v + 1);
+    setProgress({ explored: exploration.explored.length, frontier: exploration.frontier.size });
+  }
 
-      let nearest = null;
-      let minDist = Infinity;
+  function finishPlayback(playback) {
+    stopAnimation();
+    applyFrames(playback, playback.res.explored.length);
+    playback.exploration.frontier.clear();
+    setFinalPath(pathToCoords(playback.res.path));
+    setStatus("done");
+  }
 
-      for (const [id, node] of graph) {
-        const dLat = node.lat - latlng.lat;
-        const dLng = node.lng - latlng.lng;
-        const d = dLat * dLat + dLng * dLng;
-        if (d < minDist) {
-          minDist = d;
-          nearest = id;
+  function tick() {
+    const playback = playbackRef.current;
+    if (!playback) {
+      return;
+    }
+    const total = playback.res.explored.length;
+    const framesPerTick = Math.max(
+      1,
+      Math.round(
+        Math.max(MIN_FRAMES_PER_TICK, total / ((TARGET_PLAYBACK_MS / 1000) * ASSUMED_FPS)) *
+          speedRef.current,
+      ),
+    );
+    const end = Math.min(playback.frame + framesPerTick, total);
+    applyFrames(playback, end);
+
+    if (end < total) {
+      animRef.current = requestAnimationFrame(tick);
+    } else {
+      finishPlayback(playback);
+    }
+  }
+
+  const run = useCallback(
+    async (sId, eId, runOptions, animate) => {
+      clearSearch();
+      const runId = runIdRef.current;
+      setStatus("searching");
+
+      let res;
+      try {
+        res = await search(sId, eId, runOptions);
+      } catch (err) {
+        if (runId === runIdRef.current) {
+          setError(err.message);
+          setStatus("idle");
         }
+        return;
+      }
+      if (runId !== runIdRef.current) {
+        return;
       }
 
-      return nearest;
+      const summary = summarise(res, runOptions);
+      setResult(summary);
+      setComparison((rows) => [...rows.filter((r) => r.key !== summary.key), summary]);
+
+      const playback = { res, frame: 0, exploration: explorationRef.current };
+      playbackRef.current = playback;
+
+      if (animate) {
+        setStatus("playing");
+        animRef.current = requestAnimationFrame(tick);
+      } else {
+        finishPlayback(playback);
+      }
     },
-    [graph],
+    // tick/finishPlayback only touch refs and stable setters.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [clearSearch, search, pathToCoords],
   );
 
   const handleMapClick = useCallback(
-    (latlng) => {
-      if (running) {
+    async (latlng) => {
+      if (!coords) {
+        return;
+      }
+      const id = await findNearest(latlng);
+      if (id < 0) {
         return;
       }
 
-      const id = findNearestNode(latlng);
-      if (!id) {
-        return;
-      }
-
-      if (!startId) {
+      if (startId === null || endId !== null) {
+        clearSearch();
+        setComparison([]);
+        setStatus("idle");
         setStartId(id);
         setEndId(null);
-        setExploredPoints([]);
-        setFrontierPoints([]);
-        setFinalPath([]);
-        setTripStats(null);
-        exploredNodeIdsRef.current = [];
-      } else if (!endId) {
-        setEndId(id);
-        runAStar(startId, id);
       } else {
-        setStartId(id);
-        setEndId(null);
-        setExploredPoints([]);
-        setFrontierPoints([]);
-        setFinalPath([]);
-        setTripStats(null);
-        exploredNodeIdsRef.current = [];
+        setEndId(id);
+        run(startId, id, options, true);
       }
     },
-    [running, startId, endId, findNearestNode, graph],
+    [coords, findNearest, startId, endId, options, clearSearch, run],
   );
 
-  function runAStar(sId, eId) {
-    if (animRef.current) {
-      clearTimeout(animRef.current);
-    }
-
-    setExploredPoints([]);
-    setFrontierPoints([]);
-    setFinalPath([]);
-    setTripStats(null);
-    setRunning(true);
-    exploredNodeIdsRef.current = [];
-
-    const { frames, path, pathNodeIds } = aStar(graph, sId, eId);
-
-    let frameIndex = 0;
-    const exploredCoords = [];
-
-    function tick() {
-      const end = Math.min(frameIndex + FRAMES_PER_TICK, frames.length);
-
-      for (let i = frameIndex; i < end; i++) {
-        exploredCoords.push(frames[i].explored);
-        exploredNodeIdsRef.current.push(frames[i].nodeId);
+  // Dragging a marker re-runs instantly so the route follows the drag.
+  const moveEndpoint = useCallback(
+    async (which, latlng) => {
+      const id = await findNearest(latlng);
+      if (id < 0) {
+        return;
       }
-
-      frameIndex = end;
-      setExploredPoints([...exploredCoords]);
-      setTripStats(computeRunningStats(graph, exploredNodeIdsRef.current));
-
-      if (frameIndex < frames.length) {
-        setFrontierPoints(frames[frameIndex]?.frontier ?? []);
-        animRef.current = setTimeout(tick, FRAME_INTERVAL_MS);
-      } else {
-        setFrontierPoints([]);
-        setFinalPath(path);
-        setTripStats(computeTripStats(graph, pathNodeIds));
-        setRunning(false);
+      const sId = which === "start" ? id : startId;
+      const eId = which === "end" ? id : endId;
+      setStartId(sId);
+      setEndId(eId);
+      setComparison([]);
+      if (sId !== null && eId !== null) {
+        run(sId, eId, options, false);
       }
-    }
-    animRef.current = setTimeout(tick, FRAME_INTERVAL_MS);
-  }
+    },
+    [findNearest, startId, endId, options, run],
+  );
 
-  const reset = useCallback(() => {
-    if (animRef.current) {
-      clearTimeout(animRef.current);
+  const setOptions = useCallback(
+    (changes) => {
+      const next = { ...options, ...changes };
+      setOptionsState(next);
+      if (changes.metric && changes.metric !== options.metric) {
+        setComparison([]);
+      }
+      if (startId !== null && endId !== null) {
+        run(startId, endId, next, true);
+      }
+    },
+    [options, startId, endId, run],
+  );
+
+  const compareAll = useCallback(async () => {
+    if (startId === null || endId === null) {
+      return;
     }
-    setStartId(null);
-    setEndId(null);
-    setExploredPoints([]);
-    setFrontierPoints([]);
-    setFinalPath([]);
-    setTripStats(null);
-    setRunning(false);
-    exploredNodeIdsRef.current = [];
+    const runId = runIdRef.current;
+    const rows = [];
+    for (const algorithm of Object.keys(ALGORITHMS)) {
+      const rowOptions = { ...options, algorithm };
+      const res = await search(startId, endId, rowOptions);
+      if (runId !== runIdRef.current) {
+        return;
+      }
+      rows.push(summarise(res, rowOptions));
+    }
+    setComparison(rows);
+  }, [startId, endId, options, search]);
+
+  const setSpeed = useCallback((value) => {
+    speedRef.current = value;
+    setSpeedState(value);
   }, []);
 
-  const startNode = startId ? graph?.get(startId) : null;
-  const endNode = endId ? graph?.get(endId) : null;
+  const pause = useCallback(() => {
+    if (status === "playing") {
+      stopAnimation();
+      setStatus("paused");
+    }
+  }, [status, stopAnimation]);
+
+  const resume = useCallback(() => {
+    if (status === "paused") {
+      setStatus("playing");
+      animRef.current = requestAnimationFrame(tick);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
+
+  const skip = useCallback(() => {
+    if (playbackRef.current && (status === "playing" || status === "paused")) {
+      finishPlayback(playbackRef.current);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
+
+  const reset = useCallback(() => {
+    clearSearch();
+    setStartId(null);
+    setEndId(null);
+    setComparison([]);
+    setStatus("idle");
+  }, [clearSearch]);
+
+  const nodePosition = (id) =>
+    id !== null && coords ? { lat: coords.lat[id], lng: coords.lng[id] } : null;
 
   return {
-    startNode,
-    endNode,
-    exploredPoints,
-    frontierPoints,
+    startNode: nodePosition(startId),
+    endNode: nodePosition(endId),
+    options,
+    setOptions,
+    speed,
+    setSpeed,
+    status,
+    result,
+    progress,
     finalPath,
-    tripStats,
-    running,
+    comparison,
+    error,
+    exploration: explorationRef.current,
+    explorationVersion,
     handleMapClick,
+    moveEndpoint,
+    compareAll,
+    pause,
+    resume,
+    skip,
     reset,
   };
 }
